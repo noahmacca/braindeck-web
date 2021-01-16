@@ -8,6 +8,8 @@ export default function Home() {
       <Head>
         <title>Braindeck</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content="BrainDeck" />
+        <meta property="og:description" content="Share your knowledge." />
       </Head>
       <main className={styles.main}>
         <div className={styles.title}>Braindeck</div>
