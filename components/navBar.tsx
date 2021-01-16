@@ -9,7 +9,7 @@ export default function NavBar() {
                     Noah's Learning Path
                 </div>
             </Link>
-            <div className={styles.buttonRight} onClick={() => alert('Coming Soon')}>
+            <div className={`${styles.itemRight} btn btn-primary`} onClick={() => alert('Coming Soon')}>
                 Login
             </div>
         </div>
