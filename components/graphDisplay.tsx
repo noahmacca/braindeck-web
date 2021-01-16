@@ -1,4 +1,3 @@
-import styles from './GraphDisplay.module.css';
 import { ArrowRight } from 'react-bootstrap-icons';
 
 export default function GraphDisplay() {

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Navigationbar() {
+export default function NavBar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">

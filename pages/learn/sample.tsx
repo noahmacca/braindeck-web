@@ -1,12 +1,12 @@
 import PageHead from '../../components/PageHead'
-import Navigationbar from '../../components/Navigationbar'
+import NavBar from '../../components/NavBar'
 import GraphDisplay from '../../components/GraphDisplay'
 
 export default function Sample() {
   return (
     <div>
       <PageHead />
-      <Navigationbar />
+      <NavBar />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
