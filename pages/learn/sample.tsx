@@ -1,4 +1,4 @@
-import GraphDisplay from '../../components/GraphDisplay'
+import GraphWindow from '../../components/GraphWindow'
 import PageHead from '../../components/PageHead'
 import NavBar from '../../components/NavBar'
 
@@ -10,7 +10,7 @@ export default function Sample() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <GraphDisplay />
+            <GraphWindow />
           </div>
         </div>
       </div>

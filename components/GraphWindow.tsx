@@ -1,5 +1,5 @@
 
-export default function GraphDisplay() {
+export default function GraphWindow() {
     return (
         <div>
             <div className="alert alert-primary text-center">
