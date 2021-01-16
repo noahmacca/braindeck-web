@@ -1,4 +1,4 @@
-import Head from '../../components/Head';
+import Head from '../../components/PageHead';
 import Navbar from '../../components/Navbar';
 import GraphDisplay from '../../components/GraphDisplay'
 
