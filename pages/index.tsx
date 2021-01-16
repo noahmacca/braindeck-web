@@ -1,11 +1,11 @@
-import Head from '../components/PageHead'
+import PageHead from '../components/PageHead'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
     <>
-      <Head />
+      <PageHead />
       <main>
         <div className="container d-flex flex-column align-content-center">
           <div style={{ marginTop: '25vh' }} className="row text-center align-middle">
