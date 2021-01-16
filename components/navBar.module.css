@@ -1,0 +1,23 @@
+.container {
+    background-color: black;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.container div {
+    color: white;
+    font-size: 20px;
+}
+
+.navItemLeft {
+    padding: 30px;
+}
+
+.buttonRight {
+    padding: 15px 30px;
+    margin-left: auto;
+    margin-right: 20px;
+    border-radius: 10px;
+    background: slategrey;
+}

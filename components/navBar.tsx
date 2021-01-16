@@ -1,15 +1,14 @@
-import Head from 'next/head'
+import styles from './navBar.module.css'
 
 export default function NavBar() {
     return (
-        <div>
-            <Head>
-                <title>Braindeck</title>
-                <link rel="icon" href="/favicon.ico" />
-                <meta property="og:title" content="BrainDeck" />
-                <meta property="og:description" content="Share your knowledge." />
-            </Head>
-            NavBar
+        <div className={styles.container}>
+            <div className={styles.navItemLeft}>
+                Noah's Learning Path
+            </div>
+            <div className={styles.buttonRight}>
+                Login
+            </div>
         </div>
     )
 }
