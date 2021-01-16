@@ -1,5 +1,5 @@
-import PageHead from '../../components/PageHead';
-import Navbar from '../../components/Navbar';
+import PageHead from '../../components/PageHead'
+import Navbar from '../../components/Navbar'
 import GraphDisplay from '../../components/GraphDisplay'
 
 export default function Sample() {
