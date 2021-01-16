@@ -13,7 +13,7 @@ export default function Home() {
               <h1 className={styles.title}>Braindeck</h1>
               <p className="lead">Become an expert in anything.</p>
               <div className="d-grid gap-2 col-2 mx-auto my-5">
-                <Link href="/learn/sample"> 
+                <Link href="/learn/sample">
                   <button className="btn btn-primary" type="button">Enter</button>
                 </Link>
               </div>
