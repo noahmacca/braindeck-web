@@ -1,4 +1,4 @@
-import Head from '../components/Head'
+import Head from '../components/PageHead'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 

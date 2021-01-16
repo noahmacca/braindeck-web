@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function head() {
+export default function PageHead() {
     return (
         <Head>
             <title>Braindeck</title>
