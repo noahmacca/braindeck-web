@@ -1,4 +1,4 @@
-import styles from './graphDisplay.module.css';
+import styles from './GraphDisplay.module.css';
 
 export default function GraphDisplay() {
     return (
