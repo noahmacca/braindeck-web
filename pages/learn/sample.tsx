@@ -1,13 +1,19 @@
-import Head from '../../components/head';
-import NavBar from '../../components/navBar';
-import GraphDisplay from '../../components/graphDisplay'
+import GraphView from '../../components/GraphView'
+import PageHead from '../../components/PageHead'
+import NavBar from '../../components/NavBar'
 
 export default function Sample() {
   return (
     <div>
-      <Head />
+      <PageHead />
       <NavBar />
-      <GraphDisplay />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12">
+            <GraphView />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
