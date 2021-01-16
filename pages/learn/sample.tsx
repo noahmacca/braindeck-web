@@ -7,7 +7,13 @@ export default function Sample() {
     <div>
       <Head />
       <Navbar />
-      <GraphDisplay />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12">
+            <GraphDisplay />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
