@@ -1,12 +1,12 @@
 import Head from '../../components/Head';
-import NavBar from '../../components/NavBar';
+import Navbar from '../../components/Navbar';
 import GraphDisplay from '../../components/GraphDisplay'
 
 export default function Sample() {
   return (
     <div>
       <Head />
-      <NavBar />
+      <Navbar />
       <GraphDisplay />
     </div>
   )
