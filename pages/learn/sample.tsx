@@ -1,6 +1,6 @@
+import GraphDisplay from '../../components/GraphDisplay'
 import PageHead from '../../components/PageHead'
 import NavBar from '../../components/NavBar'
-import GraphDisplay from '../../components/GraphDisplay'
 
 export default function Sample() {
   return (
