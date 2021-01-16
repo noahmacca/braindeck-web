@@ -1,7 +1,6 @@
-import styles from './Navbar.module.css'
 import Link from 'next/link'
 
-export default function Navbar() {
+export default function Navigationbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
