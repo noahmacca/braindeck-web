@@ -1,7 +1,7 @@
 .container {
     width: 100%;
-    height: 500px;
-    background: lightgray;
+    height: 800px;
+    background: rgb(205, 237, 255);
 }
 
 .content {
