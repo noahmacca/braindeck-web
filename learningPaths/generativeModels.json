@@ -12,7 +12,7 @@
     "concepts": [{
             "id": "1.1",
             "name": "Generative Modeling Introduction",
-            "content": [{
+            "contents": [{
                 "id": "1.1.1",
                 "title": "Introduction to Generative Models",
                 "author": "Mihaela Rosca",
@@ -26,7 +26,7 @@
         {
             "id": "1.2",
             "name": "Variational Autoencoders",
-            "content": [{
+            "contents": [{
                 "id": "1.2.1",
                 "title": "Variational Autoencoders",
                 "author": "Arxiv Insights",
@@ -40,7 +40,7 @@
         {
             "id": "1.3",
             "name": "Generative Adversarial Networks",
-            "content": [{
+            "contents": [{
                     "id": "1.3.1",
                     "title": "Generative Adversarial Networks — Explained",
                     "author": "Towards Data Science",
@@ -50,7 +50,7 @@
                     "takeaway": "Introduction to the core concepts."
                 },
                 {
-                    "id": "1.3.1",
+                    "id": "1.3.2",
                     "title": "Generative Adversarial Networks - The Story So Far",
                     "author": "FloydHub Blog",
                     "url": "https://blog.floydhub.com/gans-story-so-far/",
@@ -59,7 +59,7 @@
                     "takeaway": "Covers the key ideas behind the major GANs since 2014."
                 },
                 {
-                    "id": "1.3.1",
+                    "id": "1.3.3",
                     "title": "Introduction to GANs, NIPS 2016 | Ian Goodfellow, OpenAI",
                     "author": "Preserve Knowledge",
                     "url": "https://www.youtube.com/watch?v=9JpdAg6uMXs",
@@ -72,7 +72,7 @@
         {
             "id": "1.4",
             "name": "Application: Painting",
-            "content": [{
+            "contents": [{
                 "id": "1.1.1",
                 "title": "OpenAI DALL·E: Fighter Jet For The Mind! ✈️",
                 "author": "Two Minute Papers",
@@ -85,7 +85,7 @@
         {
             "id": "1.5",
             "name": "Application: Writing",
-            "content": [{
+            "contents": [{
                     "id": "1.5.1",
                     "title": "OpenAI GPT-3 - Good At Almost Everything! 🤖",
                     "author": "Two Minute Papers",
@@ -95,7 +95,7 @@
                     "takeaway": "GPT-3 is the most famous example of text generation."
                 },
                 {
-                    "id": "1.5.1",
+                    "id": "1.5.2",
                     "title": "How GPT-3 Is Shaping Our AI Future",
                     "author": "Exponential View with Azeem Azhar",
                     "url": "https://podcasts.apple.com/us/podcast/exponential-view-with-azeem-azhar/id1172218725?i=1000493971809",
@@ -109,7 +109,7 @@
         {
             "id": "1.6",
             "name": "Application: Music",
-            "content": [{
+            "contents": [{
                     "id": "1.6.1",
                     "title": "Jukebox",
                     "author": "OpenAI Blog",
@@ -119,7 +119,7 @@
                     "takeaway": "GPT-3 is the most famous example of text generation."
                 },
                 {
-                    "id": "1.6.1",
+                    "id": "1.6.2",
                     "title": "Music and Machine Learning (Google I/O19)",
                     "author": "Google Developers",
                     "url": "https://www.youtube.com/watch?v=pM9u9xcM_cs",
@@ -132,7 +132,7 @@
         {
             "id": "1.7",
             "name": "Application: Playing Games",
-            "content": [{
+            "contents": [{
                     "id": "1.7.1",
                     "title": "How to teach AI to play Games: Deep Reinforcement Learning",
                     "author": "Towards Data Science",
@@ -165,7 +165,7 @@
         {
             "id": "1.8",
             "name": "Future Implications",
-            "content": [{
+            "contents": [{
                     "id": "1.8.1",
                     "title": "Kai-Fu Lee on the future of AI",
                     "author": "The TED Interview",
@@ -176,7 +176,7 @@
                     "highlight": "10:00 - 22:00 "
                 },
                 {
-                    "id": "1.8.1",
+                    "id": "1.8.2",
                     "title": "Generative Deep 'Learning': Let’s seek how AI Extending, not Replacing Creative Process",
                     "author": "Towards Data Science",
                     "url": "https://towardsdatascience.com/generative-deep-learning-lets-seek-how-ai-extending-not-replacing-creative-process-fded15b0561b",
