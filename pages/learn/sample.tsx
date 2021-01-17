@@ -1,8 +1,20 @@
-import GraphView from '../../components/GraphView'
+import LearningPathView from '../../components/LearningPathView'
 import PageHead from '../../components/PageHead'
 import NavBar from '../../components/NavBar'
 
-export default function Sample() {
+import { getLearningPathData } from '../../lib/learningPaths'
+
+export async function getStaticProps() {
+    const learningPaths = getLearningPathData()
+    return {
+        props: {
+          learningPaths
+        }
+    }
+}
+
+
+export default function Sample({ learningPaths }) {
   return (
     <div>
       <PageHead />
@@ -10,7 +22,9 @@ export default function Sample() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <GraphView />
+            <LearningPathView
+              learningPath={learningPaths[0]}
+            />
           </div>
         </div>
       </div>
