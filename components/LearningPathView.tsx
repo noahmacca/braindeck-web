@@ -2,6 +2,8 @@ import { HeartFill, Heart, CheckSquareFill, CheckSquare } from 'react-bootstrap-
 import { useState } from 'react';
 
 function renderContents(contents, iParent) {
+    const [isChecked, setIsChecked] = useState(false);
+
     return contents.map((content, i) => {
         return (
             <div key={`${content.id}-content`} className="container p-3">
@@ -11,7 +13,7 @@ function renderContents(contents, iParent) {
                         {
                             content.complete && content.complete === "True" ?
                                 <CheckSquareFill color="green" /> :
-                                <CheckSquare />
+                                <CheckSquare onClick={() => setIsChecked(true)}/>
                         }
                         {` ${iParent + 1}.${i + 1}. `}<a href={`${content.url}`}>{`${content.title}`}</a>
                     </h5>
@@ -42,19 +44,23 @@ function renderConcepts(concepts) {
     })
 }
 
-export default function LearningPathView({
-    learningPath,
-    userLps
-}) {
+function processUserLpData(userLpData, lp) {
     let isUserFavorite = false;
     let isUserComplete = false;
-    for (let i = 0; i < userLps.length; i++) {
-        if (userLps[i].id === parseInt(learningPath.id)) {
-            if (userLps[i].favorite) isUserFavorite = true;
-            if (userLps[i].complete) isUserComplete = true
+    for (let i = 0; i < userLpData.length; i++) {
+        if (userLpData[i].id === parseInt(lp.id)) {
+            if (userLpData[i].favorite) isUserFavorite = true;
+            if (userLpData[i].complete) isUserComplete = true
         }
     }
+    return [isUserFavorite, isUserComplete]
+}
 
+export default function LearningPathView({
+    learningPath,
+    userData
+}) {
+    const [isUserFavorite, isUserComplete] = processUserLpData(userData.lps, learningPath)
     const [lpHasFavorite, setLpHasFavorite] = useState(false);
 
     return (
@@ -65,8 +71,8 @@ export default function LearningPathView({
                     <h5 className="fw-light">
                         {
                             isUserFavorite || lpHasFavorite ?
-                                <HeartFill color="red" /> :
-                                <Heart onClick={() => setLpHasFavorite(true)} color="red" />
+                                <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
+                                <Heart color="red" onClick={() => setLpHasFavorite(true)} />
                         }{learningPath.countFavorite} {'   '}
                         {
                             isUserComplete ?

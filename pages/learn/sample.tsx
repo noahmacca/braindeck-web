@@ -18,11 +18,29 @@ export default function Sample({ learningPaths }) {
   const userData = {
     lps: [
       {
-        'id': 1,
-        'favorite': false,
-        'complete': false
+        id: 1,
+        favorite: false,
+        complete: false
       }
     ],
+    contents: [
+      {
+        id: "1.1.1",
+        complete: true
+      },
+      {
+        id: "1.2.1",
+        complete: true
+      },
+      {
+        id: "1.5.2",
+        complete: true
+      },
+      {
+        id: "1.6.2",
+        complete: true
+      },
+    ]
   }
   return (
     <div>
@@ -33,7 +51,7 @@ export default function Sample({ learningPaths }) {
           <div className="col-md-12">
             <LearningPathView
               learningPath={learningPaths[0].data}
-              userLps={userData.lps}
+              userData={userData}
             />
           </div>
         </div>
