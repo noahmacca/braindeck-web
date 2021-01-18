@@ -77,27 +77,33 @@ export default function LearningPathView({
     const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
 
     return (
-        <div className="container d-flex w-100 h-100 p-3 justify-content-center">
-            <div className="col-md-8">
-                <h1>{learningPath.title}</h1>
-                <h5 className="fw-light">
-                    {
-                        lpHasFavorite ?
-                            <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
-                            <Heart color="red" onClick={() => setLpHasFavorite(true)} />
-                    }{ learningPath.countFavorite} {'   '}
-                    {
-                        isUserComplete ?
-                            <CheckSquareFill color="green" /> :
-                            <CheckSquareFill />
-                    }{ learningPath.countComplete}
-                </h5>
-                {/* <div><span className="fw-bold">Created By:</span> {learningPath.author.name}</div> */}
-                <div><span className="fw-bold">Learning Goal:</span> {learningPath.learningGoal}</div>
-                <div><span className="fw-bold">Background:</span> {learningPath.background}</div>
-                <div><span className="fw-bold">Overall Difficulty:</span> {learningPath.difficulty}</div>
-                <div><span className="fw-bold">Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
-                {renderConcepts(learningPath.concepts, userData.contents)}
+        <div className="container d-flex w-100 h-100 py-3 flex-column">
+            <div className="row bg-secondary justify-content-center">
+                <div className="col-md-8">
+                    <h1>{learningPath.title}</h1>
+                    <h5 className="fw-light">
+                        {
+                            lpHasFavorite ?
+                                <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
+                                <Heart color="red" onClick={() => setLpHasFavorite(true)} />
+                        }{learningPath.countFavorite} {'   '}
+                        {
+                            isUserComplete ?
+                                <CheckSquareFill color="green" /> :
+                                <CheckSquareFill />
+                        }{learningPath.countComplete}
+                    </h5>
+                    {/* <div><span className="fw-bold">Created By:</span> {learningPath.author.name}</div> */}
+                    <div><span className="fw-bold">Learning Goal:</span> {learningPath.learningGoal}</div>
+                    <div><span className="fw-bold">Background:</span> {learningPath.background}</div>
+                    <div><span className="fw-bold">Overall Difficulty:</span> {learningPath.difficulty}</div>
+                    <div><span className="fw-bold">Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
+                </div>
+            </div>
+            <div className="row justify-content-center">
+                <div className="col-md-8">
+                    {renderConcepts(learningPath.concepts, userData.contents)}
+                </div>
             </div>
         </div>
     )
