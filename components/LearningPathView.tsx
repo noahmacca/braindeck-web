@@ -90,12 +90,18 @@ export default function LearningPathView({
                 <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite) + (lpHasFavorite ? 1 : 0)}
               </span>
               <span className="flex pr-3">
-                <StarFill className="text-yellow-300 mt-0.5" size={18}/>
-                <StarFill className="text-yellow-300 mt-0.5" size={18}/>
-                <StarFill className="text-yellow-300 mt-0.5" size={18}/>
-                <StarFill className="text-yellow-300 mt-0.5" size={18}/>
-                <Star className="text-yellow-300 mt-0.5" size={18}/>
+                <StarFill className="text-yellow-300 mt-0.5" size={18} />
+                <StarFill className="text-yellow-300 mt-0.5" size={18} />
+                <StarFill className="text-yellow-300 mt-0.5" size={18} />
+                <StarFill className="text-yellow-300 mt-0.5" size={18} />
+                <Star className="text-yellow-300 mt-0.5" size={18} />
                 <span className="pl-1">150</span>
+              </span>
+              <span className="border text-xs p-1 mx-1 rounded-lg bg-green-50 border-green-700 text-green-700 font-light">
+                {learningPath.difficulty}
+              </span>
+              <span className="border text-xs p-1 mx-1 rounded-lg bg-yellow-50 border-yellow-700 text-yellow-700 font-light">
+                {learningPath.approxDurationHr} Hr
               </span>
             </div>
             <div className="px-5 py-3">
@@ -110,9 +116,7 @@ export default function LearningPathView({
               <div className="pb-3">
                 <div className="text-sm font-medium">Created by <span className="font-light">{learningPath.author.name}</span></div>
                 <div className="text-sm font-medium">Last Updated <span className="font-light">Jan 2021</span></div>
-                <div className="text-sm font-medium">Difficulty <span className="font-light">{learningPath.difficulty}</span></div>
-                <div className="text-sm font-medium">Estimated Time <span className="font-light">{learningPath.approxDurationHr} hours</span></div>
-                <div className="text-sm font-medium">Progress <span className="font-light">90% complete</span></div>
+                <div className="text-sm font-medium">Your Progress <span className="font-light">90% complete</span></div>
               </div>
             </div>
             {
