@@ -1,4 +1,4 @@
-import { HeartFill, Heart, CheckSquareFill, CheckSquare, Star, StarFill } from 'react-bootstrap-icons';
+import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -25,27 +25,52 @@ function hasUserCompletedContent(userContentData, content) {
 }
 
 function renderContent(content, idx, isUserFavorite) {
-  const [isChecked, setIsChecked] = useState(isUserFavorite);
+  const [isComplete, setIsComplete] = useState(isUserFavorite);
   return (
-    <div>
-      <h5>
+    <div className="bg-gray-50 p-4 m-2 rounded-lg max-w-md">
+      <div className="text-xl mb-1">
+        {`${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
+      </div>
+      <div className="text-sm mb-4">
+        {content.author}
+        <span className="text-xs p-1 ml-2 rounded-lg bg-indigo-100 text-indigo-700 font-light">
+          {content.format}
+        </span>
+        <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
+          {content.difficulty}
+        </span>
+      </div>
+      {
+        content.takeaway &&
+        <div className="pb-3">
+          <div className="text-sm font-medium">Takeaway</div>
+          <div className="text-md font-light">{content.takeaway}</div>
+        </div>
+      }
+      {
+        content.highlight &&
+        <div className="pb-3">
+          <div className="text-sm font-medium">Highlight</div>
+          <div className="text-md font-light">{content.highlight}</div>
+        </div>
+      }
+      <div>
         {
-          isChecked === true ?
-            <CheckSquareFill onClick={() => setIsChecked(false)} color="green" /> :
-            <CheckSquare onClick={() => setIsChecked(true)} />
+          !isComplete ?
+            <div className="border border-gray-700 rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setIsComplete(true)}>
+              <div className="mx-auto flex">
+                <span className="text-sm">Complete</span>
+                <Check className="ml-2 text-gray-500" size={20} />
+              </div>
+            </div> :
+            <div className="border border-green-700 rounded p-1 mt-1 flex w-28 text-green-700 bg-green-50 hover:bg-green-100" onClick={() => setIsComplete(false)}>
+              <div className="mx-auto flex">
+                <span className="text-sm">Completed</span>
+                <CheckSquareFill className="ml-2 text-green-500" size={20} />
+              </div>
+            </div>
         }
-        {` ${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
-      </h5>
-      <div>By {content.author}</div>
-      {content.takeaway &&
-        <div>{content.takeaway}</div>
-      }
-      {content.highlight &&
-        <div><span>Highlight:</span> {content.highlight}</div>
-      }
-      <div><span>Format:</span> {content.format}</div>
-      <div><span>Difficulty:</span> {content.difficulty}</div>
-
+      </div>
     </div>
   )
 }
@@ -53,18 +78,20 @@ function renderContent(content, idx, isUserFavorite) {
 function renderConcepts(concepts, userContents) {
   return concepts.map((concept, iConcept) => {
     return (
-      <div key={`${concept.id}-concept`}>
-        <h4>{`${iConcept + 1}. ${concept.name}`}</h4>
-        {
-          concept.contents.map((content, iContent) => {
-            let isUserFavorite = hasUserCompletedContent(userContents, content);
-            return (
-              <div key={`${content.id}-content`}>
-                { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
-              </div>
-            )
-          })
-        }
+      <div className="bg-white p-5 items-center text-gray-700" key={`${concept.id}-concept`}>
+        <div className="text-2xl pb-1 font-light text-gray-800">{`${iConcept + 1}. ${concept.name}`}</div>
+        <div>
+          {
+            concept.contents.map((content, iContent) => {
+              let isUserFavorite = hasUserCompletedContent(userContents, content);
+              return (
+                <div key={`${content.id}-content`}>
+                  { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
     )
   })
@@ -82,6 +109,7 @@ export default function LearningPathView({
       {/* stack boxes */}
       <div className="relative bg-white overflow-hidden">
         <div className="mx-auto px-6 max-w-4xl mt-10">
+          {/* Learning Path Summary */}
           <div className="border bg-gray-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">Machine Learning</div>
             <div className="text-4xl pb-1 font-bold tracking-tight text-gray-800">{learningPath.title}</div>
@@ -97,10 +125,10 @@ export default function LearningPathView({
                 <Star className="text-yellow-300 mt-0.5" size={18} />
                 <span className="pl-1">150</span>
               </span>
-              <span className="border text-xs p-1 mx-1 rounded-lg bg-green-50 border-green-700 text-green-700 font-light">
+              <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
                 {learningPath.difficulty}
               </span>
-              <span className="border text-xs p-1 mx-1 rounded-lg bg-yellow-50 border-yellow-700 text-yellow-700 font-light">
+              <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
                 {learningPath.approxDurationHr} Hr
               </span>
             </div>
@@ -135,10 +163,9 @@ export default function LearningPathView({
                 </div>
             }
           </div>
+          {/* Concepts in learning path */}
+          {renderConcepts(learningPath.concepts, userData.contents)}
         </div>
-      </div>
-      <div className="mt-20">
-        {renderConcepts(learningPath.concepts, userData.contents)}
       </div>
     </div>
   )
