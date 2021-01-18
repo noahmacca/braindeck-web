@@ -6,14 +6,14 @@ import { getLearningPathData } from '../../lib/learningPaths'
 import { getUserData } from '../../lib/user'
 
 export async function getStaticProps() {
-    const learningPaths = getLearningPathData()
-    const users = getUserData()
-    return {
-        props: {
-          learningPaths,
-          users
-        }
+  const learningPaths = getLearningPathData()
+  const users = getUserData()
+  return {
+    props: {
+      learningPaths,
+      users
     }
+  }
 }
 
 
@@ -22,16 +22,10 @@ export default function Sample({ learningPaths, users }) {
     <div>
       <PageHead />
       <NavBar />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-12">
-            <LearningPathView
-              learningPath={learningPaths[0].data}
-              userData={users[0].data}
-            />
-          </div>
-        </div>
-      </div>
+      <LearningPathView
+        learningPath={learningPaths[0].data}
+        userData={users[0].data}
+      />
     </div>
   )
 }

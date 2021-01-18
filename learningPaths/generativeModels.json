@@ -1,16 +1,19 @@
 {
     "id": "1",
     "title": "Generative Models for Deep Learning",
+    "subject": "Machine Learning",
     "author": {
         "id": "noah-1",
         "name": "Noah MacCallum"
     },
     "learningGoal": "Gain a high-level understanding of applications and underlying concepts of generative models.",
-    "background": "Some familiarty with Deep Learning",
+    "background": "Some familiarty with Deep Learning, as well as basic-intermediate coding knowledge.",
     "difficulty": "EASY",
     "approxDurationHr": 10,
     "countFavorite": 430,
     "countComplete": 200,
+    "numReviews": 150,
+    "avgRating": 4.1,
     "concepts": [{
             "id": "1.1",
             "name": "Generative Modeling Introduction",
