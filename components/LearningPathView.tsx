@@ -34,15 +34,15 @@ function renderContent(content, idx, isUserFavorite) {
       <div className="text-sm mb-2">
         {content.author}
         <span className="text-xs p-1 ml-2 rounded-lg bg-indigo-100 text-indigo-700 font-light">
-          {content.format}
+          {content.format.toLowerCase()}
         </span>
         {
           content.difficulty === "EASY" ?
           <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
-            {content.difficulty}
+            {content.difficulty.toLowerCase()}
           </span> :
           <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
-            {content.difficulty}
+            {content.difficulty.toLowerCase()}
           </span>
         }
       </div>
@@ -99,6 +99,8 @@ export default function LearningPathView({
 }) {
   const [isUserFavorite, isUserComplete] = processUserLpData(userData.lps, learningPath)
   const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
+  // TODO: factor out commonly used components
+  // TODO: make stars configurable
 
   return (
     <div>
@@ -107,7 +109,7 @@ export default function LearningPathView({
         <div className="mx-auto px-6 max-w-4xl mt-10">
           {/* Learning Path Summary */}
           <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
-            <div className="text-sm text-gray-500">Machine Learning</div>
+            <div className="text-sm text-gray-500">{learningPath.subject}</div>
             <div className="text-4xl pb-1 font-bold tracking-tight text-gray-800">{learningPath.title}</div>
             <div className="flex px-1 text-md font-light text-gray-500">
               <span className="flex pr-3">
@@ -119,10 +121,10 @@ export default function LearningPathView({
                 <StarFill className="text-yellow-300 mt-0.5" size={18} />
                 <StarFill className="text-yellow-300 mt-0.5" size={18} />
                 <Star className="text-yellow-300 mt-0.5" size={18} />
-                <span className="pl-1">150</span>
+                <span className="pl-1">{learningPath.numReviews}</span>
               </span>
               <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
-                {learningPath.difficulty}
+                {learningPath.difficulty.toLowerCase()}
               </span>
               <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
                 {learningPath.approxDurationHr} Hr

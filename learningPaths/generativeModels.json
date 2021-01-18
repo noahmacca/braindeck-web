@@ -1,6 +1,7 @@
 {
     "id": "1",
     "title": "Generative Models for Deep Learning",
+    "subject": "Machine Learning",
     "author": {
         "id": "noah-1",
         "name": "Noah MacCallum"
@@ -11,6 +12,8 @@
     "approxDurationHr": 10,
     "countFavorite": 430,
     "countComplete": 200,
+    "numReviews": 150,
+    "avgRating": 4.1,
     "concepts": [{
             "id": "1.1",
             "name": "Generative Modeling Introduction",
