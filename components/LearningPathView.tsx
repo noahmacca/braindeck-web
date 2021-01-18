@@ -109,7 +109,7 @@ export default function LearningPathView({
           <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">Machine Learning</div>
             <div className="text-4xl pb-1 font-bold tracking-tight text-gray-800">{learningPath.title}</div>
-            <div className="flex text-md font-light text-gray-500">
+            <div className="flex px-1 text-md font-light text-gray-500">
               <span className="flex pr-3">
                 <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite) + (lpHasFavorite ? 1 : 0)}
               </span>
@@ -128,7 +128,7 @@ export default function LearningPathView({
                 {learningPath.approxDurationHr} Hr
               </span>
             </div>
-            <div className="px-5 py-3">
+            <div className="px-2 py-3">
               <div className="pb-3">
                 <div className="text-sm font-medium">Learning Goal</div>
                 <div className="text-md font-light">{learningPath.learningGoal}</div>
