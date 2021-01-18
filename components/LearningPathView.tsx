@@ -27,33 +27,29 @@ function hasUserCompletedContent(userContentData, content) {
 function renderContent(content, idx, isUserFavorite) {
   const [isComplete, setIsComplete] = useState(isUserFavorite);
   return (
-    <div className="bg-gray-50 p-4 m-2 rounded-lg max-w-md">
+    <div className="p-3 mx-3 bg-gray-50 mb-3 rounded-lg">
       <div className="text-xl mb-1">
         {`${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
       </div>
-      <div className="text-sm mb-4">
+      <div className="text-sm mb-2">
         {content.author}
         <span className="text-xs p-1 ml-2 rounded-lg bg-indigo-100 text-indigo-700 font-light">
           {content.format}
         </span>
-        <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
-          {content.difficulty}
-        </span>
+        {
+          content.difficulty === "EASY" ?
+          <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
+            {content.difficulty}
+          </span> :
+          <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
+            {content.difficulty}
+          </span>
+        }
       </div>
-      {
-        content.takeaway &&
-        <div className="pb-3">
-          <div className="text-sm font-medium">Takeaway</div>
-          <div className="text-md font-light">{content.takeaway}</div>
-        </div>
-      }
-      {
-        content.highlight &&
-        <div className="pb-3">
-          <div className="text-sm font-medium">Highlight</div>
-          <div className="text-md font-light">{content.highlight}</div>
-        </div>
-      }
+      <div className="pb-2">
+        { content.takeaway && <div className="text-sm font-medium">Takeaway <span className="font-light">{content.takeaway}</span></div> }
+        { content.highlight && <div className="text-sm font-medium">Highlight <span className="font-light">{content.highlight}</span></div> }
+      </div>
       <div>
         {
           !isComplete ?
@@ -79,7 +75,7 @@ function renderConcepts(concepts, userContents) {
   return concepts.map((concept, iConcept) => {
     return (
       <div className="bg-white p-5 items-center text-gray-700" key={`${concept.id}-concept`}>
-        <div className="text-2xl pb-1 font-light text-gray-800">{`${iConcept + 1}. ${concept.name}`}</div>
+        <div className="text-2xl pb-1 font-semibold text-gray-800">{`${iConcept + 1}. ${concept.name}`}</div>
         <div>
           {
             concept.contents.map((content, iContent) => {
@@ -110,7 +106,7 @@ export default function LearningPathView({
       <div className="relative bg-white overflow-hidden">
         <div className="mx-auto px-6 max-w-4xl mt-10">
           {/* Learning Path Summary */}
-          <div className="border bg-gray-50 rounded p-5 items-center text-gray-700">
+          <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">Machine Learning</div>
             <div className="text-4xl pb-1 font-bold tracking-tight text-gray-800">{learningPath.title}</div>
             <div className="flex text-md font-light text-gray-500">
@@ -149,13 +145,13 @@ export default function LearningPathView({
             </div>
             {
               !lpHasFavorite ?
-                <div className="border border-indigo-700 rounded p-1.5 flex w-36 text-indigo-700 bg-indigo-50 hover:bg-indigo-100" onClick={() => setLpHasFavorite(true)}>
+                <div className="border border-gray-700 rounded p-1.5 flex w-36 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setLpHasFavorite(true)}>
                   <div className="mx-auto flex">
                     <span className="text-md">Favorite</span>
                     <Heart className="ml-2 text-red-700 mt-1" size={20} />
                   </div>
                 </div> :
-                <div className="border border-indigo-700 rounded p-1.5 flex w-36 text-indigo-700 bg-indigo-50 hover:bg-indigo-100" onClick={() => setLpHasFavorite(false)}>
+                <div className="border border-red-700 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpHasFavorite(false)}>
                   <div className="mx-auto flex">
                     <span className="text-md">Favorited</span>
                     <HeartFill className="ml-2 text-red-500 mt-1" size={20} />
