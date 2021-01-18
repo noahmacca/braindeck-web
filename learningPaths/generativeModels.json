@@ -9,6 +9,8 @@
     "background": "Some familiarty with Deep Learning",
     "difficulty": "EASY",
     "approxDurationHr": 10,
+    "countFavorite": 430,
+    "countComplete": 200,
     "concepts": [{
             "id": "1.1",
             "name": "Generative Modeling Introduction",

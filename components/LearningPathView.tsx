@@ -1,4 +1,5 @@
-import { HeartFill, CheckSquareFill, CheckSquare } from 'react-bootstrap-icons';
+import { HeartFill, Heart, CheckSquareFill, CheckSquare } from 'react-bootstrap-icons';
+import { useState } from 'react';
 
 function renderContents(contents, iParent) {
     return contents.map((content, i) => {
@@ -12,7 +13,7 @@ function renderContents(contents, iParent) {
                                 <CheckSquareFill color="green" /> :
                                 <CheckSquare />
                         }
-                        {` ${iParent + 1}.${i + 1}. `}<a href={`${content.url}`}>{`${content.title}`}</a> 
+                        {` ${iParent + 1}.${i + 1}. `}<a href={`${content.url}`}>{`${content.title}`}</a>
                     </h5>
                     <div>By {content.author}</div>
                     {content.takeaway &&
@@ -41,26 +42,46 @@ function renderConcepts(concepts) {
     })
 }
 
-function renderLpStats() {
-    return (
-        <h5 className="fw-light"><HeartFill color="red" /> 431 {'   '}<CheckSquareFill color="green" /> 200</h5>
-    )
-}
+export default function LearningPathView({
+    learningPath,
+    userLps
+}) {
+    let isUserFavorite = false;
+    let isUserComplete = false;
+    for (let i = 0; i < userLps.length; i++) {
+        if (userLps[i].id === parseInt(learningPath.id)) {
+            if (userLps[i].favorite) isUserFavorite = true;
+            if (userLps[i].complete) isUserComplete = true
+        }
+    }
+    console.log('isUserFavorite', isUserFavorite);
+    console.log('isUserComplete', isUserComplete);
 
-export default function LearningPathView({ learningPath }) {
-    const lpData = learningPath.data;
+    const [lpHasFavorite, setLpHasFavorite] = useState(false);
+
     return (
         <div>
             <div className="container m-5">
                 <div className="row">
-                    <h1>{lpData.title}</h1>
-                    {renderLpStats()}
-                    <div><span className="fw-bold">Created By:</span> {lpData.author.name}</div>
-                    <div><span className="fw-bold">Learning Goal:</span> {lpData.learningGoal}</div>
-                    <div><span className="fw-bold">Background:</span> {lpData.background}</div>
-                    <div><span className="fw-bold">Overall Difficulty:</span> {lpData.difficulty}</div>
-                    <div><span className="fw-bold">Estimated Time:</span> {lpData.approxDurationHr} hr</div>
-                    {renderConcepts(lpData.concepts)}
+                    <h1>{learningPath.title}</h1>
+                    <h5 className="fw-light">
+                        {
+                            isUserFavorite ?
+                                <HeartFill color="red" onClick={() => setLpHasFavorite(true)} /> :
+                                <Heart color="red" />
+                        }{learningPath.countFavorite} {'   '}
+                        {
+                            isUserComplete ?
+                                <CheckSquareFill color="green" /> :
+                                <CheckSquareFill />
+                        }{learningPath.countComplete}
+                    </h5>
+                    {/* <div><span className="fw-bold">Created By:</span> {learningPath.author.name}</div> */}
+                    <div><span className="fw-bold">Learning Goal:</span> {learningPath.learningGoal}</div>
+                    <div><span className="fw-bold">Background:</span> {learningPath.background}</div>
+                    <div><span className="fw-bold">Overall Difficulty:</span> {learningPath.difficulty}</div>
+                    <div><span className="fw-bold">Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
+                    {renderConcepts(learningPath.concepts)}
                 </div>
             </div>
         </div>

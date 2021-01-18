@@ -15,6 +15,15 @@ export async function getStaticProps() {
 
 
 export default function Sample({ learningPaths }) {
+  const userData = {
+    lps: [
+      {
+        'id': 1,
+        'favorite': false,
+        'complete': false
+      }
+    ],
+  }
   return (
     <div>
       <PageHead />
@@ -23,7 +32,8 @@ export default function Sample({ learningPaths }) {
         <div className="row">
           <div className="col-md-12">
             <LearningPathView
-              learningPath={learningPaths[0]}
+              learningPath={learningPaths[0].data}
+              userLps={userData.lps}
             />
           </div>
         </div>
