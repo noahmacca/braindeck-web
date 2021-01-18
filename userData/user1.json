@@ -1,0 +1,27 @@
+{
+    "lps": [
+        {
+            "id": 1,
+            "favorite": true,
+            "complete": false
+        }
+    ],
+    "contents": [
+        {
+            "id": "1.1.1",
+            "complete": true
+        },
+        {
+            "id": "1.2.1",
+            "complete": true
+        },
+        {
+            "id": "1.5.2",
+            "complete": true
+        },
+        {
+            "id": "1.6.2",
+            "complete": true
+        }
+    ]
+}

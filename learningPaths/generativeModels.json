@@ -9,6 +9,8 @@
     "background": "Some familiarty with Deep Learning",
     "difficulty": "EASY",
     "approxDurationHr": 10,
+    "countFavorite": 430,
+    "countComplete": 200,
     "concepts": [{
             "id": "1.1",
             "name": "Generative Modeling Introduction",
@@ -20,8 +22,7 @@
                 "format": "PRESENTATION",
                 "difficulty": "EASY",
                 "takeaway": "Great overview from a DeepMind researcher",
-                "highlight": "Slides 3-10",
-                "complete": "True"
+                "highlight": "Slides 3-10"
             }]
         },
         {
@@ -35,8 +36,7 @@
                 "format": "VIDEO",
                 "difficulty": "EASY",
                 "takeaway": "Pay attention to this core concept before moving on to GANs.",
-                "highlight": "4:00 - 5:30",
-                "complete": "True"
+                "highlight": "4:00 - 5:30"
             }]
         },
         {
@@ -49,8 +49,7 @@
                     "url": "https://blog.floydhub.com/gans-story-so-far/",
                     "format": "ARTICLE",
                     "difficulty": "MEDIUM",
-                    "takeaway": "Introduction to the core concepts.",
-                    "complete": "True"
+                    "takeaway": "Introduction to the core concepts."
                 },
                 {
                     "id": "1.3.2",
@@ -95,8 +94,7 @@
                     "url": "https://www.youtube.com/watch?v=_x9AwxfjxvE&t=4s",
                     "format": "VIDEO",
                     "difficulty": "EASY",
-                    "takeaway": "GPT-3 is the most famous example of text generation.",
-                    "complete": "True"
+                    "takeaway": "GPT-3 is the most famous example of text generation."
                 },
                 {
                     "id": "1.5.2",
@@ -177,8 +175,7 @@
                     "format": "PODCAST",
                     "difficulty": "EASY",
                     "takeaway": "Important questions about the near future",
-                    "highlight": "10:00 - 22:00",
-                    "complete": "True"
+                    "highlight": "10:00 - 22:00"
                 },
                 {
                     "id": "1.8.2",
