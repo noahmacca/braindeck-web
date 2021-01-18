@@ -37,13 +37,13 @@ function renderContent(content, idx, isUserFavorite) {
             </h5>
             <div>By {content.author}</div>
             {content.takeaway &&
-                <div className="fst-italic">{content.takeaway}</div>
+                <div>{content.takeaway}</div>
             }
             {content.highlight &&
-                <div><span className="fw-bold">Highlight:</span> {content.highlight}</div>
+                <div><span>Highlight:</span> {content.highlight}</div>
             }
-            <div><span className="fw-bold">Format:</span> {content.format}</div>
-            <div><span className="fw-bold">Difficulty:</span> {content.difficulty}</div>
+            <div><span>Format:</span> {content.format}</div>
+            <div><span>Difficulty:</span> {content.difficulty}</div>
 
         </div>
     )
@@ -52,13 +52,13 @@ function renderContent(content, idx, isUserFavorite) {
 function renderConcepts(concepts, userContents) {
     return concepts.map((concept, iConcept) => {
         return (
-            <div key={`${concept.id}-concept`} className="py-3">
+            <div key={`${concept.id}-concept`}>
                 <h4>{`${iConcept + 1}. ${concept.name}`}</h4>
                 {
                     concept.contents.map((content, iContent) => {
                         let isUserFavorite = hasUserCompletedContent(userContents, content);
                         return (
-                            <div key={`${content.id}-content`} className="py-2">
+                            <div key={`${content.id}-content`}>
                                 { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
                             </div>
                         )
@@ -77,34 +77,26 @@ export default function LearningPathView({
     const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
 
     return (
-        <div className="container d-flex w-100 h-100 py-3 flex-column">
-            <div className="row bg-secondary justify-content-center">
-                <div className="col-md-8">
-                    <h1>{learningPath.title}</h1>
-                    <h5 className="fw-light">
-                        {
-                            lpHasFavorite ?
-                                <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
-                                <Heart color="red" onClick={() => setLpHasFavorite(true)} />
-                        }{learningPath.countFavorite} {'   '}
-                        {
-                            isUserComplete ?
-                                <CheckSquareFill color="green" /> :
-                                <CheckSquareFill />
-                        }{learningPath.countComplete}
-                    </h5>
-                    {/* <div><span className="fw-bold">Created By:</span> {learningPath.author.name}</div> */}
-                    <div><span className="fw-bold">Learning Goal:</span> {learningPath.learningGoal}</div>
-                    <div><span className="fw-bold">Background:</span> {learningPath.background}</div>
-                    <div><span className="fw-bold">Overall Difficulty:</span> {learningPath.difficulty}</div>
-                    <div><span className="fw-bold">Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
-                </div>
-            </div>
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    {renderConcepts(learningPath.concepts, userData.contents)}
-                </div>
-            </div>
+        <div>
+            <h1>{learningPath.title}</h1>
+            <h5>
+                {
+                    lpHasFavorite ?
+                        <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
+                        <Heart color="red" onClick={() => setLpHasFavorite(true)} />
+                }{learningPath.countFavorite} {'   '}
+                {
+                    isUserComplete ?
+                        <CheckSquareFill color="green" /> :
+                        <CheckSquareFill />
+                }{learningPath.countComplete}
+            </h5>
+            <div><span>Created By:</span> {learningPath.author.name}</div>
+            <div><span>Learning Goal:</span> {learningPath.learningGoal}</div>
+            <div><span>Background:</span> {learningPath.background}</div>
+            <div><span>Overall Difficulty:</span> {learningPath.difficulty}</div>
+            <div><span>Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
+            {renderConcepts(learningPath.concepts, userData.contents)}
         </div>
     )
 }
