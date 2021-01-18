@@ -19,7 +19,7 @@ export default function Sample({ learningPaths }) {
     lps: [
       {
         id: 1,
-        favorite: false,
+        favorite: true,
         complete: false
       }
     ],
