@@ -1,102 +1,104 @@
 import { HeartFill, Heart, CheckSquareFill, CheckSquare } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import Link from 'next/link';
 
 function processUserLpData(userLpData, lp) {
-    let isUserFavorite = false;
-    let isUserComplete = false;
-    for (let i = 0; i < userLpData.length; i++) {
-        if (userLpData[i].id === parseInt(lp.id)) {
-            if (userLpData[i].favorite) isUserFavorite = true;
-            if (userLpData[i].complete) isUserComplete = true
-        }
+  let isUserFavorite = false;
+  let isUserComplete = false;
+  for (let i = 0; i < userLpData.length; i++) {
+    if (userLpData[i].id === parseInt(lp.id)) {
+      if (userLpData[i].favorite) isUserFavorite = true;
+      if (userLpData[i].complete) isUserComplete = true
     }
-    return [isUserFavorite, isUserComplete]
+  }
+  return [isUserFavorite, isUserComplete]
 }
 
 function hasUserCompletedContent(userContentData, content) {
-    let isUserFavorite = false;
-    for (let i = 0; i < userContentData.length; i++) {
-        if (userContentData[i].id === content.id && userContentData[i].complete) {
-            isUserFavorite = true;
-        }
+  let isUserFavorite = false;
+  for (let i = 0; i < userContentData.length; i++) {
+    if (userContentData[i].id === content.id && userContentData[i].complete) {
+      isUserFavorite = true;
     }
-    return isUserFavorite
+  }
+  return isUserFavorite
 }
 
 function renderContent(content, idx, isUserFavorite) {
-    const [isChecked, setIsChecked] = useState(isUserFavorite);
-    return (
-        <div>
-            <h5>
-                {
-                    isChecked === true ?
-                        <CheckSquareFill onClick={() => setIsChecked(false)} color="green" /> :
-                        <CheckSquare onClick={() => setIsChecked(true)} />
-                }
-                {` ${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
-            </h5>
-            <div>By {content.author}</div>
-            {content.takeaway &&
-                <div>{content.takeaway}</div>
-            }
-            {content.highlight &&
-                <div><span>Highlight:</span> {content.highlight}</div>
-            }
-            <div><span>Format:</span> {content.format}</div>
-            <div><span>Difficulty:</span> {content.difficulty}</div>
+  const [isChecked, setIsChecked] = useState(isUserFavorite);
+  return (
+    <div>
+      <h5>
+        {
+          isChecked === true ?
+            <CheckSquareFill onClick={() => setIsChecked(false)} color="green" /> :
+            <CheckSquare onClick={() => setIsChecked(true)} />
+        }
+        {` ${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
+      </h5>
+      <div>By {content.author}</div>
+      {content.takeaway &&
+        <div>{content.takeaway}</div>
+      }
+      {content.highlight &&
+        <div><span>Highlight:</span> {content.highlight}</div>
+      }
+      <div><span>Format:</span> {content.format}</div>
+      <div><span>Difficulty:</span> {content.difficulty}</div>
 
-        </div>
-    )
+    </div>
+  )
 }
 
 function renderConcepts(concepts, userContents) {
-    return concepts.map((concept, iConcept) => {
-        return (
-            <div key={`${concept.id}-concept`}>
-                <h4>{`${iConcept + 1}. ${concept.name}`}</h4>
-                {
-                    concept.contents.map((content, iContent) => {
-                        let isUserFavorite = hasUserCompletedContent(userContents, content);
-                        return (
-                            <div key={`${content.id}-content`}>
-                                { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        )
-    })
+  return concepts.map((concept, iConcept) => {
+    return (
+      <div key={`${concept.id}-concept`}>
+        <h4>{`${iConcept + 1}. ${concept.name}`}</h4>
+        {
+          concept.contents.map((content, iContent) => {
+            let isUserFavorite = hasUserCompletedContent(userContents, content);
+            return (
+              <div key={`${content.id}-content`}>
+                { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
+              </div>
+            )
+          })
+        }
+      </div>
+    )
+  })
 }
 
 export default function LearningPathView({
-    learningPath,
-    userData
+  learningPath,
+  userData
 }) {
-    const [isUserFavorite, isUserComplete] = processUserLpData(userData.lps, learningPath)
-    const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
+  const [isUserFavorite, isUserComplete] = processUserLpData(userData.lps, learningPath)
+  const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
 
-    return (
-        <div>
-            <h1>{learningPath.title}</h1>
-            <h5>
-                {
-                    lpHasFavorite ?
-                        <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
-                        <Heart color="red" onClick={() => setLpHasFavorite(true)} />
-                }{learningPath.countFavorite} {'   '}
-                {
-                    isUserComplete ?
-                        <CheckSquareFill color="green" /> :
-                        <CheckSquareFill />
-                }{learningPath.countComplete}
-            </h5>
-            <div><span>Created By:</span> {learningPath.author.name}</div>
-            <div><span>Learning Goal:</span> {learningPath.learningGoal}</div>
-            <div><span>Background:</span> {learningPath.background}</div>
-            <div><span>Overall Difficulty:</span> {learningPath.difficulty}</div>
-            <div><span>Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
-            {renderConcepts(learningPath.concepts, userData.contents)}
-        </div>
-    )
+  return (
+    <div>
+      <div className="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
+      <h1>{learningPath.title}</h1>
+      <h5>
+        {
+          lpHasFavorite ?
+            <HeartFill color="red" onClick={() => setLpHasFavorite(false)} /> :
+            <Heart color="red" onClick={() => setLpHasFavorite(true)} />
+        }{learningPath.countFavorite} {'   '}
+        {
+          isUserComplete ?
+            <CheckSquareFill color="green" /> :
+            <CheckSquareFill />
+        }{learningPath.countComplete}
+      </h5>
+      <div><span>Created By:</span> {learningPath.author.name}</div>
+      <div><span>Learning Goal:</span> {learningPath.learningGoal}</div>
+      <div><span>Background:</span> {learningPath.background}</div>
+      <div><span>Overall Difficulty:</span> {learningPath.difficulty}</div>
+      <div><span>Estimated Time:</span> {learningPath.approxDurationHr} hr</div>
+      {renderConcepts(learningPath.concepts, userData.contents)}
+    </div>
+  )
 }

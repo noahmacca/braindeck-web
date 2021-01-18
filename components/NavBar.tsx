@@ -2,34 +2,25 @@ import Link from 'next/link'
 
 export default function NavBar() {
     return (
-        <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                    <Link href="/">
-                        <a className="navbar-brand">Braindeck</a>
-                    </Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link disabled" href="#">Create</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link disabled" href="#">Explore</a>
-                            </li>
-                        </ul>
-                        <form className="d-flex">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success disabled" type="submit">Search</button>
-                        </form>
+        <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
+            <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
+                <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+                    <div className="flex items-center justify-between w-full md:w-auto">
+                        <Link href="/">
+                            <a>
+                                <span className="sr-only">Workflow</span>
+                                <img className="h-8 w-auto sm:h-10" src="/bdLogo-md.jpeg" />
+                            </a>
+                        </Link>
                     </div>
                 </div>
+                <div className="block md:ml-10 md:pr-4 space-x-8">
+                    <span className="font-medium text-gray-400 cursor-default">Home</span>
+                    <span className="font-medium text-gray-400 cursor-default">Explore</span>
+                    <span className="font-medium text-gray-400 cursor-default">Create</span>
+                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Log in</a>
+                </div>
             </nav>
-        </>
+        </div>
     )
 }
