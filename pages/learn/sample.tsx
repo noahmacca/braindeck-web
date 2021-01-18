@@ -3,45 +3,21 @@ import PageHead from '../../components/PageHead'
 import NavBar from '../../components/NavBar'
 
 import { getLearningPathData } from '../../lib/learningPaths'
+import { getUserData } from '../../lib/user'
 
 export async function getStaticProps() {
     const learningPaths = getLearningPathData()
+    const users = getUserData()
     return {
         props: {
-          learningPaths
+          learningPaths,
+          users
         }
     }
 }
 
 
-export default function Sample({ learningPaths }) {
-  const userData = {
-    lps: [
-      {
-        id: 1,
-        favorite: true,
-        complete: false
-      }
-    ],
-    contents: [
-      {
-        id: "1.1.1",
-        complete: true
-      },
-      {
-        id: "1.2.1",
-        complete: true
-      },
-      {
-        id: "1.5.2",
-        complete: true
-      },
-      {
-        id: "1.6.2",
-        complete: true
-      },
-    ]
-  }
+export default function Sample({ learningPaths, users }) {
   return (
     <div>
       <PageHead />
@@ -51,7 +27,7 @@ export default function Sample({ learningPaths }) {
           <div className="col-md-12">
             <LearningPathView
               learningPath={learningPaths[0].data}
-              userData={userData}
+              userData={users[0].data}
             />
           </div>
         </div>
