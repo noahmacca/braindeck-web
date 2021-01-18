@@ -54,8 +54,6 @@ export default function LearningPathView({
             if (userLps[i].complete) isUserComplete = true
         }
     }
-    console.log('isUserFavorite', isUserFavorite);
-    console.log('isUserComplete', isUserComplete);
 
     const [lpHasFavorite, setLpHasFavorite] = useState(false);
 
@@ -66,9 +64,9 @@ export default function LearningPathView({
                     <h1>{learningPath.title}</h1>
                     <h5 className="fw-light">
                         {
-                            isUserFavorite ?
-                                <HeartFill color="red" onClick={() => setLpHasFavorite(true)} /> :
-                                <Heart color="red" />
+                            isUserFavorite || lpHasFavorite ?
+                                <HeartFill color="red" /> :
+                                <Heart onClick={() => setLpHasFavorite(true)} color="red" />
                         }{learningPath.countFavorite} {'   '}
                         {
                             isUserComplete ?
