@@ -2,8 +2,21 @@ import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
+import { getLearningPathData } from '../../lib/learningPaths'
+import { getUserData } from '../../lib/user'
 
-export default function Explore() {
+export async function getStaticProps() {
+    const learningPaths = getLearningPathData()
+    const users = getUserData()
+    return {
+      props: {
+        learningPaths,
+        users
+      }
+    }
+  }
+
+export default function Explore({ learningPaths, users }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -21,21 +34,18 @@ export default function Explore() {
         <div>
             <PageHead title="BrainDeck Explore" />
             <NavBar />
-            <LpListSection
-                title="Most Popular"
-                lps={[]}
-            />
-            <LpListSection
-                title="Subject 1"
-                lps={[]}
-            />
-            <LpListSection
-                title="Subject 2"
-                lps={[]}
-            />
-            <SubjectListSection
-                lpSubjects={[]}
-            />
+            <div className="relative bg-white overflow-hidden">
+                <div className="mx-auto px-6 max-w-4xl">
+                    <LpListSection
+                        title="Most Popular"
+                        lps={learningPaths}
+                        userData={users[0].data}
+                    />
+                    <SubjectListSection
+                        lpSubjects={[]}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

@@ -8,7 +8,6 @@ const NavTab = (name, pathname) => <Link href={`/${name}`}>{pathname.includes(`/
 
 export default function NavBar() {
     const router = useRouter();
-    console.log(router.pathname);
 
     return (
         <div className="relative p-6 px-4 sm:px-6 lg:px-8">

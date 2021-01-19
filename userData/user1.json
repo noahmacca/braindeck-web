@@ -3,6 +3,7 @@
         {
             "id": 1,
             "favorite": true,
+            "progress": 0.9,
             "complete": false
         }
     ],
