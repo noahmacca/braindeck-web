@@ -1,0 +1,80 @@
+{
+    "id": "3",
+    "created": "12/06/2020",
+    "updated": "12/15/2020",
+    "title": "mRNA Vaccine Introduction and Safety",
+    "subject": "Biology",
+    "author": {
+        "id": "noah-1",
+        "name": "Noah MacCallum"
+    },
+    "learningGoal": "Find out how mRNA vaccines work, and better understand how they've been shown to be safe.",
+    "background": "None required, but basic biology will help",
+    "difficulty": "EASY",
+    "estDurationBucket": "Fast (<1 hr)",
+    "countFavorite": 620,
+    "countComplete": 411,
+    "numReviews": 303,
+    "avgRating": 4.5,
+    "concepts": [
+        {
+            "id": "3.1",
+            "name": "DNA and RNA",
+            "contents": [
+                {
+                    "id": "3.1.1",
+                    "title": "What is the 'Central Dogma'?",
+                    "url": "https://www.yourgenome.org/facts/what-is-the-central-dogma#:~:text=The%20central%20dogma%20states%20that,make%20new%20proteins%20(translation).",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "The Central Dogma of Biology describes how DNA, RNA, and proteins work."
+                },
+                {
+                    "id": "3.1.1",
+                    "title": "Intro to mRNA Science",
+                    "url": "The Science and Fundamentals of mRNA Technology",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "mRNA is used to carry out instructions for new proteins in your cell."
+                }
+            ]
+        },
+        {
+            "id": "3.2",
+            "name": "mRNA vaccines",
+            "contents": [
+                {
+                    "id": "3.2.1",
+                    "title": "What are mRNA vaccines?",
+                    "url": "https://www.youtube.com/watch?v=EXmFtcrkhfI",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "takeaway": "Great animations descibing the molecular machinery and how it can be used for vaccines."
+                }
+            ]
+        },
+        {
+            "id": "3.3",
+            "name": "Vaccine Safety.",
+            "contents": [
+                {
+                    "id": "2.1.1",
+                    "title": "Is the Covid vaccine safe?",
+                    "url": "https://www.bbc.com/news/health-55056016",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "BBC gives a good overview of the phases and validation process",
+                    "highlight": "'Vaccine Development' graphic"
+                },
+                {
+                    "id": "2.1.1",
+                    "title": "Is the COVID-19 Vaccine Safe?",
+                    "url": "https://www.hopkinsmedicine.org/health/conditions-and-diseases/coronavirus/is-the-covid19-vaccine-safe",
+                    "format": "ARTICLE",
+                    "difficulty": "MEDIUM",
+                    "takeaway": "Johns Hopkins going in greater depth."
+                }
+            ]
+        }
+    ]
+}
