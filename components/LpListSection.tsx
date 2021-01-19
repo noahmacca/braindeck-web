@@ -4,7 +4,7 @@ export default function LpListSection({ title, lps, userData }) {
     const learningPath = lps[0].data
     return (
         <div className="container my-10">
-            <div className="text-4xl font-bold tracking-tight text-gray-800 capitalize">{title.toLowerCase()}</div>
+            <div className="text-4xl mb-4 font-bold tracking-tight text-gray-800 capitalize">{title.toLowerCase()}</div>
             {lps.map((lp) => (
                 <div key={lp.id} className="mx-4 my-2">
                     <LearningPathSummary

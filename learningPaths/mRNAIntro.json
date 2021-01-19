@@ -24,6 +24,7 @@
                 {
                     "id": "3.1.1",
                     "title": "What is the 'Central Dogma'?",
+                    "author": "yourgenome.org",
                     "url": "https://www.yourgenome.org/facts/what-is-the-central-dogma#:~:text=The%20central%20dogma%20states%20that,make%20new%20proteins%20(translation).",
                     "format": "ARTICLE",
                     "difficulty": "EASY",
@@ -31,8 +32,9 @@
                 },
                 {
                     "id": "3.1.1",
-                    "title": "Intro to mRNA Science",
-                    "url": "The Science and Fundamentals of mRNA Technology",
+                    "title": "The Science and Fundamentals of mRNA Technology",
+                    "author": "Moderna",
+                    "url": "https://www.modernatx.com/mrna-technology/science-and-fundamentals-mrna-technology",
                     "format": "ARTICLE",
                     "difficulty": "EASY",
                     "takeaway": "mRNA is used to carry out instructions for new proteins in your cell."
@@ -46,6 +48,7 @@
                 {
                     "id": "3.2.1",
                     "title": "What are mRNA vaccines?",
+                    "author": "STAT",
                     "url": "https://www.youtube.com/watch?v=EXmFtcrkhfI",
                     "format": "VIDEO",
                     "difficulty": "EASY",
@@ -60,6 +63,7 @@
                 {
                     "id": "2.1.1",
                     "title": "Is the Covid vaccine safe?",
+                    "author": "Michelle Roberts",
                     "url": "https://www.bbc.com/news/health-55056016",
                     "format": "ARTICLE",
                     "difficulty": "EASY",
@@ -69,6 +73,7 @@
                 {
                     "id": "2.1.1",
                     "title": "Is the COVID-19 Vaccine Safe?",
+                    "author": "Johns Hopkins",
                     "url": "https://www.hopkinsmedicine.org/health/conditions-and-diseases/coronavirus/is-the-covid19-vaccine-safe",
                     "format": "ARTICLE",
                     "difficulty": "MEDIUM",

@@ -21,15 +21,15 @@ function renderContent(content, idx, isUserFavorite) {
       </div>
       <div className="text-sm mb-4">
         {content.author}{' '}
-        <span className="capitalize text-xs p-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
+        <span className="capitalize ml-2 text-xs p-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
           {content.format.toLowerCase()}
         </span>{' '}
         {
           content.difficulty === "EASY" ?
-            <span className="capitalize text-xs p-1 ml-1 rounded-lg bg-green-100 text-green-700 font-light">
+            <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
               {content.difficulty.toLowerCase()}
             </span> :
-            <span className="capitalize text-xs p-1 ml-1 rounded-lg bg-yellow-100 text-yellow-700 font-light">
+            <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
               {content.difficulty.toLowerCase()}
             </span>
         }

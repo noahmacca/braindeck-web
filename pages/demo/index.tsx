@@ -23,7 +23,7 @@ export default function DemoLearningPath({ learningPaths, users }) {
       <PageHead title="BrainDeck Learning Path"/>
       <NavBar />
       <LearningPathView
-        learningPath={learningPaths[0].data}
+        learningPath={learningPaths[2].data}
         userData={users[0].data}
       />
     </div>
