@@ -62,7 +62,7 @@ function renderContent(content, idx, isUserFavorite) {
 function renderConcepts(concepts, userContents) {
   return concepts.map((concept, iConcept) => {
     return (
-      <div className="bg-white p-5 items-center text-gray-700" key={`${concept.id}-concept`}>
+      <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${concept.id}-concept`}>
         <div className="text-2xl pb-1 font-semibold text-gray-800">{`${iConcept + 1}. ${concept.name}`}</div>
         <div>
           {
@@ -96,6 +96,7 @@ export default function LearningPathView({
           <LearningPathSummary
             learningPath={learningPath}
             userData={userData}
+            shouldLinkToDetailPage={false}
           />
           {/* Concepts in learning path */}
           {renderConcepts(learningPath.concepts, userData.contents)}
