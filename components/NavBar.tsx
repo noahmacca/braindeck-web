@@ -8,10 +8,9 @@ const NavTab = (name, pathname) => <Link href={`/${name}`}>{pathname.includes(`/
 
 export default function NavBar() {
     const router = useRouter();
-    console.log(router.pathname);
 
     return (
-        <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
+        <div className="relative p-6 px-4 sm:px-6 lg:px-8">
             <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                 <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                     <div className="flex items-center justify-between w-full md:w-auto">
@@ -25,7 +24,6 @@ export default function NavBar() {
                     {NavTab('explore', router.pathname)}
                     {NavTab('create', router.pathname)}
                     {NavTab('profile', router.pathname)}
-                    {NavTab('demo', router.pathname)}
                     <Link href="/login">
                         <a className="px-3 py-2 border border-indigo-600 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Log in</a>
                     </Link>

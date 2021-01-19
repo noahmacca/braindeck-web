@@ -1,0 +1,92 @@
+{
+    "id": "deepLearningOverview",
+    "created": "01/01/2021",
+    "updated": "01/15/2021",
+    "title": "Quick Intro to Deep Learning",
+    "subject": "MACHINE LEARNING",
+    "author": {
+        "id": "noah-1",
+        "name": "Noah MacCallum"
+    },
+    "learningGoal": "Learn what deep learning is, where it came from, and what its future applications are.",
+    "background": "None",
+    "difficulty": "EASY",
+    "estDurationBucket": "Fast (<1 hr)",
+    "countFavorite": 510,
+    "countComplete": 350,
+    "numReviews": 200,
+    "avgRating": 5,
+    "concepts": [
+        {
+            "id": "2.1",
+            "name": "History",
+            "contents": [
+                {
+                    "id": "2.1.1",
+                    "title": "The History of Artificial Intelligence",
+                    "author": "Rockwell Anyoha",
+                    "url": "http://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "Brief article that gives context for the original players, the Dartmouth conference, and the AI winter(s)."
+                },
+                {
+                    "id": "2.1.2",
+                    "title": "A Brief History of Machine Learning",
+                    "author": "Simplilearn",
+                    "url": "https://www.youtube.com/watch?v=lY1SELMvoVs",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "takeaway": "Nice quick explainer video to get some more history."
+                }
+            ]
+        },
+        {
+            "id": "2.2",
+            "name": "Machine Learning",
+            "contents": [
+                {
+                    "id": "2.2.1",
+                    "title": "Lecture 1.1 - What is Machine Learning",
+                    "author": "Andrew Ng",
+                    "url": "https://www.youtube.com/watch?v=PPLop4L2eGk",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "takeaway": "Andrew Ng can explain this better than anyone.",
+                    "highlight": "0:00 - 4:00"
+                }
+            ]
+        },
+        {
+            "id": "2.3",
+            "name": "Deep Learning",
+            "contents": [
+                {
+                    "id": "2.3.1",
+                    "title": "Deep Learning In 5 Minutes",
+                    "author": "Simplilearn",
+                    "url": "https://www.youtube.com/watch?v=6M5VXKLf4D4",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "takeaway": "Good illustration of features and what makes deep learning different",
+                    "highlight": "1:00 - 3:00"
+                }
+            ]
+        },
+        {
+            "id": "2.4",
+            "name": "Applications",
+            "contents": [
+                {
+                    "id": "2.4.1",
+                    "title": "Top 15 Deep Learning applications that will rule the world in 2018 and beyond",
+                    "author": "Vartul Mittal",
+                    "url": "https://medium.com/breathe-publication/top-15-deep-learning-applications-that-will-rule-the-world-in-2018-and-beyond-7c6130c43b01",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "Comprehensive and quick summary of 15 applications, with sources to go deeper"
+                }
+            ]
+        }
+    ]
+}

@@ -1,6 +1,5 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import Link from 'next/link'
 
 export default function Learn() {
     // Page layout

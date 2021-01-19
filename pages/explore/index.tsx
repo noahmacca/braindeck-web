@@ -1,8 +1,35 @@
+import _ from 'lodash';
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import Link from 'next/link';
+import LpListSection from "../../components/LpListSection";
+import SubjectListSection from "../../components/SubjectListSection";
+import { getLearningPathData } from '../../lib/learningPaths';
+import { getUserData } from '../../lib/user';
 
-export default function Explore() {
+export async function getStaticProps() {
+    const learningPaths = getLearningPathData()
+    const users = getUserData()
+    return {
+        props: {
+            learningPaths,
+            users
+        }
+    }
+}
+
+function mapSubjectToLps(lps) {
+    const lpsBySubject = {};
+    lps.forEach((lp) => {
+        const subject = lp.data.subject;
+        if (!(subject in lpsBySubject)) {
+            lpsBySubject[subject] = []
+        }
+        lpsBySubject[subject].push(lp)
+    });
+    return lpsBySubject
+}
+
+export default function Explore({ learningPaths, users }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -11,22 +38,34 @@ export default function Explore() {
     // Popular (Overall)
     // Section 1
     // Section 2
-    // Section 3
+    // Section 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     // More sections (SubjectList)
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
-    
+    const subjects = ['BIOLOGY', 'MACHINE LEARNING'];
+    const lpsBySubject = mapSubjectToLps(learningPaths);
+
     return (
         <div>
-            <PageHead title="BrainDeck Explore"/>
+            <PageHead title="BrainDeck Explore" />
             <NavBar />
-            <div>TODO</div>
-            <div>Popular</div>
-            <div>Trending</div>
-            <div>Topic 1</div>
-            <div>Topic 2</div>
-            <div>Topic 3</div>
-            <div>More</div>
+            <div className="relative bg-white overflow-hidden">
+                <div className="mx-auto px-6 max-w-4xl">
+                    {
+                        subjects.map((subject) => (
+                            <LpListSection
+                                key={`${subject}`}
+                                title={subject}
+                                lps={lpsBySubject[subject]}
+                                userData={users[0].data}
+                            />
+                        ))
+                    }
+                    <SubjectListSection
+                        lpSubjects={[]}
+                    />
+                </div>
+            </div>
         </div>
     )
 }
