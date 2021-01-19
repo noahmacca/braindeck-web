@@ -1,5 +1,6 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import Link from 'next/link';
 
 function processUserLpData(userLpData, lp) {
     let isUserFavorite = false;
@@ -22,7 +23,9 @@ export default function LearningPathSummary({ learningPath, userData }) {
     return (
         <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">{learningPath.subject}</div>
-            <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
+            <Link href={`/learn/${learningPath.id}`}>
+                <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
+            </Link>
             <div className="flex px-1 text-md font-light text-gray-500">
                 <span className="flex pr-3">
                     <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite) + (lpHasFavorite ? 1 : 0)}

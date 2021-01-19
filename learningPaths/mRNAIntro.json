@@ -1,5 +1,5 @@
 {
-    "id": "3",
+    "id": "mRNAIntro",
     "created": "12/06/2020",
     "updated": "12/15/2020",
     "title": "mRNA Vaccine Introduction and Safety",
@@ -31,7 +31,7 @@
                     "takeaway": "The Central Dogma of Biology describes how DNA, RNA, and proteins work."
                 },
                 {
-                    "id": "3.1.1",
+                    "id": "3.1.2",
                     "title": "The Science and Fundamentals of mRNA Technology",
                     "author": "Moderna",
                     "url": "https://www.modernatx.com/mrna-technology/science-and-fundamentals-mrna-technology",
@@ -71,7 +71,7 @@
                     "highlight": "'Vaccine Development' graphic"
                 },
                 {
-                    "id": "2.1.1",
+                    "id": "2.1.2",
                     "title": "Is the COVID-19 Vaccine Safe?",
                     "author": "Johns Hopkins",
                     "url": "https://www.hopkinsmedicine.org/health/conditions-and-diseases/coronavirus/is-the-covid19-vaccine-safe",

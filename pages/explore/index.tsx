@@ -10,12 +10,24 @@ export async function getStaticProps() {
     const learningPaths = getLearningPathData()
     const users = getUserData()
     return {
-      props: {
-        learningPaths,
-        users
-      }
+        props: {
+            learningPaths,
+            users
+        }
     }
-  }
+}
+
+function mapSubjectToLps(lps) {
+    const lpsBySubject = {};
+    lps.forEach((lp) => {
+        const subject = lp.data.subject;
+        if (!(subject in lpsBySubject)) {
+            lpsBySubject[subject] = []
+        }
+        lpsBySubject[subject].push(lp)
+    });
+    return lpsBySubject
+}
 
 export default function Explore({ learningPaths, users }) {
     // Page layout
@@ -31,16 +43,7 @@ export default function Explore({ learningPaths, users }) {
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
     const subjects = ['BIOLOGY', 'MACHINE LEARNING'];
-    const lpsBySubject = {};
-    learningPaths.forEach((lp) => {
-        const subject = lp.data.subject;
-        console.log(subject);
-        if (!(subject in lpsBySubject)) {
-            lpsBySubject[subject] = []
-        }
-        lpsBySubject[subject].push(lp)
-    });
-    console.log(lpsBySubject);
+    const lpsBySubject = mapSubjectToLps(learningPaths);
 
     return (
         <div>
@@ -51,6 +54,7 @@ export default function Explore({ learningPaths, users }) {
                     {
                         subjects.map((subject) => (
                             <LpListSection
+                                key={`${subject}`}
                                 title={subject}
                                 lps={lpsBySubject[subject]}
                                 userData={users[0].data}

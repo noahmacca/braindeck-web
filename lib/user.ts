@@ -3,6 +3,15 @@ import fs from 'fs'
 
 const userDir = path.join(process.cwd(), 'userData')
 
+export function getUserById(id: string) {
+    const fullPath = path.join(userDir, `${id}.json`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    return {
+        id,
+        data: JSON.parse(fileContents)
+    }
+}
+
 export function getUserData() {
     const fileNames = fs.readdirSync(userDir)
     const allUserData = fileNames.map(fileName => {
