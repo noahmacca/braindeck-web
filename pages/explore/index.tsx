@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
-import { getLearningPathData } from '../../lib/learningPaths'
-import { getUserData } from '../../lib/user'
+import { getLearningPathData } from '../../lib/learningPaths';
+import { getUserData } from '../../lib/user';
 
 export async function getStaticProps() {
     const learningPaths = getLearningPathData()
@@ -29,6 +30,17 @@ export default function Explore({ learningPaths, users }) {
     // More sections (SubjectList)
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
+    const subjects = ['BIOLOGY', 'MACHINE LEARNING'];
+    const lpsBySubject = {};
+    learningPaths.forEach((lp) => {
+        const subject = lp.data.subject;
+        console.log(subject);
+        if (!(subject in lpsBySubject)) {
+            lpsBySubject[subject] = []
+        }
+        lpsBySubject[subject].push(lp)
+    });
+    console.log(lpsBySubject);
 
     return (
         <div>
@@ -36,11 +48,15 @@ export default function Explore({ learningPaths, users }) {
             <NavBar />
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 max-w-4xl">
-                    <LpListSection
-                        title="Most Popular"
-                        lps={learningPaths}
-                        userData={users[0].data}
-                    />
+                    {
+                        subjects.map((subject) => (
+                            <LpListSection
+                                title={subject}
+                                lps={lpsBySubject[subject]}
+                                userData={users[0].data}
+                            />
+                        ))
+                    }
                     <SubjectListSection
                         lpSubjects={[]}
                     />
