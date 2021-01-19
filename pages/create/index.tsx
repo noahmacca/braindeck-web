@@ -9,6 +9,7 @@ export default function Create() {
         <div>
             <PageHead title="BrainDeck Create"/>
             <NavBar />
+            <div>TODO</div>
             <div>Learning Paths List</div>
             <div>Create New</div>
         </div>
