@@ -9,7 +9,7 @@
     "learningGoal": "Gain a high-level understanding of applications and underlying concepts of generative models.",
     "background": "Some familiarty with Deep Learning, as well as basic-intermediate coding knowledge.",
     "difficulty": "EASY",
-    "approxDurationHr": 10,
+    "estDurationBucket": "Medium (1-5 hr)",
     "countFavorite": 430,
     "countComplete": 200,
     "numReviews": 150,

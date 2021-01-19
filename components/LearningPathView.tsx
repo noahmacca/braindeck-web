@@ -32,16 +32,16 @@ function renderContent(content, idx, isUserFavorite) {
         {`${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
       </div>
       <div className="text-sm mb-2">
-        {content.author}
-        <span className="text-xs p-1 ml-2 rounded-lg bg-indigo-100 text-indigo-700 font-light">
+        {content.author}{' '}
+        <span className="capitalize text-xs p-1 ml-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
           {content.format.toLowerCase()}
-        </span>
+        </span>{' '} 
         {
           content.difficulty === "EASY" ?
-          <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
+          <span className="capitalize text-xs p-1 ml-1 rounded-lg bg-green-100 text-green-700 font-light">
             {content.difficulty.toLowerCase()}
           </span> :
-          <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
+          <span className="capitalize text-xs p-1 ml-1 rounded-lg bg-yellow-100 text-yellow-700 font-light">
             {content.difficulty.toLowerCase()}
           </span>
         }
@@ -123,11 +123,11 @@ export default function LearningPathView({
                 <Star className="text-yellow-300 mt-0.5" size={18} />
                 <span className="pl-1">{learningPath.numReviews}</span>
               </span>
-              <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
+              <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light capitalize">
                 {learningPath.difficulty.toLowerCase()}
               </span>
-              <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
-                {learningPath.approxDurationHr} hr
+              <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light capitalize">
+                {learningPath.estDurationBucket.toLowerCase()}
               </span>
             </div>
             <div className="px-2 py-3">
