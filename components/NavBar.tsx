@@ -15,7 +15,9 @@ export default function NavBar() {
                     </div>
                 </div>
                 <div className="block md:ml-10 md:pr-4 space-x-8">
-                    <span className="font-medium text-gray-400 cursor-default">Home</span>
+                    <Link href="/home">
+                        <span className="font-medium text-gray-700 cursor-default">Home</span>
+                    </Link>
                     <span className="font-medium text-gray-400 cursor-default">Explore</span>
                     <span className="font-medium text-gray-400 cursor-default">Create</span>
                     <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Log in</a>
