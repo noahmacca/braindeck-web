@@ -106,7 +106,7 @@ export default function LearningPathView({
     <div>
       {/* stack boxes */}
       <div className="relative bg-white overflow-hidden">
-        <div className="mx-auto px-6 max-w-4xl mt-10">
+        <div className="mx-auto px-6 max-w-4xl">
           {/* Learning Path Summary */}
           <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">{learningPath.subject}</div>
