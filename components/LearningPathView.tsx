@@ -127,7 +127,7 @@ export default function LearningPathView({
                 {learningPath.difficulty.toLowerCase()}
               </span>
               <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
-                {learningPath.approxDurationHr} Hr
+                {learningPath.approxDurationHr} hr
               </span>
             </div>
             <div className="px-2 py-3">
