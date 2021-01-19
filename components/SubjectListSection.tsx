@@ -3,10 +3,7 @@ export default function SubjectListSection({ lpSubjects }) {
         <div>
             <h1>All Subjects</h1>
             <ul>
-                <li>Subject 1</li>
-                <li>Subject 2</li>
-                <li>Subject 3</li>
-                <li>Subject 4</li>
+                <li>TODO</li>
             </ul>
         </div>
     )

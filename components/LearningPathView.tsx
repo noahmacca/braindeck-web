@@ -20,6 +20,7 @@ function renderContent(content, idx, isUserFavorite) {
         {`${idx} `}<a href={`${content.url}`}>{`${content.title}`}</a>
       </div>
       <div className="text-sm mb-4">
+        {content.author}{' '}
         <span className="capitalize text-xs p-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
           {content.format.toLowerCase()}
         </span>{' '}

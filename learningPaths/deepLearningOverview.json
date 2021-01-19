@@ -24,14 +24,16 @@
                 {
                     "id": "2.1.1",
                     "title": "The History of Artificial Intelligence",
-                    "url": "https://www.youtube.com/watch?v=lY1SELMvoVs",
-                    "format": "VIDEO",
+                    "author": "Rockwell Anyoha",
+                    "url": "http://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/",
+                    "format": "ARTICLE",
                     "difficulty": "EASY",
                     "takeaway": "Brief article that gives context for the original players, the Dartmouth conference, and the AI winter(s)."
                 },
                 {
                     "id": "2.1.2",
                     "title": "A Brief History of Machine Learning",
+                    "author": "Simplilearn",
                     "url": "https://www.youtube.com/watch?v=lY1SELMvoVs",
                     "format": "VIDEO",
                     "difficulty": "EASY",
@@ -46,6 +48,7 @@
                 {
                     "id": "2.2.1",
                     "title": "Lecture 1.1 - What is Machine Learning",
+                    "author": "Andrew Ng",
                     "url": "https://www.youtube.com/watch?v=PPLop4L2eGk",
                     "format": "VIDEO",
                     "difficulty": "EASY",
@@ -61,6 +64,7 @@
                 {
                     "id": "2.3.1",
                     "title": "Deep Learning In 5 Minutes",
+                    "author": "Simplilearn",
                     "url": "https://www.youtube.com/watch?v=6M5VXKLf4D4",
                     "format": "VIDEO",
                     "difficulty": "EASY",
@@ -76,6 +80,7 @@
                 {
                     "id": "2.4.1",
                     "title": "Top 15 Deep Learning applications that will rule the world in 2018 and beyond",
+                    "author": "Vartul Mittal",
                     "url": "https://medium.com/breathe-publication/top-15-deep-learning-applications-that-will-rule-the-world-in-2018-and-beyond-7c6130c43b01",
                     "format": "ARTICLE",
                     "difficulty": "EASY",
