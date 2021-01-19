@@ -17,10 +17,10 @@ export async function getStaticProps() {
 }
 
 
-export default function Sample({ learningPaths, users }) {
+export default function DemoLearningPath({ learningPaths, users }) {
   return (
     <div>
-      <PageHead />
+      <PageHead title="BrainDeck Learning Path"/>
       <NavBar />
       <LearningPathView
         learningPath={learningPaths[0].data}
