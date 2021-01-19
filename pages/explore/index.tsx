@@ -1,6 +1,7 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import Link from 'next/link';
+import LpListSection from "../../components/LpListSection";
+import SubjectListSection from "../../components/SubjectListSection";
 
 export default function Explore() {
     // Page layout
@@ -11,22 +12,30 @@ export default function Explore() {
     // Popular (Overall)
     // Section 1
     // Section 2
-    // Section 3
+    // Section 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     // More sections (SubjectList)
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
-    
+
     return (
         <div>
-            <PageHead title="BrainDeck Explore"/>
+            <PageHead title="BrainDeck Explore" />
             <NavBar />
-            <div>TODO</div>
-            <div>Popular</div>
-            <div>Trending</div>
-            <div>Topic 1</div>
-            <div>Topic 2</div>
-            <div>Topic 3</div>
-            <div>More</div>
+            <LpListSection
+                title="Most Popular"
+                lps={[]}
+            />
+            <LpListSection
+                title="Subject 1"
+                lps={[]}
+            />
+            <LpListSection
+                title="Subject 2"
+                lps={[]}
+            />
+            <SubjectListSection
+                lpSubjects={[]}
+            />
         </div>
     )
 }

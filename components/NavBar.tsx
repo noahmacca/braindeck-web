@@ -20,7 +20,7 @@ export default function NavBar() {
                         </Link>
                     </div>
                 </div>
-                <div className="block md:ml-10 md:pr-4 space-x-6 w-100">
+                <div className="block md:ml-10 md:pr-4 space-x-8 w-100">
                     {NavTab('learn', router.pathname)}
                     {NavTab('explore', router.pathname)}
                     {NavTab('create', router.pathname)}
