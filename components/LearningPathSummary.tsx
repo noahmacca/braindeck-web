@@ -16,16 +16,20 @@ function processUserLpData(userLpData, lp) {
     return [isUserFavorite, isUserComplete, userProgress]
 }
 
-export default function LearningPathSummary({ learningPath, userData }) {
+export default function LearningPathSummary({ learningPath, userData, shouldLinkToDetailPage }) {
     const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.lps, learningPath)
     const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
 
     return (
         <div className="border bg-indigo-50 rounded p-5 items-center text-gray-700">
             <div className="text-sm text-gray-500">{learningPath.subject}</div>
-            <Link href={`/learn/${learningPath.id}`}>
-                <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
-            </Link>
+            {
+                shouldLinkToDetailPage ?
+                    <Link href={`/learn/${learningPath.id}`}>
+                        <div className="text-3xl pb-1 font-semibold tracking-tight text-blue-700 cursor-pointer">{learningPath.title}</div>
+                    </Link>
+                    : <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
+            }
             <div className="flex px-1 text-md font-light text-gray-500">
                 <span className="flex pr-3">
                     <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite) + (lpHasFavorite ? 1 : 0)}
@@ -62,13 +66,13 @@ export default function LearningPathSummary({ learningPath, userData }) {
             </div>
             {
                 !lpHasFavorite ?
-                    <div className="border border-gray-700 rounded p-1.5 flex w-36 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setLpHasFavorite(true)}>
+                    <div className="border border-gray-400 rounded p-1.5 flex w-36 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setLpHasFavorite(true)}>
                         <div className="mx-auto flex">
                             <span className="text-md">Favorite</span>
                             <Heart className="ml-2 text-red-700 mt-1" size={20} />
                         </div>
                     </div> :
-                    <div className="border border-red-700 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpHasFavorite(false)}>
+                    <div className="border border-red-400 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpHasFavorite(false)}>
                         <div className="mx-auto flex">
                             <span className="text-md">Favorited</span>
                             <HeartFill className="ml-2 text-red-500 mt-1" size={20} />

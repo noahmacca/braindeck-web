@@ -10,6 +10,7 @@ export default function LpListSection({ title, lps, userData }) {
                     <LearningPathSummary
                         learningPath={lp.data}
                         userData={userData}
+                        shouldLinkToDetailPage
                     />
                 </div>
             ))}
