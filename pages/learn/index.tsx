@@ -15,7 +15,6 @@ export default function Learn() {
             <div>Favorites</div>
             <div>In Progress</div>
             <div>Complete</div>
-            <Link href='/learn/sample'><a>Sample</a></Link>
         </div>
     )
 }

@@ -17,7 +17,7 @@ export async function getStaticProps() {
 }
 
 
-export default function Sample({ learningPaths, users }) {
+export default function DemoLearningPath({ learningPaths, users }) {
   return (
     <div>
       <PageHead title="BrainDeck Learning Path"/>
