@@ -17,6 +17,48 @@ export async function getStaticProps() {
     }
 }
 
+const sampleSubjects  = {
+    top: ['BIOLOGY', 'MACHINE LEARNING'], // max 5
+    all: [ // max 15; divisible by 3
+        {
+            id: 'web_dev',
+            name: 'WEB DEVELOPMENT'
+        },
+        {
+            id: 'data_science',
+            name: 'DATA SCIENCE'
+        },
+        {
+            id: 'product_management',
+            name: 'PRODUCT MANAGEMENT'
+        },
+        {
+            id: 'web_design',
+            name: 'WEB DESIGN'
+        },
+        {
+            id: 'cryptocurrency',
+            name: 'CRYPTOCURRENCY'
+        },
+        {
+            id: 'philosophy',
+            name: 'PHILOSOPHY'
+        },
+        {
+            id: 'history',
+            name: 'HISTORY'
+        },
+        {
+            id: 'geopolitics',
+            name: 'GEOPOLITICS'
+        },
+        {
+            id: 'mindfulness',
+            name: 'MINDFULNESS'
+        }
+    ]
+};
+    
 function mapSubjectToLps(lps) {
     const lpsBySubject = {};
     lps.forEach((lp) => {
@@ -42,8 +84,6 @@ export default function Explore({ learningPaths, users }) {
     // More sections (SubjectList)
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
-    const topSubjects = ['BIOLOGY', 'MACHINE LEARNING']; // Max 5
-    const allSubjects = ['WEB DEVELOPMENT', 'DATA SCIENCE', 'PRODUCT MANAGEMENT', 'WEB DESIGN', 'CRYPTOCURRENCY', 'PHILOSOPHY', 'HISTORY', 'PHYSICS', 'MATHEMATICS', 'POSITIVE PSYCHOLOGY', 'MINDFULNESS', 'CURRENT EVENTS']; // Max 20, divisible by 3
     const lpsBySubject = mapSubjectToLps(learningPaths);
 
     return (
@@ -55,7 +95,7 @@ export default function Explore({ learningPaths, users }) {
                     <div className="container mb-6 md:mb-10">
                         <h1>Top</h1>
                         {
-                            topSubjects.map((subject) => (
+                            sampleSubjects.top.map((subject) => (
                                 <LpListSection
                                     key={`${subject}`}
                                     title={subject}
@@ -68,7 +108,7 @@ export default function Explore({ learningPaths, users }) {
                     <div className="container mb-2">
                         <h1>All Subjects</h1>
                         <SubjectListSection
-                            subjects={allSubjects}
+                            subjects={sampleSubjects.all}
                         />
                     </div>
                 </div>
