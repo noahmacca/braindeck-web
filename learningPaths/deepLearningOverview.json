@@ -3,7 +3,10 @@
     "created": "01/01/2021",
     "updated": "01/15/2021",
     "title": "Quick Intro to Deep Learning",
-    "subject": "MACHINE LEARNING",
+    "subject": {
+        "id": "machine_learning",
+        "name": "MACHINE LEARNING"
+    },
     "author": {
         "id": "noah-1",
         "name": "Noah MacCallum"

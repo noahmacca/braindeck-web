@@ -5,73 +5,55 @@ import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
 import { getLearningPathData } from '../../lib/learningPaths';
 import { getUserData } from '../../lib/user';
+const NUM_TOP_SUBJECTS = 2;
+const NUM_REMAINING_SUBJECTS = 9;
+
+function compareMaxComplete( a, b ) {
+    if ( a.maxComplete < b.maxComplete ){
+      return 1;
+    }
+    if ( a.maxComplete > b.maxComplete ){
+      return -1;
+    }
+    return 0;
+  }
+  
+
+function mapSubToLps(lps) {
+    const s = {};
+    lps.forEach((lp) => {
+        const subjectId = lp.data.subject.id;
+        if (!(subjectId in s)) {
+            s[subjectId] = {
+                maxComplete: 0,
+                lps: [],
+                ...lp.data.subject
+            }
+        }
+        s[subjectId].maxComplete = Math.max(lp.data.countComplete, s[subjectId].maxComplete);
+        s[subjectId].lps.push(lp);
+    });
+    const sArr = Object.keys(s).map(key => s[key]); // TS prefers this way
+    sArr.sort(compare);
+
+    return sArr
+}
 
 export async function getStaticProps() {
-    const learningPaths = getLearningPathData()
-    const users = getUserData()
+    const learningPaths = getLearningPathData();
+    const users = getUserData();
+    const subLpList = mapSubToLps(learningPaths);
     return {
         props: {
-            learningPaths,
+            subLpList,
             users
         }
     }
 }
 
-const sampleSubjects  = {
-    top: ['BIOLOGY', 'MACHINE LEARNING'], // max 5
-    all: [ // max 15; divisible by 3
-        {
-            id: 'web_dev',
-            name: 'WEB DEVELOPMENT'
-        },
-        {
-            id: 'data_science',
-            name: 'DATA SCIENCE'
-        },
-        {
-            id: 'product_management',
-            name: 'PRODUCT MANAGEMENT'
-        },
-        {
-            id: 'web_design',
-            name: 'WEB DESIGN'
-        },
-        {
-            id: 'cryptocurrency',
-            name: 'CRYPTOCURRENCY'
-        },
-        {
-            id: 'philosophy',
-            name: 'PHILOSOPHY'
-        },
-        {
-            id: 'history',
-            name: 'HISTORY'
-        },
-        {
-            id: 'geopolitics',
-            name: 'GEOPOLITICS'
-        },
-        {
-            id: 'mindfulness',
-            name: 'MINDFULNESS'
-        }
-    ]
-};
-    
-function mapSubjectToLps(lps) {
-    const lpsBySubject = {};
-    lps.forEach((lp) => {
-        const subject = lp.data.subject;
-        if (!(subject in lpsBySubject)) {
-            lpsBySubject[subject] = []
-        }
-        lpsBySubject[subject].push(lp)
-    });
-    return lpsBySubject
-}
 
-export default function Explore({ learningPaths, users }) {
+
+export default function Explore({ subLpList, users }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -83,8 +65,8 @@ export default function Explore({ learningPaths, users }) {
     // Section 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     // More sections (SubjectList)
 
-    // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
-    const lpsBySubject = mapSubjectToLps(learningPaths);
+    const topSubjectLps = subLpList.slice(0,NUM_TOP_SUBJECTS);
+    const remainingSubjects = subLpList.slice(NUM_TOP_SUBJECTS,NUM_TOP_SUBJECTS + NUM_REMAINING_SUBJECTS)
 
     return (
         <div>
@@ -95,11 +77,11 @@ export default function Explore({ learningPaths, users }) {
                     <div className="container mb-6 md:mb-10">
                         <h1>Top</h1>
                         {
-                            sampleSubjects.top.map((subject) => (
+                            topSubjectLps.map((sLp) => (
                                 <LpListSection
-                                    key={`${subject}`}
-                                    title={subject}
-                                    lps={lpsBySubject[subject]}
+                                    key={`${sLp.id}`}
+                                    title={sLp.name}
+                                    lps={sLp.lps}
                                     userData={users[0].data}
                                 />
                             ))
@@ -108,7 +90,7 @@ export default function Explore({ learningPaths, users }) {
                     <div className="container mb-2">
                         <h1>All Subjects</h1>
                         <SubjectListSection
-                            subjects={sampleSubjects.all}
+                            sLps={remainingSubjects}
                         />
                     </div>
                 </div>

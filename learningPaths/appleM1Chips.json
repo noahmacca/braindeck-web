@@ -1,0 +1,79 @@
+{
+    "id": "appleM1Chips",
+    "created": "11/01/2020",
+    "updated": "01/11/2020",
+    "title": "How do Apple's M1 Chips Work?",
+    "subject": {
+        "id": "computer_hardware",
+        "name": "COMPUTER HARDWARE"
+    },
+    "author": {
+        "id": "sandra-casper-1",
+        "name": "Sandra Casper"
+    },
+    "learningGoal": "Understand the difference between Intel, Arm, and why Apple's chips are so fast.",
+    "background": "None required",
+    "difficulty": "EASY",
+    "estDurationBucket": "Fast (<1 hr)",
+    "countFavorite": 112,
+    "countComplete": 82,
+    "numReviews": 40,
+    "avgRating": 3.8,
+    "concepts": [
+        {
+            "id": "3.1",
+            "name": "Instruction Sets: x86 vs. ARM",
+            "contents": [
+                {
+                    "id": "3.1.1",
+                    "title": "Apple ARM Processor vs Intel x86 Performance and Power Efficiency - Is the MAC Doomed?",
+                    "author": "Graphically Challenged",
+                    "url": "https://www.youtube.com/watch?v=MSifxEGivbY",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "takeaway": "It's important to understand why the two architectures are so different",
+                    "highlight": "2:00 - 3:35"
+                }
+            ]
+        },
+        {
+            "id": "3.1",
+            "name": "Key differences of the Apple M1 processor",
+            "contents": [
+                {
+                    "id": "3.1.1",
+                    "title": "ELI5: Apple M1 Neural Engine and what differentiate it from Intel i cores?",
+                    "author": "themeaningofluff",
+                    "url": "https://www.reddit.com/r/explainlikeimfive/comments/k80n6u/eli5_apple_m1_neural_engine_and_what/",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "Good explain it like I'm 5 from Reddit"
+                },
+                {
+                    "id": "3.1.1",
+                    "title": "Why The Apple M1 Chip Is So Fast - A Developer Explains",
+                    "author": "Mike Thornton",
+                    "url": "https://www.pro-tools-expert.com/production-expert-1/why-the-apple-m1-chip-is-so-fast",
+                    "format": "ARTICLE",
+                    "difficulty": "MEDIUM",
+                    "takeaway": "Going more in depth - you don't need to understand everything, but it's important to dive into some of the details for such a technical topic."
+                }
+            ]
+        },
+        {
+            "id": "3.1",
+            "name": "Implications for Apple",
+            "contents": [
+                {
+                    "id": "3.1.1",
+                    "title": "Why Apple's M1 Chip Is So Important",
+                    "author": "Apple Explained",
+                    "url": "https://www.youtube.com/watch?v=NA44bGGxasc",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "takeaway": "Good explain it like I'm 5 from Reddit"
+                }
+            ]
+        }
+    ]
+}

@@ -3,10 +3,13 @@
     "created": "12/06/2020",
     "updated": "12/15/2020",
     "title": "mRNA Vaccine Introduction and Safety",
-    "subject": "BIOLOGY",
+    "subject": {
+        "id": "biology",
+        "name": "BIOLOGY"
+    },
     "author": {
-        "id": "noah-1",
-        "name": "Noah MacCallum"
+        "id": "manuel-dag",
+        "name": "Manuel Dag"
     },
     "learningGoal": "Find out how mRNA vaccines work, and better understand how they've been shown to be safe.",
     "background": "None required, but basic biology will help",
