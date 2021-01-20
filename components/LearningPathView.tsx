@@ -91,12 +91,12 @@ export default function LearningPathView({
   return (
     <div>
       <div className="relative bg-white overflow-hidden">
-        <div className="mx-auto px-6 max-w-4xl">
+        <div className="mx-auto p-6 max-w-4xl">
           {/* Learning Path Summary */}
           <LearningPathSummary
             learningPath={learningPath}
             userData={userData}
-            shouldLinkToDetailPage={false}
+            isCompact={false}
           />
           {/* Concepts in learning path */}
           {renderConcepts(learningPath.concepts, userData.contents)}
