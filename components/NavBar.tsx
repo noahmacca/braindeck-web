@@ -3,9 +3,25 @@ import { useRouter } from 'next/router'
 import { capitalizeFirst } from '../lib/utils';
 import { useState } from 'react';
 
-const SelectedLink = (text) => <span className="font-medium text-gray-600 cursor-pointer">{text}</span>
-const UnselectedLink = (text) => <span className="font-medium text-gray-400 hover:text-gray-600 cursor-pointer">{text}</span>
-const NavTab = (name, pathname) => <Link href={`/${name}`}>{pathname.includes(`/${name}`) ? SelectedLink(capitalizeFirst(name)) : UnselectedLink(capitalizeFirst(name))}</Link>
+const NavTab = (name, pathname) => (
+    <Link href={`/${name}`}>
+        {pathname.includes(`/${name}`) ?
+            <span className="font-medium text-gray-700 cursor-pointer">{capitalizeFirst(name)}</span> :
+            <span className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer">{capitalizeFirst(name)}</span>
+        }
+    </Link>
+)
+
+const MobileNavTab = (name, pathname) => (
+    <Link href={`/${name}`}>
+        {pathname.includes(`/${name}`) ?
+            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-gray-50" role="menuitem">{capitalizeFirst(name)}</a> :
+            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">{capitalizeFirst(name)}</a>
+        }
+    </Link>
+)
+
+{/* <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Product</a> */}
 
 export default function NavBar() {
     const router = useRouter();
@@ -13,7 +29,7 @@ export default function NavBar() {
 
     return (
         <div>
-            <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
+            <div className="relative p-6 px-4 sm:px-6 lg:px-8">
                 <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                     <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                         <div className="flex items-center justify-between w-full md:w-auto">
@@ -63,10 +79,10 @@ export default function NavBar() {
                         isMenuOpen &&
                         <div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
                             <div className="px-2 pt-2 pb-3 space-y-1" role="none">
-                                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Product</a>
-                                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Features</a>
-                                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Marketplace</a>
-                                <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Company</a>
+                                {MobileNavTab('learn', router.pathname)}
+                                {MobileNavTab('explore', router.pathname)}
+                                {MobileNavTab('create', router.pathname)}
+                                {MobileNavTab('profile', router.pathname)}
                             </div>
                             <div role="none">
                                 <a href="#" className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100" role="menuitem">
