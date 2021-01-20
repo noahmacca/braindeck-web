@@ -30,11 +30,11 @@ export default function LearningPathSummary({ learningPath, userData, shouldLink
                     </Link>
                     : <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
             }
-            <div className="flex px-1 text-md font-light text-gray-500">
-                <span className="flex pr-3">
+            <div className="flex flex-wrap px-1 text-md font-light text-gray-500">
+                <span className="flex pr-1 md:pr-3">
                     <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite) + (lpHasFavorite ? 1 : 0)}
                 </span>
-                <span className="flex pr-3">
+                <span className="flex pr-1 md:pr-3">
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
@@ -42,10 +42,10 @@ export default function LearningPathSummary({ learningPath, userData, shouldLink
                     <Star className="text-yellow-300 mt-0.5" size={18} />
                     <span className="pl-1">{learningPath.numReviews}</span>
                 </span>
-                <span className="text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light capitalize">
+                <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-green-100 text-green-700 font-light capitalize">
                     {learningPath.difficulty.toLowerCase()}
                 </span>
-                <span className="text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light capitalize">
+                <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light capitalize">
                     {learningPath.estDurationBucket.toLowerCase()}
                 </span>
             </div>
