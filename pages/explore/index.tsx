@@ -34,7 +34,7 @@ function mapSubToLps(lps) {
         s[subjectId].lps.push(lp);
     });
     const sArr = Object.keys(s).map(key => s[key]); // TS prefers this way
-    sArr.sort(compare);
+    sArr.sort(compareMaxComplete);
 
     return sArr
 }

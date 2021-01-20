@@ -66,7 +66,7 @@ export default function LearningPathSummary({ learningPath, userData, isCompact 
                     </div>
                     :
                     <div>
-                        <div className="text-sm text-gray-500">{learningPath.subject}</div>
+                        <div className="text-sm text-gray-500">{learningPath.subject.name}</div>
                         <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
                     </div>
             }
