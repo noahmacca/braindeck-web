@@ -42,7 +42,8 @@ export default function Explore({ learningPaths, users }) {
     // More sections (SubjectList)
 
     // Within each section: 5 learning paths with summaries, and a link to more learning paths (SubjectLearningPaths)
-    const subjects = ['BIOLOGY', 'MACHINE LEARNING'];
+    const topSubjects = ['BIOLOGY', 'MACHINE LEARNING']; // Max 5
+    const allSubjects = ['WEB DEVELOPMENT', 'DATA SCIENCE', 'PRODUCT MANAGEMENT', 'WEB DESIGN', 'CRYPTOCURRENCY', 'PHILOSOPHY', 'HISTORY', 'PHYSICS', 'MATHEMATICS', 'POSITIVE PSYCHOLOGY', 'MINDFULNESS', 'CURRENT EVENTS']; // Max 20, divisible by 3
     const lpsBySubject = mapSubjectToLps(learningPaths);
 
     return (
@@ -50,20 +51,26 @@ export default function Explore({ learningPaths, users }) {
             <PageHead title="BrainDeck Explore" />
             <NavBar />
             <div className="relative bg-white overflow-hidden">
-                <div className="mx-auto px-6 max-w-4xl">
-                    {
-                        subjects.map((subject) => (
-                            <LpListSection
-                                key={`${subject}`}
-                                title={subject}
-                                lps={lpsBySubject[subject]}
-                                userData={users[0].data}
-                            />
-                        ))
-                    }
-                    <SubjectListSection
-                        lpSubjects={[]}
-                    />
+                <div className="mx-auto px-6 mt-6 max-w-4xl">
+                    <div className="container mb-6 md:mb-10">
+                        <h1>Top</h1>
+                        {
+                            topSubjects.map((subject) => (
+                                <LpListSection
+                                    key={`${subject}`}
+                                    title={subject}
+                                    lps={lpsBySubject[subject]}
+                                    userData={users[0].data}
+                                />
+                            ))
+                        }
+                    </div>
+                    <div className="container mb-2">
+                        <h1>All Subjects</h1>
+                        <SubjectListSection
+                            subjects={allSubjects}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
