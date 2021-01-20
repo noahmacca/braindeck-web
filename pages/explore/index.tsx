@@ -3,46 +3,14 @@ import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
-import { getLearningPathData } from '../../lib/learningPaths';
+import { getLearningPathDataBySubject } from '../../lib/learningPaths';
 import { getUserData } from '../../lib/user';
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
 
-function compareMaxComplete( a, b ) {
-    if ( a.maxComplete < b.maxComplete ){
-      return 1;
-    }
-    if ( a.maxComplete > b.maxComplete ){
-      return -1;
-    }
-    return 0;
-  }
-  
-
-function mapSubToLps(lps) {
-    const s = {};
-    lps.forEach((lp) => {
-        const subjectId = lp.data.subject.id;
-        if (!(subjectId in s)) {
-            s[subjectId] = {
-                maxComplete: 0,
-                lps: [],
-                ...lp.data.subject
-            }
-        }
-        s[subjectId].maxComplete = Math.max(lp.data.countComplete, s[subjectId].maxComplete);
-        s[subjectId].lps.push(lp);
-    });
-    const sArr = Object.keys(s).map(key => s[key]); // TS prefers this way
-    sArr.sort(compareMaxComplete);
-
-    return sArr
-}
-
 export async function getStaticProps() {
-    const learningPaths = getLearningPathData();
     const users = getUserData();
-    const subLpList = mapSubToLps(learningPaths);
+    const subLpList = getLearningPathDataBySubject();
     return {
         props: {
             subLpList,
@@ -50,7 +18,6 @@ export async function getStaticProps() {
         }
     }
 }
-
 
 
 export default function Explore({ subLpList, users }) {
