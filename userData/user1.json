@@ -1,27 +1,29 @@
 {
-    "info": {
-        "firstName": "Noah",
-        "lastName": "MacCallum",
-        "created": 1123
-    },
+    "id": "user1",
+    "firstName": "Noah",
+    "lastName": "MacCallum",
+    "created": 1123,
     "enrolledLps": [
         {
             "id": "generativeModels",
             "created": 1230,
             "updated": 1234,
-            "completed": false
+            "isComplete": false,
+            "isFavorite": true
         },
         {
             "id": "mRNAIntro",
             "created": 1230,
             "updated": 1234,
-            "completed": false
+            "isComplete": false,
+            "isFavorite": true
         },
         {
             "id": "appleM1Chips",
             "created": 1230,
             "updated": 1234,
-            "completed": true
+            "isComplete": true,
+            "isFavorite": false
         }
     ],
     "contents": [
