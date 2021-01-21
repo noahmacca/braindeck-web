@@ -9,8 +9,6 @@ export async function getStaticProps({ params }) {
   const learningPath = getLearningPathById(params.id);
   const user = getUserById('user1');
   const userLp = getLearningPathForUser(params.id, 'user1');
-  console.log('userLp');
-  console.log(userLp);
   return {
     props: {
       userLp

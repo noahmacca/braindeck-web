@@ -24,8 +24,6 @@ export default function Learn({ userLpsByCat, user }) {
     //     lpFavoriteInProgress: [],
     //     lpFavoriteNotStarted: []
     // }
-    console.log('userLpsByCat');
-    console.log(userLpsByCat);
 
     return (
         <div>

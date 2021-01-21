@@ -88,20 +88,6 @@ export function getLearningPathsForUser(user: any) {
 
 export function getLearningPathIds() {
     const fileNames = fs.readdirSync(lpDir)
-    // Returns an array that looks like this:
-    // [
-    //   {
-    //     params: {
-    //       id: 'ssg-ssr'
-    //     }
-    //   },
-    //   {
-    //     params: {
-    //       id: 'pre-rendering'
-    //     }
-    //   }
-    // ]
-
     return fileNames.map(fileName => {
         return {
             params: {
@@ -148,4 +134,25 @@ export function getLearningPathDataBySubject(user: any) {
     });
 
     return s
+}
+
+export function getLearningPathSubjectPaths() {
+    const allLps = getLearningPathData();
+
+    const s = new Set();
+
+    allLps.forEach((lp) => {
+        s.add(lp.data.subject.id);
+    });
+
+    const res = []
+    s.forEach((i) => { // no map on Set :()
+        res.push({
+            params: {
+                id: i
+            }
+        })
+    });
+
+    return res;
 }

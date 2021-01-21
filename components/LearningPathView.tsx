@@ -76,8 +76,6 @@ export default function LearningPathView({
 }) {
   // TODO: factor out commonly used components
   // TODO: make stars configurable
-  console.log('LearningPathView');
-  console.log(userLp);
 
   return (
     <div>

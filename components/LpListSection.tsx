@@ -3,8 +3,6 @@ import { CaretRightFill, CheckSquareFill } from 'react-bootstrap-icons';
 import Link from 'next/link';
 
 export default function LpListSection({ title, userLps, subjectId }) {
-    console.log('LpListSection');
-    console.log(userLps);
     return (
         <div className="my-2 md:my-4 md:mx-4">
                 <Link href={`/explore/subject/${subjectId}`}>
