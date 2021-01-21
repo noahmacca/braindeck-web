@@ -44,7 +44,7 @@ export default function DemoLearningPath({ lps, user, subject }) {
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
-                        <h1>Top</h1>
+                        <h1>Explore Subject</h1>
                         {
                             <LpListSection
                                 key={`${subject.id}`}

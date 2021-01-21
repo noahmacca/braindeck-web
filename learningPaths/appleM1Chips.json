@@ -21,11 +21,11 @@
     "avgRating": 3.8,
     "concepts": [
         {
-            "id": "3.1",
+            "id": "4.1",
             "name": "Instruction Sets: x86 vs. ARM",
             "contents": [
                 {
-                    "id": "3.1.1",
+                    "id": "4.1.1",
                     "title": "Apple ARM Processor vs Intel x86 Performance and Power Efficiency - Is the MAC Doomed?",
                     "author": "Graphically Challenged",
                     "url": "https://www.youtube.com/watch?v=MSifxEGivbY",
@@ -37,11 +37,11 @@
             ]
         },
         {
-            "id": "3.1",
+            "id": "4.2",
             "name": "Key differences of the Apple M1 processor",
             "contents": [
                 {
-                    "id": "3.1.1",
+                    "id": "4.2.1",
                     "title": "ELI5: Apple M1 Neural Engine and what differentiate it from Intel i cores?",
                     "author": "themeaningofluff",
                     "url": "https://www.reddit.com/r/explainlikeimfive/comments/k80n6u/eli5_apple_m1_neural_engine_and_what/",
@@ -50,7 +50,7 @@
                     "takeaway": "Good explain it like I'm 5 from Reddit"
                 },
                 {
-                    "id": "3.1.1",
+                    "id": "4.2.2",
                     "title": "Why The Apple M1 Chip Is So Fast - A Developer Explains",
                     "author": "Mike Thornton",
                     "url": "https://www.pro-tools-expert.com/production-expert-1/why-the-apple-m1-chip-is-so-fast",
@@ -61,11 +61,11 @@
             ]
         },
         {
-            "id": "3.1",
+            "id": "4.3",
             "name": "Implications for Apple",
             "contents": [
                 {
-                    "id": "3.1.1",
+                    "id": "4.3.1",
                     "title": "Why Apple's M1 Chip Is So Important",
                     "author": "Apple Explained",
                     "url": "https://www.youtube.com/watch?v=NA44bGGxasc",
