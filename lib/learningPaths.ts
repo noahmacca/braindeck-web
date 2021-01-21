@@ -55,17 +55,6 @@ export function getLearningPathData() {
     return allLpData
 }
 
-function compareMaxComplete( a, b ) {
-    if ( a.maxComplete < b.maxComplete ){
-      return 1;
-    }
-    if ( a.maxComplete > b.maxComplete ){
-      return -1;
-    }
-    return 0;
-  }
-  
-
 export function getLearningPathDataBySubject() {
     const lps = getLearningPathData()
     const s = {};
@@ -81,8 +70,6 @@ export function getLearningPathDataBySubject() {
         s[subjectId].maxComplete = Math.max(lp.data.countComplete, s[subjectId].maxComplete);
         s[subjectId].lps.push(lp);
     });
-    const sArr = Object.keys(s).map(key => s[key]); // TS prefers this way
-    sArr.sort(compareMaxComplete);
 
-    return sArr
+    return s
 }

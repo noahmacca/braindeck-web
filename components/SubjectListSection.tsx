@@ -7,7 +7,7 @@ export default function SubjectListSection({ sLps }) {
                 {
                     sLps.map((sLp) => (
                         <div key={sLp.id} className="cursor-pointer">
-                            <Link href={`/subject/${sLp.id}`}>
+                            <Link href={`/explore/subject/${sLp.id}`}>
                                 <div className="capitalize text-gray-600 font-light md:text-lg px-4 md:px-0 py-2 md:py-4 bg-gray-100 hover:bg-gray-200 rounded-lg">{sLp.name.toLowerCase()}</div>
                             </Link>
                         </div>

@@ -8,19 +8,32 @@ import { getUserData } from '../../lib/user';
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
 
+function compareMaxComplete(a, b) {
+    if (a.maxComplete < b.maxComplete) {
+        return 1;
+    }
+    if (a.maxComplete > b.maxComplete) {
+        return -1;
+    }
+    return 0;
+}
+
+
 export async function getStaticProps() {
     const users = getUserData();
-    const subLpList = getLearningPathDataBySubject();
+    const subLps = getLearningPathDataBySubject();
+    const subLpsArr = Object.keys(subLps).map(key => subLps[key]); // TS prefers this way
+    subLpsArr.sort(compareMaxComplete);
     return {
         props: {
-            subLpList,
+            subLpsArr,
             users
         }
     }
 }
 
 
-export default function Explore({ subLpList, users }) {
+export default function Explore({ subLpsArr, users }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -32,8 +45,8 @@ export default function Explore({ subLpList, users }) {
     // Section 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     // More sections (SubjectList)
 
-    const topSubjectLps = subLpList.slice(0,NUM_TOP_SUBJECTS);
-    const remainingSubjects = subLpList.slice(NUM_TOP_SUBJECTS,NUM_TOP_SUBJECTS + NUM_REMAINING_SUBJECTS)
+    const topSubjectLps = subLpsArr.slice(0, NUM_TOP_SUBJECTS);
+    const remainingSubjects = subLpsArr.slice(NUM_TOP_SUBJECTS, NUM_TOP_SUBJECTS + NUM_REMAINING_SUBJECTS)
 
     return (
         <div>
