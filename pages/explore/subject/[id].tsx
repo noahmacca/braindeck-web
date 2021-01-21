@@ -14,7 +14,6 @@ export async function getStaticProps({ params }) {
     return {
         props: {
             uLps,
-            user,
             subject: {
                 id: params.id,
                 name: subjectUserLps.name
@@ -31,10 +30,10 @@ export async function getStaticPaths() {
     }
 }
 
-export default function DemoLearningPath({ uLps, user, subject }) {
+export default function DemoLearningPath({ uLps, subject }) {
     return (
         <div>
-            <PageHead title="BrainDeck Explore Subject" />
+            <PageHead title={`BrainDeck Explore ${subject.name}`} />
             <NavBar />
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
