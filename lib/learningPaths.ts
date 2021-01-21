@@ -12,6 +12,70 @@ export function getLearningPathById(id: string) {
     }
 }
 
+function annotateLpsWithUserData(user: any, lps: any) {
+    return lps.map((lp: any) => {
+        const isFavorite = user.enrolledLps.some((uLp) => uLp.id === lp.id);
+        const isComplete = user.enrolledLps.some((uLp) => (uLp.id === lp.id) && (uLp.completed === true));
+        let numContentsTotal = 0;
+        let numContentsComplete = 0;
+        lp.data.concepts.forEach((concept) => {
+            concept.contents.forEach((content) => {
+                numContentsTotal += 1;
+                numContentsComplete += user.contents.some((uContent) => uContent.id === content.id) ? 1 : 0;
+            });
+        });
+        return {
+            id: lp.data.id,
+            isFavorite,
+            isComplete,
+            numContentsTotal, 
+            numContentsComplete,
+            data: lp.data
+        }
+    });
+}
+
+export function getLearningPathsForUser(user: any) {
+    const allLps = getLearningPathData();
+    const userLpsFavorited = allLps.filter((lp) => (
+        (true)
+    ));
+
+    const userLpSummaries = annotateLpsWithUserData(user, allLps);
+    const userLpsFiltered = {
+        lpCompleted: [],
+        lpCompletedButNewContent: [],
+        lpFavoriteInProgress: [],
+        lpFavoriteNotStarted: []
+    }
+    userLpSummaries.forEach((userLpSummary) => {
+        if (userLpSummary.isComplete === true) {
+            if (userLpSummary.numContentsComplete === userLpSummary.numContentsTotal) {
+                // Normal completed case
+                return userLpsFiltered.lpCompleted.push(userLpSummary);
+            }
+            if (userLpSummary.numContentsComplete < userLpSummary.numContentsTotal) {
+                // Marked completed but more contents present; probably new contents were added since completed
+                return userLpsFiltered.lpCompletedButNewContent.push(userLpSummary);
+            }
+        }
+        if (userLpSummary.isFavorite === true) {
+            if (userLpSummary.numContentsComplete === 0) {
+                return userLpsFiltered.lpFavoriteNotStarted.push(userLpSummary);
+            }
+            if (userLpSummary.numContentsComplete === userLpSummary.numContentsTotal) {
+                console.warn('complete but not marked completed. Showing as completed anyways');
+                return userLpsFiltered.lpCompleted.push(userLpSummary);
+            }
+            // In progress
+            return userLpsFiltered.lpFavoriteInProgress.push(userLpSummary);
+        }
+
+    })
+    
+    return userLpsFiltered
+}
+
 export function getLearningPathIds() {
     const fileNames = fs.readdirSync(lpDir)
     // Returns an array that looks like this:
