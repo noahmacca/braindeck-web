@@ -58,7 +58,7 @@ export default function LearningPathSummary({ learningPath, userData, isCompact 
     const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.lps, learningPath)
 
     return (
-        <div className="bg-gray-100 rounded p-3 md:p-5 items-center text-gray-700">
+        <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
                 isCompact ?
                     <div>
