@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
@@ -6,6 +5,9 @@ import SubjectListSection from "../../components/SubjectListSection";
 import { getLearningPathDataBySubject } from '../../lib/learningPaths';
 import { getUserById } from '../../lib/user';
 import { compareMaxFavorite, compareCountFavorite } from '../../lib/utils';
+import { CaretRightFill, CheckSquareFill } from 'react-bootstrap-icons';
+import Link from 'next/link';
+
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
 
@@ -49,14 +51,20 @@ export default function Explore({ subLpsArr, user }) {
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
                         <h1>Top</h1>
+
                         {
                             topSubjectLps.map((sLp) => (
-                                <LpListSection
-                                    key={`${sLp.id}`}
-                                    title={sLp.name}
-                                    userLps={sLp.uLps}
-                                    subjectId={sLp.id}
-                                />
+                                <div key={`${sLp.id}`} className="my-2 md:my-6 md:mx-4">
+                                    <Link href={`/explore/subject/${sLp.id}`}>
+                                        <div className="cursor-pointer max-w-none">
+                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
+                                                {sLp.name.toLowerCase()}
+                                            </div>
+                                            <CaretRightFill className="ml-1 mb-1 inline-block" size={10} />
+                                        </div>
+                                    </Link>
+                                    <LpListSection userLps={sLp.uLps} />
+                                </div>
                             ))
                         }
                     </div>
