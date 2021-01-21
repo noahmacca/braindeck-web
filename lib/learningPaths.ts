@@ -54,3 +54,22 @@ export function getLearningPathData() {
 
     return allLpData
 }
+
+export function getLearningPathDataBySubject() {
+    const lps = getLearningPathData()
+    const s = {};
+    lps.forEach((lp) => {
+        const subjectId = lp.data.subject.id;
+        if (!(subjectId in s)) {
+            s[subjectId] = {
+                maxComplete: 0,
+                lps: [],
+                ...lp.data.subject
+            }
+        }
+        s[subjectId].maxComplete = Math.max(lp.data.countComplete, s[subjectId].maxComplete);
+        s[subjectId].lps.push(lp);
+    });
+
+    return s
+}

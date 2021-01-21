@@ -1,6 +1,5 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
-import Link from 'next/link';
 
 function processUserLpData(userLpData, lp) {
     let isUserFavorite = false;
@@ -59,16 +58,15 @@ export default function LearningPathSummary({ learningPath, userData, isCompact 
     const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.lps, learningPath)
 
     return (
-        <div className="border bg-indigo-50 rounded p-3 md:p-5 items-center text-gray-700">
-            
+        <div className="bg-gray-100 rounded p-3 md:p-5 items-center text-gray-700">
             {
                 isCompact ?
-                    <Link href={`/learn/${learningPath.id}`}>
-                        <div className="text-xl pb-1 font-medium tracking-tight text-blue-700 cursor-pointer">{learningPath.title}</div>
-                    </Link>
-                    : 
                     <div>
-                        <div className="text-sm text-gray-500">{learningPath.subject}</div>
+                        <div className="text-xl pb-1 tracking-tight text-gray-700">{learningPath.title}</div>
+                    </div>
+                    :
+                    <div>
+                        <div className="text-sm text-gray-500">{learningPath.subject.name}</div>
                         <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
                     </div>
             }
@@ -91,7 +89,10 @@ export default function LearningPathSummary({ learningPath, userData, isCompact 
                     {learningPath.estDurationBucket.toLowerCase()}
                 </span>
             </div>
-            { !isCompact ? renderLpSummaryDetail({ learningPath, userProgress, isUserFavorite }) : undefined}
+            { !isCompact ?
+                renderLpSummaryDetail({ learningPath, userProgress, isUserFavorite }) :
+                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name}</div>
+            }
         </div>
     )
 }
