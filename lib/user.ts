@@ -12,7 +12,7 @@ export function getUserById(id: string) {
     }
 }
 
-export function getUserData() {
+export function getAllUserData() {
     const fileNames = fs.readdirSync(userDir)
     const allUserData = fileNames.map(fileName => {
         const id = fileName.replace(/\.json$/, '');

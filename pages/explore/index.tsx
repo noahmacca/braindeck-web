@@ -4,13 +4,13 @@ import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
 import { getLearningPathDataBySubject } from '../../lib/learningPaths';
-import { getUserData } from '../../lib/user';
+import { getUserById } from '../../lib/user';
 import { compareMaxFavorite, compareCountFavorite } from '../../lib/utils';
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
 
 export async function getStaticProps() {
-    const users = getUserData();
+    const user = getUserById('user1');
     const subLps = getLearningPathDataBySubject();
     const subLpsArr = Object.keys(subLps).map(key => subLps[key]); // TS prefers this way
     subLpsArr.sort(compareMaxFavorite);
@@ -20,13 +20,13 @@ export async function getStaticProps() {
     return {
         props: {
             subLpsArr,
-            users
+            user
         }
     }
 }
 
 
-export default function Explore({ subLpsArr, users }) {
+export default function Explore({ subLpsArr, user }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -56,7 +56,7 @@ export default function Explore({ subLpsArr, users }) {
                                     title={sLp.name}
                                     lps={sLp.lps}
                                     subjectId={sLp.id}
-                                    userData={users[0].data}
+                                    userData={user.data}
                                 />
                             ))
                         }
