@@ -9,11 +9,19 @@ export default function Learn() {
         <div>
             <PageHead title="BrainDeck Learn"/>
             <NavBar />
-            <div>TODO</div>
-            <div>Jump back in</div>
-            <div>Favorites</div>
-            <div>In Progress</div>
-            <div>Complete</div>
+            <div className="relative bg-white overflow-hidden">
+                <div className="mx-auto px-6 mt-6 max-w-4xl">
+                    <div className="container mb-4 md:mb-6">
+                        <h1>In Progress</h1>
+                    </div>
+                    <div className="container mb-4 md:mb-6">
+                        <h1>Backlog</h1>
+                    </div>
+                    <div className="container mb-4 md:mb-6">
+                        <h1>Complete</h1>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
