@@ -30,7 +30,7 @@ export async function getStaticPaths() {
     }
 }
 
-export default function DemoLearningPath({ uLps, subject }) {
+export default function ExploreSubjectLearningPaths({ uLps, subject }) {
     return (
         <div>
             <PageHead title={`BrainDeck Explore ${subject.name}`} />
@@ -39,14 +39,7 @@ export default function DemoLearningPath({ uLps, subject }) {
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
                         <h1>Explore</h1>
-                        {
-                            <LpListSection
-                                key={`${subject.id}`}
-                                subjectId={subject.id}
-                                title={subject.name}
-                                userLps={uLps}
-                            />
-                        }
+                        <LpListSection userLps={uLps} />
                     </div>
                 </div>
             </div>
