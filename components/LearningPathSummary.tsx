@@ -55,7 +55,7 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isUserFavorite }) =
 }
 
 export default function LearningPathSummary({ learningPath, userData, isCompact }) {
-    const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.lps, learningPath)
+    const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.enrolledLps, learningPath)
 
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">

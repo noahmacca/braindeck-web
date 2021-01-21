@@ -30,7 +30,7 @@ function annotateLpsWithUserData(user: any, lps: any) {
             isComplete,
             numContentsTotal, 
             numContentsComplete,
-            data: lp.data
+            data: lp
         }
     });
 }
