@@ -2,7 +2,9 @@ import LearningPathSummary from './LearningPathSummary';
 import { CaretRightFill, CheckSquareFill } from 'react-bootstrap-icons';
 import Link from 'next/link';
 
-export default function LpListSection({ title, lps, subjectId, userData }) {
+export default function LpListSection({ title, userLps, subjectId }) {
+    console.log('LpListSection');
+    console.log(userLps);
     return (
         <div className="my-2 md:my-4 md:mx-4">
                 <Link href={`/explore/subject/${subjectId}`}>
@@ -13,13 +15,12 @@ export default function LpListSection({ title, lps, subjectId, userData }) {
                         <CaretRightFill className="ml-1 mb-1 inline-block" size={10} />
                     </div>
                 </Link>
-            {lps.map((lp) => (
-                <div key={lp.id} className=" my-2">
-                    <Link href={`/learn/${lp.id}`}>
+            {userLps.map((uLp) => (
+                <div key={uLp.id} className=" my-2">
+                    <Link href={`/learn/${uLp.id}`}>
                         <div className="cursor-pointer">
                             <LearningPathSummary
-                                learningPath={lp.data}
-                                userData={userData}
+                                userLp={uLp}
                                 isCompact
                             />
                         </div>

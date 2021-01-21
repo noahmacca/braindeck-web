@@ -24,6 +24,8 @@ export default function Learn({ userLpsByCat, user }) {
     //     lpFavoriteInProgress: [],
     //     lpFavoriteNotStarted: []
     // }
+    console.log('userLpsByCat');
+    console.log(userLpsByCat);
 
     return (
         <div>
@@ -35,29 +37,25 @@ export default function Learn({ userLpsByCat, user }) {
                         <h1>Your Learning Paths</h1>
                         <LpListSection
                             title="In Progress"
-                            lps={userLpsByCat.lpFavoriteInProgress.map(i => i.data)}
+                            userLps={userLpsByCat.lpFavoriteInProgress}
                             subjectId={undefined}
-                            userData={user.data}
                         />
                         <LpListSection
                             title="Not Started"
-                            lps={userLpsByCat.lpFavoriteNotStarted.map(i => i.data)}
+                            userLps={userLpsByCat.lpFavoriteNotStarted}
                             subjectId={undefined}
-                            userData={user.data}
                         />
                         <LpListSection
                             title="Complete"
-                            lps={userLpsByCat.lpCompleted.map(i => i.data)}
+                            userLps={userLpsByCat.lpCompleted}
                             subjectId={undefined}
-                            userData={user.data}
                         />
                         {
                             userLpsByCat.lpCompletedButNewContent.length > 0 ?
                             <LpListSection
                                 title="New Content Since Completed"
-                                lps={userLpsByCat.lpCompletedButNewContent.map(i => i.data)}
+                                userLps={userLpsByCat.lpCompletedButNewContent}
                                 subjectId={undefined}
-                                userData={user.data}
                             /> : undefined
                         }
                     </div>

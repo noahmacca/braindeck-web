@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import { getUserById } from './user';
 
 const lpDir = path.join(process.cwd(), 'learningPaths')
 
@@ -15,24 +16,41 @@ export function getLearningPathById(id: string) {
 function annotateLpsWithUserData(user: any, lps: any) {
     return lps.map((lp: any) => {
         const isFavorite = user.enrolledLps.some((uLp) => uLp.id === lp.id);
-        const isComplete = user.enrolledLps.some((uLp) => (uLp.id === lp.id) && (uLp.completed === true));
+        const isComplete = user.enrolledLps.some((uLp) => (uLp.id === lp.id) && (uLp.isComplete === true));
+        const isCreator = user.id === lp.data.author.id;
         let numContentsTotal = 0;
         let numContentsComplete = 0;
+        const completedContentIds = [];
         lp.data.concepts.forEach((concept) => {
             concept.contents.forEach((content) => {
                 numContentsTotal += 1;
-                numContentsComplete += user.contents.some((uContent) => uContent.id === content.id) ? 1 : 0;
+                if (user.contents.some((uContent) => uContent.id === content.id)) {
+                    numContentsComplete += 1;
+                    completedContentIds.push(content.id);
+                }
             });
         });
         return {
             id: lp.data.id,
             isFavorite,
             isComplete,
-            numContentsTotal, 
+            isCreator,
+            numContentsTotal,
             numContentsComplete,
+            completedContentIds,
             data: lp
         }
     });
+}
+
+export function getLearningPathForUser(lpId: string, userId: string) {
+    const learningPath = getLearningPathById(lpId);
+    const user = getUserById(userId);
+    const userLpSummaries = annotateLpsWithUserData(user.data, [learningPath]);
+    if (userLpSummaries.length !== 1) {
+        console.warn("Didn't get 1 userLearningPathSummary");
+    }
+    return userLpSummaries[0];
 }
 
 export function getLearningPathsForUser(user: any) {
@@ -72,7 +90,7 @@ export function getLearningPathsForUser(user: any) {
         }
 
     })
-    
+
     return userLpsFiltered
 }
 

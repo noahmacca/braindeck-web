@@ -2,16 +2,6 @@ import { CheckSquareFill, Check } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import LearningPathSummary from './LearningPathSummary';
 
-function hasUserCompletedContent(userContentData, content) {
-  let isUserFavorite = false;
-  for (let i = 0; i < userContentData.length; i++) {
-    if (userContentData[i].id === content.id && userContentData[i].complete) {
-      isUserFavorite = true;
-    }
-  }
-  return isUserFavorite
-}
-
 function renderContent(content, idx, isUserFavorite) {
   const [isComplete, setIsComplete] = useState(isUserFavorite);
   return (
@@ -41,13 +31,13 @@ function renderContent(content, idx, isUserFavorite) {
       <div>
         {
           !isComplete ?
-            <div className="border border-gray-700 rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setIsComplete(true)}>
+            <div className="rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-100 hover:bg-gray-200" onClick={() => setIsComplete(true)}>
               <div className="mx-auto flex">
                 <span className="text-sm">Complete</span>
                 <Check className="ml-2 text-gray-500" size={20} />
               </div>
             </div> :
-            <div className="border border-green-700 rounded p-1 mt-1 flex w-28 text-green-700 bg-green-50 hover:bg-green-100" onClick={() => setIsComplete(false)}>
+            <div className="rounded p-1 mt-1 flex w-28 text-green-700 bg-green-100 hover:bg-green-200" onClick={() => setIsComplete(false)}>
               <div className="mx-auto flex">
                 <span className="text-sm">Completed</span>
                 <CheckSquareFill className="ml-2 text-green-500" size={20} />
@@ -59,7 +49,7 @@ function renderContent(content, idx, isUserFavorite) {
   )
 }
 
-function renderConcepts(concepts, userContents) {
+function renderConcepts(concepts, completedContentIds) {
   return concepts.map((concept, iConcept) => {
     return (
       <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${concept.id}-concept`}>
@@ -67,7 +57,7 @@ function renderConcepts(concepts, userContents) {
         <div>
           {
             concept.contents.map((content, iContent) => {
-              let isUserFavorite = hasUserCompletedContent(userContents, content);
+              const isUserFavorite = completedContentIds.some(c => c === content.id)
               return (
                 <div key={`${content.id}-content`}>
                   { renderContent(content, `${iConcept + 1}.${iContent + 1}.`, isUserFavorite)}
@@ -82,22 +72,22 @@ function renderConcepts(concepts, userContents) {
 }
 
 export default function LearningPathView({
-  learningPath,
-  userData
+  userLp,
 }) {
   // TODO: factor out commonly used components
   // TODO: make stars configurable
+  console.log('LearningPathView');
+  console.log(userLp);
 
   return (
     <div>
       <div className="relative bg-white overflow-hidden">
         <div className="mx-auto p-6 max-w-4xl">
           <LearningPathSummary
-            learningPath={learningPath}
-            userData={userData}
+            userLp={userLp}
             isCompact={false}
           />
-          {renderConcepts(learningPath.concepts, userData.contents)}
+          {renderConcepts(userLp.data.data.concepts, userLp.completedContentIds)}
         </div>
       </div>
     </div>

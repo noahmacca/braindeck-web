@@ -1,22 +1,8 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
 
-function processUserLpData(userLpData, lp) {
-    let isUserFavorite = false;
-    let isUserComplete = false;
-    let userProgress = 0.0;
-    for (let i = 0; i < userLpData.length; i++) {
-        if (userLpData[i].id === parseInt(lp.id)) {
-            if (userLpData[i].favorite) isUserFavorite = true;
-            if (userLpData[i].complete) isUserComplete = true;
-            userProgress = userLpData[i].progress;
-        }
-    }
-    return [isUserFavorite, isUserComplete, userProgress]
-}
-
-const renderLpSummaryDetail = ({ learningPath, userProgress, isUserFavorite }) => {
-    const [lpHasFavorite, setLpHasFavorite] = useState(isUserFavorite);
+const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
+    const [lpHasFavorite, setLpHasFavorite] = useState(isFavorite);
 
     return (
         <div>
@@ -32,7 +18,7 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isUserFavorite }) =
                 <div className="pb-3">
                     <div className="text-sm font-medium">Created by <span className="font-light">{learningPath.author.name}</span></div>
                     <div className="text-sm font-medium">Last Updated <span className="font-light">{learningPath.updated}</span></div>
-                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Number(userProgress) * 100}%</span></div>
+                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(Number(userProgress) * 100)}%</span></div>
                 </div>
             </div>
             {
@@ -54,9 +40,10 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isUserFavorite }) =
     )
 }
 
-export default function LearningPathSummary({ learningPath, userData, isCompact }) {
-    const [isUserFavorite, isUserComplete, userProgress] = processUserLpData(userData.enrolledLps, learningPath)
-
+export default function LearningPathSummary({ userLp, isCompact }) {
+    const learningPath = userLp.data.data; // TODO fix 'data' madness
+    const isFavorite = userLp.isFavorite;
+    const userProgress = userLp.numContentsComplete / userLp.numContentsTotal;
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
@@ -90,7 +77,7 @@ export default function LearningPathSummary({ learningPath, userData, isCompact 
                 </span>
             </div>
             { !isCompact ?
-                renderLpSummaryDetail({ learningPath, userProgress, isUserFavorite }) :
+                renderLpSummaryDetail({ learningPath, userProgress, isFavorite }) :
                 <div className="text-sm pt-2 text-gray-500">{learningPath.author.name}</div>
             }
         </div>
