@@ -5,25 +5,18 @@ import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
 import { getLearningPathDataBySubject } from '../../lib/learningPaths';
 import { getUserData } from '../../lib/user';
+import { compareMaxFavorite, compareCountFavorite } from '../../lib/utils';
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
-
-function compareMaxComplete(a, b) {
-    if (a.maxComplete < b.maxComplete) {
-        return 1;
-    }
-    if (a.maxComplete > b.maxComplete) {
-        return -1;
-    }
-    return 0;
-}
-
 
 export async function getStaticProps() {
     const users = getUserData();
     const subLps = getLearningPathDataBySubject();
     const subLpsArr = Object.keys(subLps).map(key => subLps[key]); // TS prefers this way
-    subLpsArr.sort(compareMaxComplete);
+    subLpsArr.sort(compareMaxFavorite);
+    subLpsArr.forEach((subLps) => {
+        (subLps).lps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
+    })
     return {
         props: {
             subLpsArr,
@@ -62,6 +55,7 @@ export default function Explore({ subLpsArr, users }) {
                                     key={`${sLp.id}`}
                                     title={sLp.name}
                                     lps={sLp.lps}
+                                    subjectId={sLp.id}
                                     userData={users[0].data}
                                 />
                             ))

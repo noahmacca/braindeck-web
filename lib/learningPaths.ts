@@ -62,12 +62,12 @@ export function getLearningPathDataBySubject() {
         const subjectId = lp.data.subject.id;
         if (!(subjectId in s)) {
             s[subjectId] = {
-                maxComplete: 0,
+                maxFavorite: 0,
                 lps: [],
                 ...lp.data.subject
             }
         }
-        s[subjectId].maxComplete = Math.max(lp.data.countComplete, s[subjectId].maxComplete);
+        s[subjectId].maxFavorite = Math.max(lp.data.countFavorite, s[subjectId].maxFavorite);
         s[subjectId].lps.push(lp);
     });
 
