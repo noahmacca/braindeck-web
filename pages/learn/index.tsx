@@ -7,8 +7,6 @@ import LpListSection from "../../components/LpListSection";
 export async function getStaticProps() {
     const user = getUserById('user1');
     const userLpsByCat = getLearningPathsForUser(user.data);
-    console.log('hi');
-    console.log(userLpsByCat);
     return {
         props: {
             user,
