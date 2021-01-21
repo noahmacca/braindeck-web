@@ -4,29 +4,29 @@ import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import SubjectListSection from "../../components/SubjectListSection";
 import { getLearningPathDataBySubject } from '../../lib/learningPaths';
-import { getUserData } from '../../lib/user';
+import { getUserById } from '../../lib/user';
 import { compareMaxFavorite, compareCountFavorite } from '../../lib/utils';
 const NUM_TOP_SUBJECTS = 2;
 const NUM_REMAINING_SUBJECTS = 9;
 
 export async function getStaticProps() {
-    const users = getUserData();
-    const subLps = getLearningPathDataBySubject();
-    const subLpsArr = Object.keys(subLps).map(key => subLps[key]); // TS prefers this way
+    const user = getUserById('user1');
+    const subUserLps = getLearningPathDataBySubject(user.data);
+    const subLpsArr = Object.keys(subUserLps).map(key => subUserLps[key]); // TS prefers this way to splat to arr
     subLpsArr.sort(compareMaxFavorite);
     subLpsArr.forEach((subLps) => {
-        (subLps).lps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
+        subLps.uLps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
     })
     return {
         props: {
             subLpsArr,
-            users
+            user
         }
     }
 }
 
 
-export default function Explore({ subLpsArr, users }) {
+export default function Explore({ subLpsArr, user }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -54,9 +54,8 @@ export default function Explore({ subLpsArr, users }) {
                                 <LpListSection
                                     key={`${sLp.id}`}
                                     title={sLp.name}
-                                    lps={sLp.lps}
+                                    userLps={sLp.uLps}
                                     subjectId={sLp.id}
-                                    userData={users[0].data}
                                 />
                             ))
                         }

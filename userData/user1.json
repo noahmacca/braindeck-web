@@ -1,28 +1,63 @@
 {
-    "lps": [
+    "id": "user1",
+    "firstName": "Noah",
+    "lastName": "MacCallum",
+    "created": 1123,
+    "enrolledLps": [
         {
             "id": "generativeModels",
-            "favorite": true,
-            "progress": 0.9,
-            "complete": false
+            "created": 1230,
+            "updated": 1234,
+            "isComplete": false,
+            "isFavorite": true
+        },
+        {
+            "id": "mRNAIntro",
+            "created": 1230,
+            "updated": 1234,
+            "isComplete": false,
+            "isFavorite": true
+        },
+        {
+            "id": "appleM1Chips",
+            "created": 1230,
+            "updated": 1234,
+            "isComplete": true,
+            "isFavorite": false
         }
     ],
     "contents": [
         {
             "id": "1.1.1",
-            "complete": true
+            "completed": 12345
         },
         {
             "id": "1.2.1",
-            "complete": true
+            "completed": 12345
         },
         {
             "id": "1.5.2",
-            "complete": true
+            "completed": 12345
         },
         {
             "id": "1.6.2",
-            "complete": true
+            "completed": 12345
+        },
+        {
+            "id": "4.1.1",
+            "completed": 12345
+        },
+        {
+            "id": "4.2.1",
+            "completed": 12345
+        },
+        {
+            "id": "4.2.2",
+            "completed": 12345
+        },
+        {
+            "id": "4.3.1",
+            "completed": 12345
         }
     ]
 }
