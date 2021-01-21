@@ -11,11 +11,11 @@ const NUM_REMAINING_SUBJECTS = 9;
 
 export async function getStaticProps() {
     const user = getUserById('user1');
-    const subLps = getLearningPathDataBySubject();
-    const subLpsArr = Object.keys(subLps).map(key => subLps[key]); // TS prefers this way
+    const subUserLps = getLearningPathDataBySubject(user.data);
+    const subLpsArr = Object.keys(subUserLps).map(key => subUserLps[key]); // TS prefers this way to splat to arr
     subLpsArr.sort(compareMaxFavorite);
     subLpsArr.forEach((subLps) => {
-        (subLps).lps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
+        subLps.uLps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
     })
     return {
         props: {
@@ -54,9 +54,8 @@ export default function Explore({ subLpsArr, user }) {
                                 <LpListSection
                                     key={`${sLp.id}`}
                                     title={sLp.name}
-                                    lps={sLp.lps}
+                                    userLps={sLp.uLps}
                                     subjectId={sLp.id}
-                                    userData={user.data}
                                 />
                             ))
                         }

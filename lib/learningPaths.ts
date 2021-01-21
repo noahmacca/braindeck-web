@@ -50,7 +50,7 @@ export function getLearningPathForUser(lpId: string, userId: string) {
 
 export function getLearningPathsForUser(user: any) {
     const allLps = getLearningPathData();
-    const userLpSummaries = allLps.map((lp) => annotateLpWithUserData(user, lp));
+    const userLps = allLps.map((lp) => annotateLpWithUserData(user, lp));
 
     const userLpsFiltered = {
         lpCompleted: [],
@@ -58,7 +58,7 @@ export function getLearningPathsForUser(user: any) {
         lpFavoriteInProgress: [],
         lpFavoriteNotStarted: []
     }
-    userLpSummaries.forEach((userLpSummary) => {
+    userLps.forEach((userLpSummary) => {
         if (userLpSummary.isComplete === true) {
             if (userLpSummary.numContentsComplete === userLpSummary.numContentsTotal) {
                 // Normal completed case
@@ -129,20 +129,22 @@ export function getLearningPathData() {
     return allLpData
 }
 
-export function getLearningPathDataBySubject() {
-    const lps = getLearningPathData()
+export function getLearningPathDataBySubject(user: any) {
+    const allLps = getLearningPathData();
+    const userLps = allLps.map((lp) => annotateLpWithUserData(user, lp));
+
     const s = {};
-    lps.forEach((lp) => {
-        const subjectId = lp.data.subject.id;
+    userLps.forEach((uLp) => {
+        const subjectId = uLp.data.data.subject.id;
         if (!(subjectId in s)) {
             s[subjectId] = {
                 maxFavorite: 0,
-                lps: [],
-                ...lp.data.subject
+                uLps: [],
+                ...uLp.data.data.subject
             }
         }
-        s[subjectId].maxFavorite = Math.max(lp.data.countFavorite, s[subjectId].maxFavorite);
-        s[subjectId].lps.push(lp);
+        s[subjectId].maxFavorite = Math.max(uLp.data.data.countFavorite, s[subjectId].maxFavorite);
+        s[subjectId].uLps.push(uLp);
     });
 
     return s
