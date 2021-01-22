@@ -28,7 +28,7 @@ export async function getStaticProps() {
 }
 
 
-export default function Explore({ subLpsArr, user }) {
+export default function Explore({ subLpsArr }) {
     // Page layout
     // Search (eventually)
     // Filters (by length, difficulty, modality)
@@ -51,7 +51,6 @@ export default function Explore({ subLpsArr, user }) {
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
                         <h1>Top</h1>
-
                         {
                             topSubjectLps.map((sLp) => (
                                 <div key={`${sLp.id}`} className="my-2 md:my-6 md:mx-4">

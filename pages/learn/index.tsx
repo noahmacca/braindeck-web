@@ -15,15 +15,9 @@ export async function getStaticProps() {
     }
 }
 
-export default function Learn({ userLpsByCat, user }) {
+export default function Learn({ userLpsByCat }) {
     // Page layout
     // Show all of the user's learning paths, favorited + not started, favorited + in progress, complete
-    // {
-    //     lpCompleted: [],
-    //     lpCompletedButNewContent: [],
-    //     lpFavoriteInProgress: [],
-    //     lpFavoriteNotStarted: []
-    // }
 
     return (
         <div>
