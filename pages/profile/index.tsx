@@ -23,16 +23,16 @@ export default function Profile({ user }) {
                         <div className="mt-3 text-3xl font-semibold">{user.data.firstName} {user.data.lastName}</div>
                         <div className="mt-3 text-l font-semibold">Info</div>
                         <div className="mx-3 mb-3">
-                            <div>Joined on 01/10/2020</div>
+                            <div className='font-light'>Joined on 01/10/2020</div>
                         </div>
                         <div className="mt-3 text-l font-semibold">Learning Paths</div>
                         <div className="mx-3 mb-3">
-                            <div>Favorited: {user.data.enrolledLps.filter(i => i.isFavorite === true).length}</div>
-                            <div>Completed: {user.data.enrolledLps.filter(i => i.isComplete === true).length}</div>
+                            <div className='font-light'>Favorited: {user.data.enrolledLps.filter(i => i.isFavorite === true).length}</div>
+                            <div className='font-light'>Completed: {user.data.enrolledLps.filter(i => i.isComplete === true).length}</div>
                         </div>
                         <div className="mt-3 text-l font-semibold">Learning Resources</div>
                         <div className="mx-3 mb-3">
-                            <div className="mb-3">Completed: {user.data.contents.length}</div>
+                            <div className="mb-3 font-light">Completed: {user.data.contents.length}</div>
                         </div>
                     </div>
                 </div>
