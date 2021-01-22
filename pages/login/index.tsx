@@ -7,7 +7,7 @@ export default function Login() {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        alert('TODO');
+        alert('Coming Soon!');
         // api.login(email, password);
     }
 
@@ -17,12 +17,12 @@ export default function Login() {
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
-                        <div className="my-5 text-3xl font-semibold">Log In</div>
+                        <div className="my-5 text-3xl font-semibold">BrainDeck Login</div>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="email">Email</label>
                                 <input
-                                    className="ml-2 rounded py-1 px-2 align-middle"
+                                    className="ml-2 rounded py-1 px-2 align-middle bg-gray-100"
                                     type="email"
                                     id="email"
                                     value={email}
@@ -32,7 +32,7 @@ export default function Login() {
                             <div className="mb-3">
                                 <label htmlFor="password">Password</label>
                                 <input
-                                    className="ml-2 rounded py-1 px-2 align-middle"
+                                    className="ml-2 rounded py-1 px-2 align-middle bg-gray-100"
                                     type="password"
                                     id="password"
                                     value={password}
@@ -41,7 +41,7 @@ export default function Login() {
                             </div>
                             <div>
                                 <input
-                                    className="py-2 px-4 rounded-md"
+                                    className="py-2 px-6 rounded-md bg-blue-600 text-gray-50"
                                     type="submit"
                                     id="submit"
                                     value="Login"
