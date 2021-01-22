@@ -24,7 +24,7 @@ export default function Create({ userCreatedLps }) {
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-4 md:mb-6">
-                        <h1>Your Created Learning Paths</h1>
+                        <h1 className="mb-3">Your Created Learning Paths</h1>
                         <LpListSection userLps={userCreatedLps} />
                     </div>
                 </div>
