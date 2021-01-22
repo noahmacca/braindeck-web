@@ -38,7 +38,7 @@ export default function ExploreSubjectLearningPaths({ uLps, subject }) {
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-6 md:mb-10">
-                        <h1>Explore</h1>
+                        <h1 className="mb-3">{subject.name}</h1>
                         <LpListSection userLps={uLps} />
                     </div>
                 </div>

@@ -48,6 +48,15 @@ export function getLearningPathForUser(lpId: string, userId: string) {
     return userLpSummary;
 }
 
+export function getCreatedLearningPathsForUser(user: any) {
+    const allLps = getLearningPathData();
+    const userCreatedLps = allLps
+        .map((lp) => annotateLpWithUserData(user, lp))
+        .filter((uLp) => uLp.data.data.author.id === user.id);
+
+    return userCreatedLps
+}
+
 export function getLearningPathsForUser(user: any) {
     const allLps = getLearningPathData();
     const userLps = allLps.map((lp) => annotateLpWithUserData(user, lp));
@@ -80,8 +89,7 @@ export function getLearningPathsForUser(user: any) {
             // In progress
             return userLpsFiltered.lpFavoriteInProgress.push(userLpSummary);
         }
-
-    })
+    });
 
     return userLpsFiltered
 }
