@@ -78,7 +78,7 @@ export default function LearningPathSummary({ userLp, isCompact }) {
             </div>
             { !isCompact ?
                 renderLpSummaryDetail({ learningPath, userProgress, isFavorite }) :
-                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name}</div>
+                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {userLp.isCreator === true ? '(You)' : undefined}</div>
             }
         </div>
     )

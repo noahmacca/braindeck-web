@@ -89,8 +89,7 @@ export function getLearningPathsForUser(user: any) {
             // In progress
             return userLpsFiltered.lpFavoriteInProgress.push(userLpSummary);
         }
-
-    })
+    });
 
     return userLpsFiltered
 }
