@@ -43,7 +43,7 @@ export default function NavBar() {
                         {NavTab('create', router.pathname)}
                         {NavTab('profile', router.pathname)}
                         <Link href="/login">
-                            <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Log in</a>
+                            <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Login</a>
                         </Link>
                     </div>
                 </nav>
@@ -85,7 +85,7 @@ export default function NavBar() {
                             </div>
                             <div role="none">
                                 <a href="#" className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100" role="menuitem">
-                                    Log in
+                                    Login
                                     </a>
                             </div>
                         </div>
