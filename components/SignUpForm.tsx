@@ -1,14 +1,27 @@
 import { useForm } from 'react-hook-form';
-import { auth } from '../config/firebase';
+import { auth, db } from '../config/firebase';
 
 const signUp = ({ name, email, password }) => {
     return auth
         .createUserWithEmailAndPassword(email, password)
         .then((response) => {
-            console.log(response)
+            return createUser({ uid: response.user.uid, email, name });
         })
         .catch((error) => {
             return { error };
+        });
+};
+
+const createUser = (user) => {
+    return db
+        .collection('users')
+        .doc(user.uid)
+        .set(user)
+        .then(() => {
+            console.log("Success")
+        })
+        .catch((error) => {
+            console.log(error)
         });
 };
 
