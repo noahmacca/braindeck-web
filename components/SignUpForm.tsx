@@ -1,4 +1,16 @@
 import { useForm } from 'react-hook-form';
+import { auth } from '../config/firebase';
+
+const signUp = ({ name, email, password }) => {
+    return auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) => {
+            return { error };
+        });
+};
 
 interface SignUpData {
     name: string;
@@ -9,8 +21,12 @@ interface SignUpData {
 const SignUpForm: React.FC = () => {
     const { register, errors, handleSubmit } = useForm();
     const onSubmit = (data: SignUpData) => {
-        console.log(data);
+        return signUp(data)
+            .then((user) => {
+                console.log(user);
+            });
     };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="rounded-md shadow-sm">
@@ -26,12 +42,12 @@ const SignUpForm: React.FC = () => {
                     type="text"
                     name="name"
                     ref={register({
-                        required: 'Please enter an name',
+                        required: 'Please enter a name',
                     })}
                 />
-                {errors.password && (
+                {errors.name && (
                     <div className="mt-2 text-xs text-red-600">
-                        {errors.password.message}
+                        {errors.name.message}
                     </div>
                 )}
             </div>
