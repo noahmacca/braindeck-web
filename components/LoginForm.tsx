@@ -99,7 +99,7 @@ const LoginForm: React.FC = () => {
             </div>
             <div className="mt-4">
                 <span className="block w-full rounded-md shadow-sm">
-                    <Button title="Login" type="submit" isLoading={isLoading} />
+                    <Button title="Log In" type="submit" isLoading={isLoading} />
                 </span>
             </div>
             {error?.message && (
