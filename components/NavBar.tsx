@@ -39,19 +39,22 @@ export default function NavBar() {
                             </Link>
                         </div>
                     </div>
-                    <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                        {NavTab('explore', router.pathname)}
-                        {NavTab('my courses', router.pathname)}
-                        {NavTab('create', router.pathname)}
-                        {auth.user && <span>{NavTab('profile', router.pathname)}</span>}
-                        {
-                            !auth.user ?
-                            <Link href="/login">
-                                <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Login</a>
-                            </Link> :
-                            <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600 cursor-pointer">Logout</span>
-                        }
-                    </div>
+                    {
+                        !auth.user ?
+                            <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                                {NavTab('explore', router.pathname)}
+                                <Link href="/login">
+                                    <a className="px-3 py-2 rounded-md font-medium hover:text-indigo-400 text-indigo-600">Login</a>
+                                </Link>
+                            </div> :
+                            <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                                {NavTab('explore', router.pathname)}
+                                {NavTab('my courses', router.pathname)}
+                                {NavTab('create', router.pathname)}
+                                {NavTab('profile', router.pathname)}
+                                <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium hover:text-indigo-400 text-indigo-600 cursor-pointer">Logout</span>
+                            </div>
+                    }
                 </nav>
             </div>
             <div className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-10">
