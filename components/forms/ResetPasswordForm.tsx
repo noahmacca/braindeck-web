@@ -33,7 +33,7 @@ const ResetPasswordForm: React.FC = () => {
                         })}
                     />
                     {errors.email && (
-                        <div className="mt-2 text-xs text-red-600">
+                        <div className="my-2 text-xs text-red-600">
                             {errors.email.message}
                         </div>
                     )}

@@ -77,7 +77,7 @@ const useAuthProvider = () => {
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
                 setUser(response.user);
-                getUserAdditionalData(user);
+                getUserAdditionalData(response.user);
                 return response.user;
             })
             .catch((error) => {
