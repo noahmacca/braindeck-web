@@ -13,8 +13,7 @@ import { useEffect, useState } from "react";
 export async function getStaticProps() {
     const user = getUserById('user1');
     const userCreatedLps = getCreatedLearningPathsForUser(user.data);
-    const testLp = getLearningPathByIdTest('appleTest1');
-    console.log(testLp);
+    const testLp = getLearningPathByIdTest('deepLearningOverviewTest');
     return {
         props: {
             userCreatedLps,
@@ -26,7 +25,7 @@ export async function getStaticProps() {
 export default function Create({ userCreatedLps, testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
-    useRequireAuth();
+    // useRequireAuth();
 
     const [learningPaths, setLearningPaths] = useState(null)
     useEffect(() => {
@@ -54,7 +53,7 @@ export default function Create({ userCreatedLps, testLp }) {
                         <div>All Lps:</div>
                         {
                             learningPaths && learningPaths.map((lp) => (
-                                <div key={`${lp.id}`}>{lp.id}</div>
+                                <div key={`${lp.id}`}>{lp.title}</div>
                             ))
                         }
                         <div className="container mb-4 md:mb-6">

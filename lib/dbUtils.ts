@@ -38,8 +38,8 @@ interface LearningConcept {
 
 interface LearningPath {
     id?: string,
-    created: number,
-    updated: number,
+    created?: number,
+    updated?: number,
     title: string,
     subject: string,
     authorId: string,
@@ -56,6 +56,9 @@ interface LearningPath {
 
 ////////// Learning Paths //////////
 export const createLearningPath = (lp: LearningPath) => {
+    lp.created = Date.now();
+    lp.updated = Date.now();
+    
     return db.collection('learningPaths')
         .add(lp)
         .then((docRef) => {
