@@ -57,7 +57,7 @@ const useAuthProvider = () => {
                     uid: response.user.uid,
                     email,
                     name,
-                    created: new Date(),
+                    created: Date.now(),
                 });
             })
             .catch((error) => {
