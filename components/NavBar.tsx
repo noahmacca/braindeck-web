@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
 const NavTab = (name, pathname) => (
-    <Link href={`/${name.split(' ').join('_')}`}>
+    <Link href={`/${name.split(' ').join('-')}`}>
         {pathname.includes(`/${name}`) ?
             <span className="font-medium text-gray-700 cursor-pointer capitalize">{capitalizeFirst(name)}</span> :
             <span className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer capitalize">{capitalizeFirst(name)}</span>
