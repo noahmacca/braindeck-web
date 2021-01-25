@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { useAuth } from '../hooks/useAuth';
 
 interface LoginData {
     email: string;
@@ -6,10 +8,14 @@ interface LoginData {
 }
 
 const LoginForm: React.FC = () => {
+    const router = useRouter();
+    const auth = useAuth();
     const { register, errors, handleSubmit } = useForm();
-    
+
     const onSubmit = (data: LoginData) => {
-        console.log(data);
+        return auth.signIn(data).then(() => {
+            router.push('/my_courses');
+        });
     };
 
     return (

@@ -25,9 +25,8 @@ const MobileNavTab = (name, pathname) => (
 
 export default function NavBar() {
     const router = useRouter();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const auth = useAuth();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
         <div>
@@ -46,13 +45,17 @@ export default function NavBar() {
                         {NavTab('create', router.pathname)}
                         {NavTab('profile', router.pathname)}
                         {
-                            auth.user ?
-                            <Link href="/login">
-                                <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Logout</a>
-                            </Link> :
+                            !auth.user ?
                             <Link href="/login">
                                 <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Login</a>
-                            </Link>
+                            </Link> :
+                            <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600 cursor-pointer">Logout</span>
+                        }
+                        {
+                            auth.user && <span>{auth.user.name}</span>
+                        }
+                        {
+                            auth.user && <span>{auth.user.email}</span>
                         }
                     </div>
                 </nav>
