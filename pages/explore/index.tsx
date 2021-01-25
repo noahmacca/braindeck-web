@@ -21,9 +21,6 @@ export async function getStaticProps() {
         subLps.uLps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
     })
 
-    const auth = useAuth();
-    if (!auth.user) return null;
-
     return {
         props: {
             subLpsArr,
