@@ -21,8 +21,10 @@ interface User {
 
 interface LearningResource {
     id?: string,
+    created?: number,
+    updated?: number,
     title: string,
-    author: string,
+    authorId: string,
     url: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
@@ -58,7 +60,7 @@ interface LearningPath {
 export const createLearningPath = (lp: LearningPath) => {
     lp.created = Date.now();
     lp.updated = Date.now();
-    
+
     return db.collection('learningPaths')
         .add(lp)
         .then((docRef) => {
@@ -157,7 +159,19 @@ export const getUserCreatedLearningPaths = (userId: string) => {
 }
 
 ////////// Learning Resources //////////
-export const createLearningResource = (lr: LearningResource) => {
+export const createLearningResource = (lr: LearningResource): any => {
+    lr.created = Date.now();
+    lr.updated = Date.now();
+
+    return db.collection('learningResources')
+        .add(lr)
+        .then((docRef) => {
+            return docRef
+        })
+        .catch((err) => {
+            console.error('Error adding document: ', err);
+            return { err };
+        });
     return
 }
 
@@ -181,5 +195,6 @@ export default {
     getTopCreatedLearningPaths,
     getUserLearningPaths,
     getAllLearningPaths,
-    getUserCreatedLearningPaths
+    getUserCreatedLearningPaths,
+    createLearningResource
 }
