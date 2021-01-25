@@ -1,4 +1,5 @@
 import { db } from '../config/firebase';
+import firebase from 'firebase/app';
 
 interface User {
     uid: string,
@@ -159,20 +160,31 @@ export const getUserCreatedLearningPaths = (userId: string) => {
 }
 
 ////////// Learning Resources //////////
-export const createLearningResource = (lr: LearningResource): any => {
+export const createLearningResource = (lr: LearningResource, lpId: string, conceptIdx: number): any => {
     lr.created = Date.now();
     lr.updated = Date.now();
 
     return db.collection('learningResources')
         .add(lr)
         .then((docRef) => {
-            return docRef
+            console.log('Created new learningResource with ID', docRef.id);
+            addLearningResourceToLearningPath(docRef.id, lpId, conceptIdx)
+                .then((res) => {
+                    console.log('Updated Learning Path with Ref to this resource', res);
+                    return res
+                })
         })
         .catch((err) => {
             console.error('Error adding document: ', err);
             return { err };
         });
-    return
+}
+
+export const addLearningResourceToLearningPath = (lrId: string, lpId: string, conceptIdx: number) => {
+    const k = `learningConcepts.${conceptIdx}.learningResourceIds`;
+    return updateLearningPath(lpId, {
+        [k]: firebase.firestore.FieldValue.arrayUnion(lrId)
+    })
 }
 
 export const readLearningResource = (id: string) => {

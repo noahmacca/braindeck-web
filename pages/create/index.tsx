@@ -36,6 +36,8 @@ const testLearningResource = {
     }
 }
 
+const testLpId = 'L4WEUZsuf2MZtR7pccBf';
+
 export default function Create({ userCreatedLps, testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
@@ -57,15 +59,9 @@ export default function Create({ userCreatedLps, testLp }) {
     }
 
     const addtestLr = () => {
-        dbUtils.createLearningResource(testLearningResource.data).then((res) => {
-            console.log('done creating learning resource', res.id);
-            // Append this to the correct part of the learningPath
-            dbUtils.updateLearningPath('L4WEUZsuf2MZtR7pccBf', {
-                'learningConcepts.0.learningResourceIds': firebase.firestore.FieldValue.arrayUnion(res.id)
-            }).then((res) => {
-                console.log('done updating doc', res);
-            })
-        })
+        dbUtils.createLearningResource(testLearningResource.data, testLpId, 0).then((res) => {
+            console.log('done creating learning resource and adding to learning path', res);
+        });
     }
 
     return (
