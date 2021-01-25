@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth'
+import Button from './Button';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface LoginData {
     email: string;
@@ -12,15 +14,25 @@ const LoginForm: React.FC = () => {
     const router = useRouter();
     const auth = useAuth();
     const { register, errors, handleSubmit } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const onSubmit = (data: LoginData) => {
-        return auth.signIn(data).then(() => {
-            router.push('/my-courses');
+        setIsLoading(true);
+        setError(null);
+        return auth.signIn(data).then((response) => {
+            setIsLoading(false);
+            response.error ? setError(response.error) : router.push('/my-courses');
         });
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {error?.message && (
+                <div className="mb-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
+                    <span>{error.message}</span>
+                </div>
+            )}
             <div className="rounded-md">
                 <label
                     htmlFor="email"
@@ -92,12 +104,7 @@ const LoginForm: React.FC = () => {
             </div>
             <div className="mt-4">
                 <span className="block w-full rounded-md shadow-sm">
-                    <button
-                        type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-                    >
-                        Log in
-                    </button>
+                <Button title="Login" type="submit" isLoading={isLoading} />
                 </span>
             </div>
         </form>
