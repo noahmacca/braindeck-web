@@ -27,7 +27,10 @@ export default function Profile() {
                         <div className="mt-3 text-l font-semibold">Info</div>
                         <div className="mx-3 mb-3">
                             <div className='font-light'>{auth.user?.email}</div>
-                            <div className='font-light'>Joined on {auth.user?.created?.toDate().toLocaleDateString("en-US")}</div>
+                            {auth.user?.created &&
+                                <div className='font-light'>Joined on {new Date(auth.user.created).toLocaleDateString('en-US')}
+                                </div>
+                            }
                         </div>
                         <div className="mt-3 text-l font-semibold">Learning Paths</div>
                         <div className="mx-3 mb-3">
