@@ -1,13 +1,27 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
+import Button from '../Button';
+
 const ResetPasswordForm: React.FC = () => {
     const { register, errors, handleSubmit } = useForm();
     const auth = useAuth();
     const router = useRouter();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [isSent, setIsSent] = useState(false);
+
     const onSubmit = (data: { email: string }) => {
-        auth.sendPasswordResetEmail(data.email);
-        router.push('/login');
+        setIsLoading(true);
+        setError(null);
+        auth.sendPasswordResetEmail(data.email).then(() => {
+            setIsSent(true);
+            setIsLoading(false);
+        }).catch((err) => {
+            setError(err)
+        })
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -41,14 +55,19 @@ const ResetPasswordForm: React.FC = () => {
             </div>
             <div className="mt-4">
                 <span className="block w-full rounded-md shadow-sm">
-                    <button
-                        type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-                    >
-                        Send reset link
-                    </button>
+                    <Button title="Reset" type="submit" isLoading={isLoading} />
                 </span>
             </div>
+            {error?.message && (
+                <div className="my-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
+                    <span>{error.message}</span>
+                </div>
+            )}
+            {isSent && (
+                <div className="my-4 text-center border-dashed border p-2 rounded">
+                    <span>Sent! Please check your email.</span>
+                </div>
+            )}
         </form>
     );
 };

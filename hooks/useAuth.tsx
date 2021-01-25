@@ -114,7 +114,11 @@ const useAuthProvider = () => {
 
     const sendPasswordResetEmail = (email) => {
         return auth.sendPasswordResetEmail(email).then((response) => {
+            console.log('sendPasswordResetEmail', response);
             return response;
+        })
+        .catch((error) => {
+            return { error };
         });
     };
 
