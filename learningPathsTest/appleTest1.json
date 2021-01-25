@@ -1,0 +1,30 @@
+{
+    "title": "How do Apple's M1 Chips Work?",
+    "subject": "Computer Hardware",
+    "authorId": "EMcfafbXDbe2GqiSB0dStBMrgOh2",
+    "learningGoal": "Understand the difference between Intel, Arm, and why Apple's chips are so fast.",
+    "background": "None required",
+    "difficulty": "EASY",
+    "estDurationBucket": "Fast (<1 hr)",
+    "countFavorite": 0,
+    "countComplete": 0,
+    "numReviews": 0,
+    "avgRating": 0,
+    "learningconcepts": [
+        {
+            "title": "Instruction Sets: x86 vs. ARM",
+            "description": "This is foundational, and a necessary pre-req",
+            "learningResourceIds": []
+        },
+        {
+            "title": "Key differences of the Apple M1 processor",
+            "description": "Apple has their own flavor of ARM.",
+            "learningResourceIds": []
+        },
+        {
+            "title": "Implications for Apple",
+            "description": "This could herald a new, golden age for Apple.",
+            "learningResourceIds": []
+        }
+    ]
+}
