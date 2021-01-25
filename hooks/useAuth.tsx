@@ -31,17 +31,28 @@ export const useRequireAuth = () => {
     return auth;
 };
 
+export const initializeUserDoc = (user) => {
+    return {
+        ...user,
+        created: Date.now(),
+        learningPaths: [],
+        learningResources: []
+    }
+}
+
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
     const [user, setUser] = useState(null);
     const createUser = (user) => {
+        const userInitDoc = initializeUserDoc(user)
+
         return db
             .collection('users')
-            .doc(user.uid)
-            .set(user)
+            .doc(userInitDoc.uid)
+            .set(userInitDoc)
             .then(() => {
-                setUser(user);
-                return user;
+                setUser(userInitDoc);
+                return userInitDoc;
             })
             .catch((error) => {
                 return { error };
@@ -57,7 +68,6 @@ const useAuthProvider = () => {
                     uid: response.user.uid,
                     email,
                     name,
-                    created: Date.now(),
                 });
             })
             .catch((error) => {
