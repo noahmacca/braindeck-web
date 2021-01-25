@@ -33,7 +33,9 @@ export const useRequireAuth = () => {
 
 export const initializeUserDoc = (user) => {
     return {
-        ...user,
+        uid: user.uid,
+        email: user.email,
+        name: user.name,
         created: Date.now(),
         learningPaths: [],
         learningResources: []
