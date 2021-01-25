@@ -19,6 +19,7 @@ const ResetPasswordForm: React.FC = () => {
         auth.sendPasswordResetEmail(data.email).then(() => {
             setIsSent(true);
             setIsLoading(false);
+            setTimeout(() => router.push('/login'), 5000);
         }).catch((err) => {
             setError(err)
         })

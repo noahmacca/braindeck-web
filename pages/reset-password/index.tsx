@@ -10,7 +10,7 @@ const ResetPasswordPage: React.FC = () => {
                         Reset password
                     </h2>
                     <p className="mt-2 text-center text-md text-gray-600">
-                        {"Back to "}
+                        {"Remembered? Back to "}
                         <Link href="/login">
                             <a href="#" className="text-blue-500">
                                 Login
