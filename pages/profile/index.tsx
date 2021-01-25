@@ -22,12 +22,12 @@ export default function Profile() {
             <NavBar />
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
-                    <div className="container mb-6 md:mb-10">
+                    <div className="container mb-6 md:mb-10 text-gray-700">
                         <div className="mt-3 text-2xl font-semibold">Welcome back, {auth.user?.name}!</div>
                         <div className="mt-3 text-l font-semibold">Info</div>
                         <div className="mx-3 mb-3">
                             <div className='font-light'>{auth.user?.email}</div>
-                            <div className='font-light'>Joined on {auth.user?.created}</div>
+                            <div className='font-light'>Joined on {auth.user?.created?.toDate().toLocaleDateString("en-US")}</div>
                         </div>
                         <div className="mt-3 text-l font-semibold">Learning Paths</div>
                         <div className="mx-3 mb-3">

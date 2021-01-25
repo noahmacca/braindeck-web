@@ -53,7 +53,12 @@ const useAuthProvider = () => {
             .createUserWithEmailAndPassword(email, password)
             .then((response) => {
                 auth.currentUser.sendEmailVerification();
-                return createUser({ uid: response.user.uid, email, name });
+                return createUser({
+                    uid: response.user.uid,
+                    email,
+                    name,
+                    created: new Date(),
+                });
             })
             .catch((error) => {
                 return { error };
@@ -117,9 +122,9 @@ const useAuthProvider = () => {
             console.log('sendPasswordResetEmail', response);
             return response;
         })
-        .catch((error) => {
-            return { error };
-        });
+            .catch((error) => {
+                return { error };
+            });
     };
 
     return {
