@@ -3,6 +3,7 @@ import PageHead from "../../components/PageHead";
 import { getCreatedLearningPathsForUser } from '../../lib/learningPaths';
 import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
+import { useRequireAuth } from '../../hooks/useAuth';
 
 export async function getStaticProps() {
     const user = getUserById('user1');
@@ -17,6 +18,8 @@ export async function getStaticProps() {
 export default function Create({ userCreatedLps }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
+    useRequireAuth();
+
     return (
         <div>
             <PageHead title="BrainDeck Create" />

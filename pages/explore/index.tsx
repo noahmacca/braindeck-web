@@ -1,3 +1,4 @@
+import { useAuth } from '../../hooks/useAuth';
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
@@ -19,6 +20,7 @@ export async function getStaticProps() {
     subLpsArr.forEach((subLps) => {
         subLps.uLps.sort(compareCountFavorite).slice(0, 5); // take the top 5 favorited in each section
     })
+
     return {
         props: {
             subLpsArr,

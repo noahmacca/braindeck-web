@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { capitalizeFirst } from '../lib/utils';
 import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
 const NavTab = (name, pathname) => (
-    <Link href={`/${name}`}>
+    <Link href={`/${name.split(' ').join('-')}`}>
         {pathname.includes(`/${name}`) ?
-            <span className="font-medium text-gray-700 cursor-pointer">{capitalizeFirst(name)}</span> :
-            <span className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer">{capitalizeFirst(name)}</span>
+            <span className="font-medium text-gray-700 cursor-pointer capitalize">{capitalizeFirst(name)}</span> :
+            <span className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer capitalize">{capitalizeFirst(name)}</span>
         }
     </Link>
 )
@@ -15,8 +16,8 @@ const NavTab = (name, pathname) => (
 const MobileNavTab = (name, pathname) => (
     <Link href={`/${name}`}>
         {pathname.includes(`/${name}`) ?
-            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-gray-50" role="menuitem">{capitalizeFirst(name)}</a> :
-            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">{capitalizeFirst(name)}</a>
+            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 bg-gray-50 capitalize" role="menuitem">{capitalizeFirst(name)}</a> :
+            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 capitalize" role="menuitem">{capitalizeFirst(name)}</a>
         }
     </Link>
 )
@@ -24,6 +25,7 @@ const MobileNavTab = (name, pathname) => (
 
 export default function NavBar() {
     const router = useRouter();
+    const auth = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -37,15 +39,22 @@ export default function NavBar() {
                             </Link>
                         </div>
                     </div>
-                    <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                        {NavTab('learn', router.pathname)}
-                        {NavTab('explore', router.pathname)}
-                        {NavTab('create', router.pathname)}
-                        {NavTab('profile', router.pathname)}
-                        <Link href="/login">
-                            <a className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600">Log in</a>
-                        </Link>
-                    </div>
+                    {
+                        !auth.user ?
+                            <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                                {NavTab('explore', router.pathname)}
+                                <Link href="/login">
+                                    <a className="px-3 py-2 rounded-md font-medium hover:text-indigo-400 text-indigo-600">Login</a>
+                                </Link>
+                            </div> :
+                            <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                                {NavTab('explore', router.pathname)}
+                                {NavTab('my courses', router.pathname)}
+                                {NavTab('create', router.pathname)}
+                                {NavTab('profile', router.pathname)}
+                                <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium hover:text-indigo-400 text-indigo-600 cursor-pointer">Logout</span>
+                            </div>
+                    }
                 </nav>
             </div>
             <div className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-10">
@@ -77,17 +86,22 @@ export default function NavBar() {
                     {
                         isMenuOpen &&
                         <div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
-                            <div className="px-2 pt-2 pb-3 space-y-1" role="none">
-                                {MobileNavTab('learn', router.pathname)}
-                                {MobileNavTab('explore', router.pathname)}
-                                {MobileNavTab('create', router.pathname)}
-                                {MobileNavTab('profile', router.pathname)}
-                            </div>
-                            <div role="none">
-                                <a href="#" className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100" role="menuitem">
-                                    Log in
-                                    </a>
-                            </div>
+                            {
+                                !auth.user ?
+                                    <div className="px-2 pt-2 pb-3 space-y-1">
+                                        {MobileNavTab('explore', router.pathname)}
+                                        <Link href="/login">
+                                            <a className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">Login</a>
+                                        </Link>
+                                    </div> :
+                                    <div className="px-2 pt-2 pb-3 space-y-1">
+                                        {MobileNavTab('explore', router.pathname)}
+                                        {MobileNavTab('my courses', router.pathname)}
+                                        {MobileNavTab('create', router.pathname)}
+                                        {MobileNavTab('profile', router.pathname)}
+                                        <span onClick={() => auth.signOut()} className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">Logout</span>
+                                    </div>
+                            }
                         </div>
                     }
                 </div>
