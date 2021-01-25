@@ -1,7 +1,8 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import { getUserById } from '../../lib/user';
-import Link from 'next/link';
+import { useRequireAuth } from '../../hooks/useAuth';
+
 
 export async function getStaticProps() {
     const user = getUserById('user1');
@@ -13,6 +14,8 @@ export async function getStaticProps() {
 }
 
 export default function Profile({ user }) {
+    useRequireAuth();
+    
     return (
         <div>
             <PageHead title="BrainDeck Home"/>

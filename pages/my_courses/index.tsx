@@ -3,6 +3,7 @@ import PageHead from "../../components/PageHead";
 import { getLearningPathsForUser } from '../../lib/learningPaths';
 import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
+import { useRequireAuth } from '../../hooks/useAuth';
 
 export async function getStaticProps() {
     const user = getUserById('user1');
@@ -15,9 +16,11 @@ export async function getStaticProps() {
     }
 }
 
-export default function Learn({ userLpsByCat }) {
+export default function MyCourses({ userLpsByCat }) {
     // Page layout
     // Show all of the user's learning paths, favorited + not started, favorited + in progress, complete
+
+    useRequireAuth();
 
     return (
         <div>

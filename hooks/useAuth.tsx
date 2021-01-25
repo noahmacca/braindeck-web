@@ -5,6 +5,7 @@ import {
     createContext,
     ReactNode,
 } from 'react';
+import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
 const authContext = createContext({ user: {} });
 const { Provider } = authContext;
@@ -16,6 +17,19 @@ export function AuthProvider(props: { children: ReactNode }): JSX.Element {
 
 export const useAuth: any = () => {
     return useContext(authContext);
+};
+
+export const useRequireAuth = () => {
+    const auth = useAuth();
+    const router = useRouter();
+    useEffect(() => {
+        console.log('useRequireAuth', auth.user);
+        if (!auth.user) {
+            router.push('/login');
+        }
+    }, [auth, router]);
+
+    return auth;
 };
 
 // Provider hook that creates an auth object and handles it's state
