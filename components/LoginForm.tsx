@@ -28,11 +28,6 @@ const LoginForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {error?.message && (
-                <div className="mb-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
-                    <span>{error.message}</span>
-                </div>
-            )}
             <div className="rounded-md">
                 <label
                     htmlFor="email"
@@ -104,9 +99,14 @@ const LoginForm: React.FC = () => {
             </div>
             <div className="mt-4">
                 <span className="block w-full rounded-md shadow-sm">
-                <Button title="Login" type="submit" isLoading={isLoading} />
+                    <Button title="Login" type="submit" isLoading={isLoading} />
                 </span>
             </div>
+            {error?.message && (
+                <div className="my-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
+                    <span>{error.message}</span>
+                </div>
+            )}
         </form>
     );
 };
