@@ -1,29 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { auth, db } from '../config/firebase';
-
-const signUp = ({ name, email, password }) => {
-    return auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
-            return createUser({ uid: response.user.uid, email, name });
-        })
-        .catch((error) => {
-            return { error };
-        });
-};
-
-const createUser = (user) => {
-    return db
-        .collection('users')
-        .doc(user.uid)
-        .set(user)
-        .then(() => {
-            console.log("Success")
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-};
+import { useAuth } from '../hooks/useAuth';
+import { useRouter } from 'next/router';
 
 interface SignUpData {
     name: string;
@@ -32,12 +9,14 @@ interface SignUpData {
 }
 
 const SignUpForm: React.FC = () => {
+    const auth = useAuth();
+    const router = useRouter();
     const { register, errors, handleSubmit } = useForm();
+
     const onSubmit = (data: SignUpData) => {
-        return signUp(data)
-            .then((user) => {
-                console.log(user);
-            });
+        return auth.signUp(data).then(() => {
+            router.push('/my-courses');
+        });
     };
 
     return (
