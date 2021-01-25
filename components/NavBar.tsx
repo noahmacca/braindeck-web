@@ -51,8 +51,6 @@ export default function NavBar() {
                             </Link> :
                             <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600 cursor-pointer">Logout</span>
                         }
-                        {auth.user && <span>{auth.user.name}</span>}
-                        {auth.user && <span>{auth.user.email}</span>}
                     </div>
                 </nav>
             </div>
