@@ -86,17 +86,22 @@ export default function NavBar() {
                     {
                         isMenuOpen &&
                         <div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
-                            <div className="px-2 pt-2 pb-3 space-y-1" role="none">
-                                {MobileNavTab('explore', router.pathname)}
-                                {MobileNavTab('my courses', router.pathname)}
-                                {MobileNavTab('create', router.pathname)}
-                                {MobileNavTab('profile', router.pathname)}
-                            </div>
-                            <div role="none">
-                                <a href="#" className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100" role="menuitem">
-                                    Login
-                                    </a>
-                            </div>
+                            {
+                                !auth.user ?
+                                    <div className="px-2 pt-2 pb-3 space-y-1">
+                                        {MobileNavTab('explore', router.pathname)}
+                                        <Link href="/login">
+                                            <a className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">Login</a>
+                                        </Link>
+                                    </div> :
+                                    <div className="px-2 pt-2 pb-3 space-y-1">
+                                        {MobileNavTab('explore', router.pathname)}
+                                        {MobileNavTab('my courses', router.pathname)}
+                                        {MobileNavTab('create', router.pathname)}
+                                        {MobileNavTab('profile', router.pathname)}
+                                        <span onClick={() => auth.signOut()} className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">Logout</span>
+                                    </div>
+                            }
                         </div>
                     }
                 </div>
