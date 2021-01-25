@@ -40,10 +40,10 @@ export default function NavBar() {
                         </div>
                     </div>
                     <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                        {NavTab('my courses', router.pathname)}
                         {NavTab('explore', router.pathname)}
+                        {NavTab('my courses', router.pathname)}
                         {NavTab('create', router.pathname)}
-                        {NavTab('profile', router.pathname)}
+                        {auth.user && <span>{NavTab('profile', router.pathname)}</span>}
                         {
                             !auth.user ?
                             <Link href="/login">
@@ -51,12 +51,8 @@ export default function NavBar() {
                             </Link> :
                             <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium bg-indigo-50 hover:bg-indigo-100 text-indigo-600 cursor-pointer">Logout</span>
                         }
-                        {
-                            auth.user && <span>{auth.user.name}</span>
-                        }
-                        {
-                            auth.user && <span>{auth.user.email}</span>
-                        }
+                        {auth.user && <span>{auth.user.name}</span>}
+                        {auth.user && <span>{auth.user.email}</span>}
                     </div>
                 </nav>
             </div>
@@ -90,8 +86,8 @@ export default function NavBar() {
                         isMenuOpen &&
                         <div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
                             <div className="px-2 pt-2 pb-3 space-y-1" role="none">
-                                {MobileNavTab('my courses', router.pathname)}
                                 {MobileNavTab('explore', router.pathname)}
+                                {MobileNavTab('my courses', router.pathname)}
                                 {MobileNavTab('create', router.pathname)}
                                 {MobileNavTab('profile', router.pathname)}
                             </div>
