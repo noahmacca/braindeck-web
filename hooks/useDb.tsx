@@ -23,7 +23,6 @@ export const useDb: any = () => {
 const useDbProvider = () => {
     const [learningPaths, setLearningPaths] = useState([]);
     const auth = useAuth();
-    console.log('usDbProvider', auth);
 
     useEffect(() => {
         console.log('useDbProvider will update learningPaths states');

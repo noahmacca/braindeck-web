@@ -46,11 +46,8 @@ export default function Create({ userCreatedLps, testLp }) {
 
     const auth = useRequireAuth();
     const db = useDb();
-    console.log('Create db', db);
-    console.log('Create auth', auth);
 
     const addTestLp = () => {
-        console.log('hello');
         db.createLearningPath(testLp.data).then((res) => {
             console.log('done creating learning path', res);
         });
