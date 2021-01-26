@@ -54,17 +54,17 @@ export const initializeUserDoc = (user: NewUserInput): User => {
 
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
-    const [user, setUser] = useState(null);
+    const [user, setUser]: [User, any] = useState(null);
     const createUser = (newUser: NewUserInput) => {
-        const user = initializeUserDoc(newUser)
+        const userInit = initializeUserDoc(newUser)
 
         return db
             .collection('users')
-            .doc(user.uid)
-            .set(user)
+            .doc(userInit.uid)
+            .set(userInit)
             .then(() => {
-                setUser(user);
-                return user;
+                setUser(userInit);
+                return userInit;
             })
             .catch((error) => {
                 return { error };
@@ -84,6 +84,7 @@ const useAuthProvider = () => {
                 .doc(user.uid)
                 .onSnapshot((doc) => {
                     const user: User = doc.data() as User;
+                    console.log('updated user doc', user);
                     setUser(user);
                 })
             return () => unsubscribe();
@@ -133,6 +134,7 @@ const useAuthProvider = () => {
     };
 
     const handleAuthStateChanged = (user) => {
+        console.log('handleAuthStateChanged');
         setUser(user);
         if (user) {
             getUserAdditionalData(user);
@@ -153,11 +155,45 @@ const useAuthProvider = () => {
             });
     };
 
+    ////////// Helper Functions //////////
+    const setLpFavorite = ({lpId, uId, isFavorite}: {lpId: string, uId: string, isFavorite: boolean}) => {
+        // local should reflect remote
+        const updatedUserLearningPaths = user.learningResources;
+        let isMatch = false
+        updatedUserLearningPaths.forEach((uLp) => {
+            if (uLp.id === lpId) {
+                // update existing
+                uLp.updated = Date.now();
+                uLp.isFavorited = isFavorite;
+            }
+        });
+        if (!isMatch) {
+            // create new
+            updatedUserLearningPaths.push({
+                id: lpId,
+                created: Date.now(),
+                updated: Date.now(),
+                isFavorited: isFavorite
+            })
+        }
+
+        return db.collection('users').doc(uId).update({
+            learningPaths: updatedUserLearningPaths,
+        }).then(() => {
+            console.log('updated ', uId);
+            return true
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
+
     return {
         user,
         signUp,
         signIn,
         signOut,
-        sendPasswordResetEmail
+        sendPasswordResetEmail,
+        setLpFavorite
     };
 };

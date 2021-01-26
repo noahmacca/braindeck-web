@@ -7,14 +7,16 @@ export interface User {
     learningPaths: Array<{
         id: string,
         created: number,
-        completed?: number,
-        favorited?: number
+        updated: number
+        isCompleted?: boolean,
+        isFavorited?: boolean
     }>,
     learningResources: Array<{
         id: string,
         created: number,
-        completed?: number,
-        favorited?: number
+        updated: number,
+        isCompleted?: boolean,
+        isFavorited?: boolean
     }>,
     favoriteTopics: Array<string> // TODO make these entities
 }

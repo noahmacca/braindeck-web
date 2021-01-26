@@ -1,6 +1,7 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
+import { useAuth } from '../hooks/useAuth';
 
 const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
     {
@@ -8,7 +9,12 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
         userProgress: number,
         isFavorite: boolean
     }) => {
-    const [lpHasFavorite, setLpHasFavorite] = useState(isFavorite);
+    const auth = useAuth();
+    const setLpFavorite = (isFavorite: boolean) => auth.setLpFavorite({
+        isFavorite,
+        lpId: lp.id,
+        uId: auth.user.uid,
+    })
 
     return (
         <div>
@@ -28,14 +34,14 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
                 </div>
             </div>
             {
-                !lpHasFavorite ?
-                    <div className="border border-gray-400 rounded p-1.5 flex w-36 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setLpHasFavorite(true)}>
+                !lp.userData.isFavorite ?
+                    <div className="border border-gray-400 rounded p-1.5 flex w-36 text-gray-700 bg-gray-50 hover:bg-gray-100" onClick={() => setLpFavorite(true)}>
                         <div className="mx-auto flex">
                             <span className="text-md">Favorite</span>
                             <Heart className="ml-2 text-red-700 mt-1" size={20} />
                         </div>
                     </div> :
-                    <div className="border border-red-400 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpHasFavorite(false)}>
+                    <div className="border border-red-400 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpFavorite(false)}>
                         <div className="mx-auto flex">
                             <span className="text-md">Favorited</span>
                             <HeartFill className="ml-2 text-red-500 mt-1" size={20} />
@@ -46,7 +52,7 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
     )
 }
 
-export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean}) {
+export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const learningPath = lp.data;
     const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
     console.log('LearningPathSummary', lp);

@@ -27,12 +27,13 @@ export const useDb: any = () => {
 }
 
 const useDbProvider = () => {
-    const [learningPaths, setLearningPaths] = useState([]);
+    const [learningPaths, setLearningPaths]: [Array<LearningPathUser>, any] = useState([]);
     const auth = useAuth();
 
     useEffect(() => {
         const learningPathsNew = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, auth.user));
         setLearningPaths(learningPathsNew);
+        console.log('got auth change, updating db', learningPathsNew)
     }, [auth.user])
 
     ////////// Users //////////
@@ -75,9 +76,9 @@ const useDbProvider = () => {
             return lpu
         }
 
-        lpu.userData.isFavorite = user.learningPaths.some((uLp) => uLp.id === lp.id),
-            lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.completed)),
-            lpu.userData.isCreator = user.uid === lp.data.author.uid,
+        lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
+        lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
+        lpu.userData.isCreator = user.uid === lp.data.author.uid,
 
             lpu.data.learningConcepts.forEach((concept) => {
                 concept.learningResources.forEach((resource) => {
@@ -178,6 +179,8 @@ const useDbProvider = () => {
                 return false
             });
     }
+
+    ////////// Helper Functions //////////
 
     return {
         learningPaths,
