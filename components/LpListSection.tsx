@@ -11,7 +11,7 @@ export default function LpListSection({ lps }: { lps: Array<LearningPathUser> })
                         <div className="cursor-pointer">
                             <LearningPathSummary
                                 lp={lp}
-                                isCompact
+                                isCompact={false}
                             />
                         </div>
                     </Link>

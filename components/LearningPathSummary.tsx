@@ -2,7 +2,12 @@ import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 
-const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
+const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
+    {
+        lp: LearningPathUser,
+        userProgress: number,
+        isFavorite: boolean
+    }) => {
     const [lpHasFavorite, setLpHasFavorite] = useState(isFavorite);
 
     return (
@@ -10,16 +15,16 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
             <div className="px-2 py-3">
                 <div className="pb-3">
                     <div className="text-sm font-medium">Learning Goal</div>
-                    <div className="text-md font-light">{learningPath.learningGoal}</div>
+                    <div className="text-md font-light">{lp.data.learningGoal}</div>
                 </div>
                 <div className="pb-3">
                     <div className="text-sm font-medium">Background Knowledge</div>
-                    <div className="text-md font-light">{learningPath.background}</div>
+                    <div className="text-md font-light">{lp.data.background}</div>
                 </div>
                 <div className="pb-3">
-                    <div className="text-sm font-medium">Created by <span className="font-light">{learningPath.author.name}</span></div>
-                    <div className="text-sm font-medium">Last Updated <span className="font-light">{learningPath.updated}</span></div>
-                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(Number(userProgress) * 100)}%</span></div>
+                    <div className="text-sm font-medium">Created by <span className="font-light">{lp.data.authorId}</span></div>
+                    <div className="text-sm font-medium">Last Updated <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span></div>
+                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(userProgress * 100)}%</span></div>
                 </div>
             </div>
             {
@@ -43,7 +48,7 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean}) {
     const learningPath = lp.data;
-    // const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
+    const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
@@ -76,10 +81,10 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     {lp.data.estDurationBucket.toLowerCase()}
                 </span>
             </div>
-            {/* { !isCompact ?
-                renderLpSummaryDetail({ learningPath, userProgress, isFavorite }) :
-                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {userLp.isCreator === true ? '(You)' : undefined}</div>
-            } */}
+            { !isCompact ?
+                renderLpSummaryDetail({ lp, userProgress, isFavorite: lp.userData.isFavorite }) :
+                <div className="text-sm pt-2 text-gray-500">{learningPath.authorId} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+            }
         </div>
     )
 }
