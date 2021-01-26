@@ -53,6 +53,7 @@ const useDbProvider = () => {
 
         // for each learningResource for each learningConcept, add id, created, and updated
         initLp.learningConcepts.forEach((lc) => {
+            lc.id = v4();
             lc.learningResources.forEach((lr) => {
                 lr.created = nowMs;
                 lr.updated = nowMs;
