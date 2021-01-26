@@ -77,7 +77,7 @@ const useDbProvider = () => {
 
         lpu.userData.isFavorite = user.learningPaths.some((uLp) => uLp.id === lp.id),
             lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.completed)),
-            lpu.userData.isCreator = user.uid === lp.data.authorId,
+            lpu.userData.isCreator = user.uid === lp.data.author.uid,
 
             lpu.data.learningConcepts.forEach((concept) => {
                 concept.learningResources.forEach((resource) => {
