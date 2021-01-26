@@ -70,7 +70,7 @@ export default function Create({ userCreatedLps, testLp }) {
                         }
                         <div className="container mb-4 md:mb-6">
                             <h1 className="mb-3">Your Created Learning Paths</h1>
-                            <LpListSection userLps={userCreatedLps} />
+                            <LpListSection lps={db.learningPaths} />
                         </div>
                     </div>
                 </div>

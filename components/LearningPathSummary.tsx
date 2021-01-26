@@ -1,5 +1,6 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import { LearningPathUser } from '../hooks/types';
 
 const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
     const [lpHasFavorite, setLpHasFavorite] = useState(isFavorite);
@@ -40,26 +41,25 @@ const renderLpSummaryDetail = ({ learningPath, userProgress, isFavorite }) => {
     )
 }
 
-export default function LearningPathSummary({ userLp, isCompact }) {
-    const learningPath = userLp.data.data; // TODO fix 'data' madness
-    const isFavorite = userLp.isFavorite;
-    const userProgress = userLp.numContentsComplete / userLp.numContentsTotal;
+export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean}) {
+    const learningPath = lp.data;
+    // const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
                 isCompact ?
                     <div>
-                        <div className="text-xl pb-1 tracking-tight text-gray-700">{learningPath.title}</div>
+                        <div className="text-xl pb-1 tracking-tight text-gray-700">{lp.data.title}</div>
                     </div>
                     :
                     <div>
-                        <div className="text-sm text-gray-500">{learningPath.subject.name}</div>
+                        <div className="text-sm text-gray-500">{lp.data.subject}</div>
                         <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
                     </div>
             }
             <div className="flex flex-wrap md:x-1 text-md font-light text-gray-500">
                 <span className="flex pr-1 md:pr-3">
-                    <HeartFill className="px-1 text-red-500" size={24} />{parseInt(learningPath.countFavorite)}
+                    <HeartFill className="px-1 text-red-500" size={24} />{lp.data.countFavorite}
                 </span>
                 <span className="flex pr-1 md:pr-3">
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
@@ -67,19 +67,19 @@ export default function LearningPathSummary({ userLp, isCompact }) {
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
                     <Star className="text-yellow-300 mt-0.5" size={18} />
-                    <span className="pl-1">{learningPath.numReviews}</span>
+                    <span className="pl-1">{lp.data.countReviews}</span>
                 </span>
                 <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-green-100 text-green-700 font-light capitalize">
-                    {learningPath.difficulty.toLowerCase()}
+                    {lp.data.difficulty.toLowerCase()}
                 </span>
                 <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light capitalize">
-                    {learningPath.estDurationBucket.toLowerCase()}
+                    {lp.data.estDurationBucket.toLowerCase()}
                 </span>
             </div>
-            { !isCompact ?
+            {/* { !isCompact ?
                 renderLpSummaryDetail({ learningPath, userProgress, isFavorite }) :
                 <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {userLp.isCreator === true ? '(You)' : undefined}</div>
-            }
+            } */}
         </div>
     )
 }
