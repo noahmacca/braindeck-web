@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 export async function getStaticProps() {
     const user = getUserById('user1');
     const userCreatedLps = getCreatedLearningPathsForUser(user.data);
-    const testLp = getLearningPathByIdTest('deepLearningOverviewTest');
+    const testLp = getLearningPathByIdTest('appleTest1');
     return {
         props: {
             userCreatedLps,
@@ -24,7 +24,7 @@ export async function getStaticProps() {
 }
 
 const testLearningResource = {
-    learningResourceId: 'L4WEUZsuf2MZtR7pccBf',
+    learningResourceId: 'x6jFwu3nEQHgfY6OYB1n',
     data: {
         title: "Apple ARM Processor vs Intel x86 Performance and Power Efficiency - Is the MAC Doomed?",
         authorId: "Graphically Challenged",
@@ -36,7 +36,7 @@ const testLearningResource = {
     }
 }
 
-const testLpId = 'L4WEUZsuf2MZtR7pccBf';
+const testLpId = 'x6jFwu3nEQHgfY6OYB1n';
 
 export default function Create({ userCreatedLps, testLp }) {
     // Page layout
@@ -46,9 +46,15 @@ export default function Create({ userCreatedLps, testLp }) {
     const [learningPaths, setLearningPaths] = useState(null)
     useEffect(() => {
         dbUtils.getAllLearningPaths().then((res) => {
-            console.log('getting all learning paths');
-            console.log(res[0]);
             setLearningPaths(res);
+        });
+
+        // dbUtils.getLearningPath(testLpId).then((doc) => {
+        //     console.log('Got learning path', doc);
+        // })
+
+        dbUtils.getLearningPathWithLearningResources(testLpId).then((doc) => {
+            console.log('Got learning path', doc);
         })
     }, []);
 
@@ -59,7 +65,7 @@ export default function Create({ userCreatedLps, testLp }) {
     }
 
     const addtestLr = () => {
-        dbUtils.createLearningResource(testLearningResource.data, testLpId, 0).then((res) => {
+        dbUtils.createLearningResource(testLearningResource.data, testLearningResource.learningResourceId, 0).then((res) => {
             console.log('done creating learning resource and adding to learning path', res);
         });
     }
@@ -76,7 +82,7 @@ export default function Create({ userCreatedLps, testLp }) {
                         <div>All Lps:</div>
                         {
                             learningPaths && learningPaths.map((lp) => (
-                                <div key={`${lp.id}`}>{lp.title}</div>
+                                <div key={`${lp.id}`}>{lp.title} ({lp.id})</div>
                             ))
                         }
                         <div className="container mb-4 md:mb-6">

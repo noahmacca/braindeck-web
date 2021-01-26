@@ -73,18 +73,38 @@ export const createLearningPath = (lp: LearningPath) => {
         });
 }
 
-export const getLearningPath = (id: string) => {
+export const getLearningPath = (id: string): any => {
     return db.collection('learningPaths').doc(id).get()
         .then((doc) => {
             if (doc.exists) {
-                console.log('got document ', doc);
-                return doc
+                return { id: doc.id, ...doc.data() }
             }
         })
         .catch((err) => {
             console.log("Error getting document:", err);
             return { err }
         })
+}
+
+export const getLearningPathWithLearningResources = (id: string) => {
+    return getLearningPath(id).then((learningPath) => {
+        const promises = [];
+        console.log('learningPath', learningPath);
+        learningPath.learningConcepts.val().forEach((learningConcept) => {
+            console.log('learningConcept', learningConcept);
+            learningConcept.learningResourceIds.forEach((lrId) => {
+                promises.push(getLearningResource(lrId));
+            });
+        });
+        return Promise.all(promises);
+    })
+    .then((learningResources) => {
+        console.log('got back all learning resources', learningResources)
+        return learningResources
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
 
 export const updateLearningPath = (id: string, update: Object) => {
@@ -131,10 +151,8 @@ export const getUserLearningPaths = (user: User) => {
 export const getAllLearningPaths = () => {
     return db.collection('learningPaths').get()
         .then((querySnapshot) => {
-            console.log('querySnapshot', querySnapshot);
             const res = [];
             querySnapshot.docs.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
                 res.push({
                     id: doc.id,
                     ...doc.data()
@@ -187,7 +205,21 @@ export const addLearningResourceToLearningPath = (lrId: string, lpId: string, co
     })
 }
 
-export const readLearningResource = (id: string) => {
+export const getLearningResource = (id: string) => {
+    return db.collection('learningResources').doc(id).get()
+        .then((doc) => {
+            if (doc.exists) {
+                return { id: doc.id, ...doc.data() }
+            }
+        })
+        .catch((err) => {
+            console.log("Error getting document:", err);
+            return { err }
+        })
+}
+
+export const getLearningResources = (ids: Array<string>) => {
+
     return
 }
 
@@ -196,12 +228,14 @@ export const updateLearningResource = (id: string, update: Object) => {
 }
 
 export const deleteLearningResource = (id: string) => {
+    // TODO: Remove record and remove pointer from learning path
     return
 }
 
 export default {
     createLearningPath,
     getLearningPath,
+    getLearningPathWithLearningResources,
     updateLearningPath,
     deleteLearningPath,
     getTopCreatedLearningPaths,

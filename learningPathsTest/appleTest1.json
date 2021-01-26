@@ -10,7 +10,7 @@
     "countComplete": 0,
     "numReviews": 0,
     "avgRating": 0,
-    "learningconcepts": [
+    "learningConcepts": [
         {
             "title": "Instruction Sets: x86 vs. ARM",
             "description": "This is foundational, and a necessary pre-req",

@@ -10,7 +10,7 @@
     "countComplete": 0,
     "numReviews": 0,
     "avgRating": 0,
-    "learningconcepts": [
+    "learningConcepts": [
         {
             "title": "History of AI",
             "description": "Need to know where you're coming from to know where you're going",
