@@ -92,10 +92,10 @@ const useDbProvider = () => {
     }
 
     ////////// Learning Paths //////////
-    const initLearningPath = (lp) => {
+    const initLearningPath = (lp: LearningPathData): LearningPathData => {
         const initLp = lp;
         // add created and updated to learning path
-        const nowMs = Date.now();;
+        const nowMs = Date.now();
         initLp.created = nowMs;
         initLp.updated = nowMs;
 
@@ -112,7 +112,7 @@ const useDbProvider = () => {
         return initLp
     }
 
-    const createLearningPath = (lp) => {
+    const createLearningPath = (lp: LearningPathData) => {
         const lpInit = initLearningPath(lp);
         return db.collection('learningPaths')
             .add(lpInit)

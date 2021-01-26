@@ -5,47 +5,32 @@ import {
     getCreatedLearningPathsForUser,
     getLearningPathByIdTest
 } from '../../lib/learningPaths';
-import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import { useEffect, useState } from "react";
 
 export async function getStaticProps() {
-    const user = getUserById('user1');
-    const userCreatedLps = getCreatedLearningPathsForUser(user.data);
     const testLp = getLearningPathByIdTest('appleTest1');
     return {
         props: {
-            userCreatedLps,
             testLp
         }
     }
 }
 
-const testLearningResource = {
-    learningResourceId: 'x6jFwu3nEQHgfY6OYB1n',
-    data: {
-        title: "Apple ARM Processor vs Intel x86 Performance and Power Efficiency - Is the MAC Doomed?",
-        authorId: "Graphically Challenged",
-        url: "https://www.youtube.com/watch?v=MSifxEGivbY",
-        format: "VIDEO",
-        difficulty: "EASY",
-        description: "It's important to understand why the two architectures are so different",
-        highlight: "2:00 - 3:35"
-    }
-}
-
-// const testLpId = 'x6jFwu3nEQHgfY6OYB1n';
-
-export default function Create({ userCreatedLps, testLp }) {
+export default function Create({ testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
-    useRequireAuth();
+    const auth = useRequireAuth();
     const db = useDb();
 
     const addTestLp = () => {
-        db.createLearningPath(testLp.data).then((res) => {
+        const newLp = testLp;
+        newLp.data.author = {
+            uid: auth.user.uid,
+            name: auth.user.name
+        }
+        db.createLearningPath(newLp.data).then((res) => {
             console.log('done creating learning path', res);
         });
     }

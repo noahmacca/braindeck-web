@@ -33,7 +33,7 @@ export interface LearningResource {
 }
 
 export interface LearningConcept {
-    id: string,
+    id?: string,
     title: string,
     description: string,
     learningResources: Array<LearningResource>
@@ -44,7 +44,10 @@ export interface LearningPathData {
     updated?: number,
     title: string,
     subject: string,
-    authorId: string,
+    author: {
+        uid: string,
+        name: string,
+    },
     learningGoal: string,
     background: string,
     difficulty: string, // TODO: enum

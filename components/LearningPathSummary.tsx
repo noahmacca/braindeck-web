@@ -22,7 +22,7 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
                     <div className="text-md font-light">{lp.data.background}</div>
                 </div>
                 <div className="pb-3">
-                    <div className="text-sm font-medium">Created by <span className="font-light">{lp.data.authorId}</span></div>
+                    <div className="text-sm font-medium">Created by <span className="font-light">{lp.data.author.name}</span></div>
                     <div className="text-sm font-medium">Last Updated <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span></div>
                     <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(userProgress * 100)}%</span></div>
                 </div>
@@ -83,7 +83,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             </div>
             { !isCompact ?
                 renderLpSummaryDetail({ lp, userProgress, isFavorite: lp.userData.isFavorite }) :
-                <div className="text-sm pt-2 text-gray-500">{learningPath.authorId} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
             }
         </div>
     )
