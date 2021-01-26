@@ -1,5 +1,6 @@
 import { db } from '../config/firebase';
 import firebase from 'firebase/app';
+import { v4 } from 'uuid';
 
 interface User {
     uid: string,
@@ -25,7 +26,7 @@ interface LearningResource {
     created?: number,
     updated?: number,
     title: string,
-    authorId: string,
+    author: string,
     url: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
@@ -36,7 +37,7 @@ interface LearningResource {
 interface LearningConcept {
     title: string,
     description: string,
-    learningResourceIds: Array<string>
+    learningResources: Array<LearningResource>
 }
 
 interface LearningPath {
@@ -57,13 +58,31 @@ interface LearningPath {
     learningConcepts: Array<LearningConcept>
 }
 
+const initLearningPath = (lp: LearningPath) => {
+    const initLp = lp;
+    // add created and updated to learning path
+    const nowMs = Date.now();;
+    initLp.created = nowMs;
+    initLp.updated = nowMs;
+    
+    // for each learningResource for each learningConcept, add id, created, and updated
+    initLp.learningConcepts.forEach((lc) => {
+        lc.learningResources.forEach((lr) => {
+            lr.created = nowMs;
+            lr.updated = nowMs;
+            lr.id = v4();
+        });
+    });
+
+    return initLp
+}
+
 ////////// Learning Paths //////////
 export const createLearningPath = (lp: LearningPath) => {
-    lp.created = Date.now();
-    lp.updated = Date.now();
+    const lpInit = initLearningPath(lp);
 
     return db.collection('learningPaths')
-        .add(lp)
+        .add(lpInit)
         .then((docRef) => {
             return docRef
         })

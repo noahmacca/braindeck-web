@@ -14,17 +14,53 @@
         {
             "title": "Instruction Sets: x86 vs. ARM",
             "description": "This is foundational, and a necessary pre-req",
-            "learningResourceIds": []
+            "learningResources": [
+                {
+                    "title": "Apple ARM Processor vs Intel x86 Performance and Power Efficiency - Is the MAC Doomed?",
+                    "author": "Graphically Challenged",
+                    "url": "https://www.youtube.com/watch?v=MSifxEGivbY",
+                    "format": "VIDEO",
+                    "difficulty": "EASY",
+                    "description": "It's important to understand why the two architectures are so different",
+                    "highlight": "2:00 - 3:35"
+                }
+            ]
         },
         {
             "title": "Key differences of the Apple M1 processor",
             "description": "Apple has their own flavor of ARM.",
-            "learningResourceIds": []
+            "learningResources": [
+                {
+                    "title": "ELI5: Apple M1 Neural Engine and what differentiate it from Intel i cores?",
+                    "author": "themeaningofluff",
+                    "url": "https://www.reddit.com/r/explainlikeimfive/comments/k80n6u/eli5_apple_m1_neural_engine_and_what/",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "description": "Good explain it like I'm 5 from Reddit"
+                },
+                {
+                    "title": "Why The Apple M1 Chip Is So Fast - A Developer Explains",
+                    "author": "Mike Thornton",
+                    "url": "https://www.pro-tools-expert.com/production-expert-1/why-the-apple-m1-chip-is-so-fast",
+                    "format": "ARTICLE",
+                    "difficulty": "MEDIUM",
+                    "description": "Going more in depth - you don't need to understand everything, but it's important to dive into some of the details for such a technical topic."
+                }
+            ]
         },
         {
             "title": "Implications for Apple",
             "description": "This could herald a new, golden age for Apple.",
-            "learningResourceIds": []
+            "learningResources": [
+                {
+                    "title": "Why Apple's M1 Chip Is So Important",
+                    "author": "Apple Explained",
+                    "url": "https://www.youtube.com/watch?v=NA44bGGxasc",
+                    "format": "ARTICLE",
+                    "difficulty": "EASY",
+                    "description": "Good explain it like I'm 5 from Reddit"
+                }
+            ]
         }
     ]
 }
