@@ -51,19 +51,24 @@ export interface LearningPathData {
     estDurationBucket: string, // TODO: enum
     countFavorite: number,
     countComplete: number,
-    numReviews: number,
+    countReviews: number,
     avgRating: number,
     learningConcepts: Array<LearningConcept>
 }
 
 export interface LearningPath {
     id: string,
-    userData?: {
+    data: LearningPathData
+}
+
+export interface LearningPathUser {
+    id: string,
+    data: LearningPathData,
+    userData: {
         isFavorite: boolean,
-        iscomplete: boolean,
+        isComplete: boolean,
         isCreator: boolean,
         numLearningResourcesTotal: number,
         completedContentIds: Array<string>,
     }
-    data: LearningPathData
 }

@@ -11,7 +11,8 @@ import { useAuth } from './useAuth'
 import {
     LearningPath,
     LearningPathData,
-    User
+    User,
+    LearningPathUser
 } from './types';
 const dbContext = createContext({ learningPaths: [] });
 const { Provider } = dbContext;
@@ -57,29 +58,37 @@ const useDbProvider = () => {
         }
     }, []);
 
-    const annotateLearningPathsWithUserData = (lp: LearningPath, user: User): LearningPath => {
+    const annotateLearningPathsWithUserData = (lp: LearningPath, user: User): LearningPathUser => {
+        const lpu = {
+            ...lp,
+            userData: {
+                isFavorite: false,
+                isComplete: false,
+                isCreator: false,
+                numLearningResourcesTotal: 1,
+                completedContentIds: [],
+            }
+        }
+
         if (!user?.uid) {
-            return lp
-        }
-        const userLpData = {
-            isFavorite: user.learningPaths.some((uLp) => uLp.id === lp.id),
-            iscomplete: user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.completed)),
-            isCreator: user.uid === lp.data.authorId,
-            numLearningResourcesTotal: 0,
-            completedContentIds: [],
+            // Might not have user object
+            return lpu
         }
 
-        lp.data.learningConcepts.forEach((concept) => {
-            concept.learningResources.forEach((resource) => {
-                userLpData.numLearningResourcesTotal += 1
-                if (user.learningResources.some((uResource) => uResource.id === resource.id)) {
-                    userLpData.completedContentIds.push(resource.id);
-                }
+        lpu.userData.isFavorite = user.learningPaths.some((uLp) => uLp.id === lp.id),
+            lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.completed)),
+            lpu.userData.isCreator = user.uid === lp.data.authorId,
+
+            lpu.data.learningConcepts.forEach((concept) => {
+                concept.learningResources.forEach((resource) => {
+                    lpu.userData.numLearningResourcesTotal += 1
+                    if (user.learningResources.some((uResource) => uResource.id === resource.id)) {
+                        lpu.userData.completedContentIds.push(resource.id);
+                    }
+                });
             });
-        });
 
-        lp.userData = userLpData;
-        return lp
+        return lpu
     }
 
     ////////// Learning Paths //////////
