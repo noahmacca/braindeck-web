@@ -8,6 +8,11 @@ import {
 import { db } from '../config/firebase';
 import { v4 } from 'uuid';
 import { useAuth } from './useAuth'
+import {
+    LearningPath,
+    LearningPathData,
+    User
+} from './types';
 const dbContext = createContext({ learningPaths: [] });
 const { Provider } = dbContext;
 
@@ -25,7 +30,8 @@ const useDbProvider = () => {
     const auth = useAuth();
 
     useEffect(() => {
-        console.log('useDbProvider will update learningPaths states');
+        const learningPathsNew = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, auth.user));
+        setLearningPaths(learningPathsNew);
     }, [auth.user])
 
     ////////// Users //////////
@@ -36,21 +42,44 @@ const useDbProvider = () => {
             const unsubscribe = db
                 .collection('learningPaths')
                 .onSnapshot((querySnapshot) => {
-                    const res = [];
+                    const lps: Array<LearningPath> = [];
                     querySnapshot.docs.forEach((doc) => {
-                        res.push({
+                        const lp = {
                             id: doc.id,
-                            data: doc.data()
-                        });
+                            data: doc.data() as LearningPathData
+                        }
+                        const lpUser = annotateLearningPathsWithUserData(lp, auth.user);
+                        lps.push(lpUser)
                     });
-                    setLearningPaths(res);
+                    setLearningPaths(lps);
                 });
             return () => unsubscribe();
         }
     }, []);
 
-    const annotateLearningPathsWithUserData = (lp, user) => {
-        //TODO
+    const annotateLearningPathsWithUserData = (lp: LearningPath, user: User): LearningPath => {
+        if (!user?.uid) {
+            return lp
+        }
+        const userLpData = {
+            isFavorite: user.learningPaths.some((uLp) => uLp.id === lp.id),
+            iscomplete: user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.completed)),
+            isCreator: user.uid === lp.data.authorId,
+            numLearningResourcesTotal: 0,
+            completedContentIds: [],
+        }
+
+        lp.data.learningConcepts.forEach((concept) => {
+            concept.learningResources.forEach((resource) => {
+                userLpData.numLearningResourcesTotal += 1
+                if (user.learningResources.some((uResource) => uResource.id === resource.id)) {
+                    userLpData.completedContentIds.push(resource.id);
+                }
+            });
+        });
+
+        lp.userData = userLpData;
+        return lp
     }
 
     ////////// Learning Paths //////////

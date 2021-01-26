@@ -9,7 +9,6 @@ import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import dbUtils from '../../lib/dbUtils';
 import { useEffect, useState } from "react";
 
 export async function getStaticProps() {
@@ -43,8 +42,6 @@ export default function Create({ userCreatedLps, testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
     useRequireAuth();
-
-    const auth = useRequireAuth();
     const db = useDb();
 
     const addTestLp = () => {

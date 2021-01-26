@@ -7,6 +7,9 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
+import {
+    User
+} from './types';
 const authContext = createContext({ user: {} });
 const { Provider } = authContext;
 
@@ -31,35 +34,61 @@ export const useRequireAuth = () => {
     return auth;
 };
 
-export const initializeUserDoc = (user) => {
+interface NewUserInput {
+    uid: string,
+    email: string,
+    name: string
+}
+
+export const initializeUserDoc = (user: NewUserInput): User => {
     return {
         uid: user.uid,
         email: user.email,
         name: user.name,
         created: Date.now(),
         learningPaths: [],
-        learningResources: []
+        learningResources: [],
+        favoriteTopics: []
     }
 }
 
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
     const [user, setUser] = useState(null);
-    const createUser = (user) => {
-        const userInitDoc = initializeUserDoc(user)
+    const createUser = (newUser: NewUserInput) => {
+        const user = initializeUserDoc(newUser)
 
         return db
             .collection('users')
-            .doc(userInitDoc.uid)
-            .set(userInitDoc)
+            .doc(user.uid)
+            .set(user)
             .then(() => {
-                setUser(userInitDoc);
-                return userInitDoc;
+                setUser(user);
+                return user;
             })
             .catch((error) => {
                 return { error };
             });
     };
+
+    useEffect(() => {
+        const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
+        return () => unsub();
+    }, []);
+
+    useEffect(() => {
+        if (user?.uid) {
+            // Subscribe to user document on mount
+            const unsubscribe = db
+                .collection('users')
+                .doc(user.uid)
+                .onSnapshot((doc) => {
+                    const user: User = doc.data() as User;
+                    setUser(user);
+                })
+            return () => unsubscribe();
+        }
+    }, []);
 
     const signUp = ({ name, email, password }) => {
         return auth
@@ -84,7 +113,8 @@ const useAuthProvider = () => {
             .get()
             .then((userData) => {
                 if (userData.data()) {
-                    setUser(userData.data());
+                    const user: User = userData.data() as User;
+                    setUser(user);
                 }
             });
     };
@@ -108,22 +138,6 @@ const useAuthProvider = () => {
             getUserAdditionalData(user);
         }
     };
-
-    useEffect(() => {
-        const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
-        return () => unsub();
-    }, []);
-
-    useEffect(() => {
-        if (user?.uid) {
-            // Subscribe to user document on mount
-            const unsubscribe = db
-                .collection('users')
-                .doc(user.uid)
-                .onSnapshot((doc) => setUser(doc.data()));
-            return () => unsubscribe();
-        }
-    }, []);
 
     const signOut = () => {
         return auth.signOut().then(() => setUser(false));

@@ -15,7 +15,8 @@ export interface User {
         created: number,
         completed?: number,
         favorited?: number
-    }>
+    }>,
+    favoriteTopics: Array<string> // TODO make these entities
 }
 
 export interface LearningResource {
@@ -38,8 +39,7 @@ export interface LearningConcept {
     learningResources: Array<LearningResource>
 }
 
-export interface LearningPath {
-    id?: string,
+export interface LearningPathData {
     created?: number,
     updated?: number,
     title: string,
@@ -54,4 +54,16 @@ export interface LearningPath {
     numReviews: number,
     avgRating: number,
     learningConcepts: Array<LearningConcept>
+}
+
+export interface LearningPath {
+    id: string,
+    userData?: {
+        isFavorite: boolean,
+        iscomplete: boolean,
+        isCreator: boolean,
+        numLearningResourcesTotal: number,
+        completedContentIds: Array<string>,
+    }
+    data: LearningPathData
 }
