@@ -174,7 +174,7 @@ export const getAllLearningPaths = () => {
             querySnapshot.docs.forEach((doc) => {
                 res.push({
                     id: doc.id,
-                    ...doc.data()
+                    data: doc.data()
                 });
             });
             return res

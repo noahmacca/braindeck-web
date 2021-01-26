@@ -8,6 +8,7 @@ import {
 import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
+import { useDb } from '../../hooks/useDb';
 import dbUtils from '../../lib/dbUtils';
 import { useEffect, useState } from "react";
 
@@ -36,37 +37,22 @@ const testLearningResource = {
     }
 }
 
-const testLpId = 'x6jFwu3nEQHgfY6OYB1n';
+// const testLpId = 'x6jFwu3nEQHgfY6OYB1n';
 
 export default function Create({ userCreatedLps, testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
-    // useRequireAuth();
+    useRequireAuth();
 
-    const [learningPaths, setLearningPaths] = useState(null)
-    useEffect(() => {
-        dbUtils.getAllLearningPaths().then((res) => {
-            setLearningPaths(res);
-        });
-
-        // dbUtils.getLearningPath(testLpId).then((doc) => {
-        //     console.log('Got learning path', doc);
-        // })
-
-        dbUtils.getLearningPathWithLearningResources(testLpId).then((doc) => {
-            console.log('Got learning path', doc);
-        })
-    }, []);
+    const auth = useRequireAuth();
+    const db = useDb();
+    console.log('Create db', db);
+    console.log('Create auth', auth);
 
     const addTestLp = () => {
-        dbUtils.createLearningPath(testLp.data).then((res) => {
+        console.log('hello');
+        db.createLearningPath(testLp.data).then((res) => {
             console.log('done creating learning path', res);
-        });
-    }
-
-    const addtestLr = () => {
-        dbUtils.createLearningResource(testLearningResource.data, testLearningResource.learningResourceId, 0).then((res) => {
-            console.log('done creating learning resource and adding to learning path', res);
         });
     }
 
@@ -78,11 +64,11 @@ export default function Create({ userCreatedLps, testLp }) {
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-4 md:mb-6">
                         <button onClick={() => addTestLp()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningPath</button>
-                        <button onClick={() => addtestLr()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningResource</button>
+                        {/* <button onClick={() => addtestLr()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningResource</button> */}
                         <div>All Lps:</div>
                         {
-                            learningPaths && learningPaths.map((lp) => (
-                                <div key={`${lp.id}`}>{lp.title} ({lp.id})</div>
+                            db.learningPaths && db.learningPaths.map((lp) => (
+                                <div key={`${lp.id}`}>{lp.data.title} ({lp.id})</div>
                             ))
                         }
                         <div className="container mb-4 md:mb-6">
