@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { db } from '../config/firebase';
 import { v4 } from 'uuid';
+import { useAuth } from './useAuth'
 const dbContext = createContext({ learningPaths: [] });
 const { Provider } = dbContext;
 
@@ -21,6 +22,12 @@ export const useDb: any = () => {
 
 const useDbProvider = () => {
     const [learningPaths, setLearningPaths] = useState([]);
+    const auth = useAuth();
+    console.log('usDbProvider', auth);
+
+    useEffect(() => {
+        console.log('useDbProvider will update learningPaths states');
+    }, [auth.user])
 
     ////////// Users //////////
     // Subscribe to changes to user doc
@@ -42,6 +49,10 @@ const useDbProvider = () => {
             return () => unsubscribe();
         }
     }, []);
+
+    const annotateLearningPathsWithUserData = (lp, user) => {
+        //TODO
+    }
 
     ////////// Learning Paths //////////
     const initLearningPath = (lp) => {

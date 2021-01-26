@@ -20,11 +20,11 @@ const App = ({ Component, pageProps }: AppProps) => {
     }, [router.events]);
 
     return (
-        <DbProvider>
-            <AuthProvider>
+        <AuthProvider>
+            <DbProvider>
                 <Component {...pageProps} />
-            </AuthProvider>
-        </DbProvider>
+            </DbProvider>
+        </AuthProvider>
     );
 };
 
