@@ -68,7 +68,10 @@ export default function Create({ userCreatedLps, testLp }) {
                         <div>All Lps:</div>
                         {
                             db.learningPaths && db.learningPaths.map((lp) => (
-                                <div key={`${lp.id}`}>{lp.data.title} ({lp.id})</div>
+                                <div key={`${lp.id}`}>
+                                    {lp.data.title} ({lp.id})
+                                    <button onClick={() => db.deleteLearningPath(lp.id)} className="m-2 p-1 bg-red-200 rounded-md">Delete</button>
+                                </div>
                             ))
                         }
                         <div className="container mb-4 md:mb-6">
