@@ -43,6 +43,7 @@ export default function Create({ testLp }) {
                 <div className="mx-auto px-6 mt-6 max-w-4xl">
                     <div className="container mb-4 md:mb-6">
                         <button onClick={() => addTestLp()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningPath</button>
+                        <button onClick={() => auth.setUserName({ uId: auth.user.uid, name: 'nomotest3' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
                         {/* <button onClick={() => addtestLr()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningResource</button> */}
                         <div>All Lps:</div>
                         {

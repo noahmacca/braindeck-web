@@ -55,6 +55,8 @@ export const initializeUserDoc = (user: NewUserInput): User => {
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
     const [user, setUser]: [User, any] = useState(null);
+    const [authUserId, setAuthUserId] = useState(null)
+    const [authUserIsReady, setAuthUserIsReady] = useState(false);
     const createUser = (newUser: NewUserInput) => {
         const userInit = initializeUserDoc(newUser)
 
@@ -63,7 +65,7 @@ const useAuthProvider = () => {
             .doc(userInit.uid)
             .set(userInit)
             .then(() => {
-                setUser(userInit);
+                setAuthUserId(userInit.uid);
                 return userInit;
             })
             .catch((error) => {
@@ -77,19 +79,19 @@ const useAuthProvider = () => {
     }, []);
 
     useEffect(() => {
-        if (user?.uid) {
+        if (authUserId) {
             // Subscribe to user document on mount
             const unsubscribe = db
                 .collection('users')
-                .doc(user.uid)
+                .doc(authUserId)
                 .onSnapshot((doc) => {
+                    console.log('users doc new:', doc.data());
                     const user: User = doc.data() as User;
-                    console.log('updated user doc', user);
                     setUser(user);
                 })
-            return () => unsubscribe();
+            return () => unsubscribe()
         }
-    }, []);
+    }, [authUserId]);
 
     const signUp = ({ name, email, password }) => {
         return auth
@@ -107,25 +109,12 @@ const useAuthProvider = () => {
             });
     };
 
-    const getUserAdditionalData = (user) => {
-        return db
-            .collection('users')
-            .doc(user.uid)
-            .get()
-            .then((userData) => {
-                if (userData.data()) {
-                    const user: User = userData.data() as User;
-                    setUser(user);
-                }
-            });
-    };
-
     const signIn = ({ email, password }) => {
         return auth
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
-                setUser(response.user);
-                getUserAdditionalData(response.user);
+                console.log('signing in, getting userAdditionalData');
+                setAuthUserId(response.user.uid);
                 return response.user;
             })
             .catch((error) => {
@@ -133,12 +122,8 @@ const useAuthProvider = () => {
             });
     };
 
-    const handleAuthStateChanged = (user) => {
-        console.log('handleAuthStateChanged');
-        setUser(user);
-        if (user) {
-            getUserAdditionalData(user);
-        }
+    const handleAuthStateChanged = (newUser) => {
+        newUser ? setAuthUserId(newUser.uid) : setAuthUserId(null)
     };
 
     const signOut = () => {
@@ -188,12 +173,25 @@ const useAuthProvider = () => {
         });
     }
 
+    const setUserName = ({uId, name}: {uId: string, name: string}) => {
+        return db.collection('users').doc(uId).update({
+            name,
+        }).then(() => {
+            console.log('updated', uId);
+            return true
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
+
     return {
         user,
         signUp,
         signIn,
         signOut,
         sendPasswordResetEmail,
-        setLpFavorite
+        setLpFavorite,
+        setUserName
     };
 };

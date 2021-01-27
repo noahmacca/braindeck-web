@@ -23,7 +23,7 @@ const SignUpForm: React.FC = () => {
         setError(null);
         return auth.signUp(data).then((response) => {
             setIsLoading(false);
-            response.error ? setError(response.error) : router.push('/my-courses');
+            response.error ? setError(response.error) : router.push('/create');
         });
     };
 

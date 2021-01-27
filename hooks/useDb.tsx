@@ -33,7 +33,6 @@ const useDbProvider = () => {
     useEffect(() => {
         const learningPathsNew = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, auth.user));
         setLearningPaths(learningPathsNew);
-        console.log('got auth change, updating db', learningPathsNew)
     }, [auth.user])
 
     ////////// Users //////////

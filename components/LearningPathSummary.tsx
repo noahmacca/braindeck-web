@@ -55,8 +55,6 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const learningPath = lp.data;
     const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
-    console.log('LearningPathSummary', lp);
-    console.log('LearningPathSummary II', lp.userData.isCreator === true);
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
