@@ -26,7 +26,7 @@ export const useRequireAuth = () => {
     const auth = useAuth();
     const router = useRouter();
     useEffect(() => {
-        if (!auth.user) {
+        if (auth.authUserId === '') {
             router.push('/login');
         }
     }, [auth, router]);
@@ -54,9 +54,14 @@ export const initializeUserDoc = (user: NewUserInput): User => {
 
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
+    // This holds the user doc from the db
     const [user, setUser]: [User, any] = useState(null);
-    const [authUserId, setAuthUserId] = useState(null)
-    const [authUserIsReady, setAuthUserIsReady] = useState(false);
+    
+    // authUserId tracks user logged in state from auth.
+    // Use this to get full user doc from the db.
+    // Three states: null=unknown; ''=not logged in; non-empty string=logged in
+    const [authUserId, setAuthUserId] = useState(null);
+
     const createUser = (newUser: NewUserInput) => {
         const userInit = initializeUserDoc(newUser)
 
@@ -123,7 +128,7 @@ const useAuthProvider = () => {
     };
 
     const handleAuthStateChanged = (newUser) => {
-        newUser ? setAuthUserId(newUser.uid) : setAuthUserId(null)
+        newUser ? setAuthUserId(newUser.uid) : setAuthUserId('')
     };
 
     const signOut = () => {
@@ -187,6 +192,7 @@ const useAuthProvider = () => {
 
     return {
         user,
+        authUserId,
         signUp,
         signIn,
         signOut,
