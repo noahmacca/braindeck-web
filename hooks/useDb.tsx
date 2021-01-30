@@ -8,13 +8,14 @@ import {
 import { db } from '../config/firebase';
 import { v4 } from 'uuid';
 import { useAuth } from './useAuth'
+import firebase from 'firebase/app';
 import {
     LearningPath,
     LearningPathData,
     User,
     LearningPathUser
 } from './types';
-const dbContext = createContext({ learningPaths: [] });
+const dbContext = createContext({ userLearningPaths: [], user: null });
 const { Provider } = dbContext;
 
 export function DbProvider(props: { children: ReactNode }): JSX.Element {
@@ -28,18 +29,13 @@ export const useDb: any = () => {
 
 const useDbProvider = () => {
     const [learningPaths, setLearningPaths]: [Array<LearningPathUser>, any] = useState([]);
+    const [userLearningPaths, setUserLearningPaths]: [any, any] = useState([]);
+    const [user, setUser]: [any, any] = useState(null);
     const auth = useAuth();
 
-    useEffect(() => {
-        const learningPathsNew = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, auth.user));
-        setLearningPaths(learningPathsNew);
-    }, [auth.user])
-
-    ////////// Users //////////
-    // Subscribe to changes to user doc
+    // On mount, subscribe to changes in user doc, and update learningPaths
     useEffect(() => {
         if (learningPaths.length === 0) {
-            // Subscribe to user document on mount
             const unsubscribe = db
                 .collection('learningPaths')
                 .onSnapshot((querySnapshot) => {
@@ -49,14 +45,38 @@ const useDbProvider = () => {
                             id: doc.id,
                             data: doc.data() as LearningPathData
                         }
-                        const lpUser = annotateLearningPathsWithUserData(lp, auth.user);
-                        lps.push(lpUser)
+                        lps.push(lp);
                     });
+                    console.log('subscribe learningPaths, setLearningPaths', lps);
                     setLearningPaths(lps);
                 });
             return () => unsubscribe();
         }
     }, []);
+
+    // On recepit of userId, subscribe to that user doc, and update user
+    useEffect(() => {
+        if (auth.authUserId && auth.authUserId.length > 0) {
+            const unsubscribe = db
+                .collection('users')
+                .doc(auth.authUserId)
+                .onSnapshot((doc) => {
+                    console.log('users doc new:', doc.data());
+                    const user: User = doc.data() as User;
+                    console.log('subscribe to user docs, setUser', user, doc.data(), doc);
+                    setUser(user);
+                })
+            return () => unsubscribe()
+        }
+    }, [auth.authUserId]);
+
+    // update userLearningPaths when user or learningPaths updates
+    useEffect(() => {
+        // if we update user or learningPaths, update userLearningPaths
+        const userLearningPaths = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, user));
+        console.log('update to user or lps, setLearningPaths', userLearningPaths, user);
+        setUserLearningPaths(userLearningPaths);
+    }, [user, learningPaths])
 
     const annotateLearningPathsWithUserData = (lp: LearningPath, user: User): LearningPathUser => {
         const lpu = {
@@ -91,7 +111,63 @@ const useDbProvider = () => {
         return lpu
     }
 
-    ////////// Learning Paths //////////
+    const setLpFavorite = ({ lpId, uId, isFavorite }: { lpId: string, uId: string, isFavorite: boolean }) => {
+        // Update user docs
+        const updatedUserLearningPaths = user.learningResources;
+        let isMatch = false
+        updatedUserLearningPaths.forEach((uLp) => {
+            if (uLp.id === lpId) {
+                // update existing
+                uLp.updated = Date.now();
+                uLp.isFavorited = isFavorite;
+            }
+        });
+        if (!isMatch) {
+            // create new
+            updatedUserLearningPaths.push({
+                id: lpId,
+                created: Date.now(),
+                updated: Date.now(),
+                isFavorited: isFavorite
+            })
+        }
+
+        return db.collection('users').doc(uId).update({
+            learningPaths: updatedUserLearningPaths,
+        }).then(() => {
+            console.log('updated ', uId);
+            // Now increment or decrement the number of favorites on the lp
+            var washingtonRef = db.collection('cities').doc('DC');
+
+            // Atomically increment the population of the city by 50.
+            return db.collection('learningPaths').doc(lpId).update({
+                countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1)
+            }).then(() => {
+                console.log('updated ', lpId);
+                return true
+            })
+                .catch((err) => {
+                    console.error("Error updating document: ", err);
+                    return false
+                })
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
+
+    const setUserName = ({ uId, name }: { uId: string, name: string }) => {
+        return db.collection('users').doc(uId).update({
+            name,
+        }).then(() => {
+            console.log('updated', uId);
+            return true
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
+
     const initLearningPath = (lp: LearningPathData): LearningPathData => {
         const initLp = lp;
         // add created and updated to learning path
@@ -138,24 +214,6 @@ const useDbProvider = () => {
             })
     }
 
-    const getAllLearningPaths = () => {
-        return db.collection('learningPaths').get()
-            .then((querySnapshot) => {
-                const res = [];
-                querySnapshot.docs.forEach((doc) => {
-                    res.push({
-                        id: doc.id,
-                        data: doc.data()
-                    });
-                });
-                setLearningPaths(res);
-                return res
-            }).catch((err) => {
-                console.log("Error getting documents: ", err);
-                return { err }
-            })
-    }
-
     const updateLearningPath = (id: string, update: Object) => {
         return db.collection('learningPaths').doc(id).update(update)
             .then(() => {
@@ -182,11 +240,13 @@ const useDbProvider = () => {
     ////////// Helper Functions //////////
 
     return {
-        learningPaths,
+        user,
+        userLearningPaths,
+        setLpFavorite,
+        setUserName,
         createLearningPath,
         getLearningPathById,
-        getAllLearningPaths,
         updateLearningPath,
-        deleteLearningPath
+        deleteLearningPath,
     }
 }

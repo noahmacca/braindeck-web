@@ -7,10 +7,11 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
+import firebase from 'firebase/app';
 import {
     User
 } from './types';
-const authContext = createContext({ user: {} });
+const authContext = createContext({ authUserId: {} });
 const { Provider } = authContext;
 
 export function AuthProvider(props: { children: ReactNode }): JSX.Element {
@@ -54,9 +55,6 @@ export const initializeUserDoc = (user: NewUserInput): User => {
 
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
-    // This holds the user doc from the db
-    const [user, setUser]: [User, any] = useState(null);
-    
     // authUserId tracks user logged in state from auth.
     // Use this to get full user doc from the db.
     // Three states: null=unknown; ''=not logged in; non-empty string=logged in
@@ -82,21 +80,6 @@ const useAuthProvider = () => {
         const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
         return () => unsub();
     }, []);
-
-    useEffect(() => {
-        if (authUserId) {
-            // Subscribe to user document on mount
-            const unsubscribe = db
-                .collection('users')
-                .doc(authUserId)
-                .onSnapshot((doc) => {
-                    console.log('users doc new:', doc.data());
-                    const user: User = doc.data() as User;
-                    setUser(user);
-                })
-            return () => unsubscribe()
-        }
-    }, [authUserId]);
 
     const signUp = ({ name, email, password }) => {
         return auth
@@ -132,7 +115,7 @@ const useAuthProvider = () => {
     };
 
     const signOut = () => {
-        return auth.signOut().then(() => setUser(false));
+        return auth.signOut().then(() => setAuthUserId(''));
     };
 
     const sendPasswordResetEmail = (email) => {
@@ -146,58 +129,12 @@ const useAuthProvider = () => {
     };
 
     ////////// Helper Functions //////////
-    const setLpFavorite = ({lpId, uId, isFavorite}: {lpId: string, uId: string, isFavorite: boolean}) => {
-        // local should reflect remote
-        const updatedUserLearningPaths = user.learningResources;
-        let isMatch = false
-        updatedUserLearningPaths.forEach((uLp) => {
-            if (uLp.id === lpId) {
-                // update existing
-                uLp.updated = Date.now();
-                uLp.isFavorited = isFavorite;
-            }
-        });
-        if (!isMatch) {
-            // create new
-            updatedUserLearningPaths.push({
-                id: lpId,
-                created: Date.now(),
-                updated: Date.now(),
-                isFavorited: isFavorite
-            })
-        }
-
-        return db.collection('users').doc(uId).update({
-            learningPaths: updatedUserLearningPaths,
-        }).then(() => {
-            console.log('updated ', uId);
-            return true
-        }).catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
-        });
-    }
-
-    const setUserName = ({uId, name}: {uId: string, name: string}) => {
-        return db.collection('users').doc(uId).update({
-            name,
-        }).then(() => {
-            console.log('updated', uId);
-            return true
-        }).catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
-        });
-    }
 
     return {
-        user,
         authUserId,
         signUp,
         signIn,
         signOut,
-        sendPasswordResetEmail,
-        setLpFavorite,
-        setUserName
+        sendPasswordResetEmail
     };
 };

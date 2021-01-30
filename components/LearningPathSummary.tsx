@@ -1,7 +1,7 @@
 import { HeartFill, Heart, CheckSquareFill, Check, Star, StarFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
-import { useAuth } from '../hooks/useAuth';
+import { useDb } from '../hooks/useDb';
 
 const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
     {
@@ -9,11 +9,11 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
         userProgress: number,
         isFavorite: boolean
     }) => {
-    const auth = useAuth();
-    const setLpFavorite = (isFavorite: boolean) => auth.setLpFavorite({
+    const db = useDb();
+    const setLpFavorite = (isFavorite: boolean) => db.setLpFavorite({
         isFavorite,
         lpId: lp.id,
-        uId: auth.user.uid,
+        uId: db.user.uid,
     })
 
     return (

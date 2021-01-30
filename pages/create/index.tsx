@@ -26,8 +26,8 @@ export default function Create({ testLp }) {
     const addTestLp = () => {
         const newLp = testLp;
         newLp.data.author = {
-            uid: auth.user.uid,
-            name: auth.user.name
+            uid: db.user.uid,
+            name: db.user.name
         }
         db.createLearningPath(newLp.data).then((res) => {
             console.log('done creating learning path', res);
@@ -48,11 +48,11 @@ export default function Create({ testLp }) {
                         <div className="mx-auto px-6 mt-6 max-w-4xl">
                             <div className="container mb-4 md:mb-6">
                                 <button onClick={() => addTestLp()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningPath</button>
-                                <button onClick={() => auth.setUserName({ uId: auth.user.uid, name: 'nomotest3' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
+                                <button onClick={() => auth.setUserName({ uId: db.user.uid, name: 'nomotest3' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
                                 {/* <button onClick={() => addtestLr()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningResource</button> */}
                                 <div>All Lps:</div>
                                 {
-                                    db.learningPaths && db.learningPaths.map((lp) => (
+                                    db.userLearningPaths && db.userLearningPaths.map((lp) => (
                                         <div key={`${lp.id}`}>
                                             {lp.data.title} ({lp.id})
                                             <button onClick={() => db.deleteLearningPath(lp.id)} className="m-2 p-1 bg-red-200 rounded-md">Delete</button>
@@ -61,7 +61,7 @@ export default function Create({ testLp }) {
                                 }
                                 <div className="container mb-4 md:mb-6">
                                     <h1 className="mb-3">Your Created Learning Paths</h1>
-                                    <LpListSection lps={db.learningPaths} />
+                                    <LpListSection lps={db.userLearningPaths} />
                                 </div>
                             </div>
                         </div>
