@@ -113,7 +113,7 @@ const useDbProvider = () => {
 
     const setLpFavorite = ({ lpId, uId, isFavorite }: { lpId: string, uId: string, isFavorite: boolean }) => {
         // Update user docs
-        const updatedUserLearningPaths = user.learningResources;
+        const updatedUserLearningPaths = user.learningPaths;
         let isMatch = false
         updatedUserLearningPaths.forEach((uLp) => {
             if (uLp.id === lpId) {
@@ -146,10 +146,10 @@ const useDbProvider = () => {
                 console.log('updated ', lpId);
                 return true
             })
-                .catch((err) => {
-                    console.error("Error updating document: ", err);
-                    return false
-                })
+            .catch((err) => {
+                console.error("Error updating document: ", err);
+                return false
+            })
         }).catch((err) => {
             console.error("Error updating document: ", err);
             return false
