@@ -64,6 +64,13 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const learningPath = lp.data;
     const userProgress = lp.userData && lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal;
+    const db = useDb();
+    const setLpFavorite = (isFavorite: boolean) => db.setLpFavorite({
+        isFavorite,
+        lpId: lp.id,
+        uId: db.user.uid,
+    })
+
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
@@ -78,9 +85,15 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     </div>
             }
             <div className="flex flex-wrap md:x-1 text-md font-light text-gray-500">
-                <span className="flex pr-1 md:pr-3">
-                    <HeartFill className="px-1 text-red-500" size={24} />{lp.data.countFavorite}
-                </span>
+                {
+                    lp.userData.isFavorite ?
+                        <span className="flex pr-1 md:pr-3">
+                            <HeartFill className="px-1 text-red-500 cursor-pointer" size={24} onClick={() => setLpFavorite(false)} />{lp.data.countFavorite}
+                        </span> :
+                        <span className="flex pr-1 md:pr-3">
+                            <Heart className="px-1 text-red-500 cursor-pointer" size={24} onClick={() => setLpFavorite(true)} />{lp.data.countFavorite}
+                        </span>
+                }
                 <span className="flex pr-1 md:pr-3">
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
                     <StarFill className="text-yellow-300 mt-0.5" size={18} />
