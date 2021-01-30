@@ -41,12 +41,21 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
                             <Heart className="ml-2 text-red-700 mt-1" size={20} />
                         </div>
                     </div> :
-                    <div className="border border-red-400 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => setLpFavorite(false)}>
+                    <div className="border border-red-400 rounded p-1.5 flex w-36 text-red-700 hover:bg-red-100" onClick={() => setLpFavorite(false)}>
                         <div className="mx-auto flex">
                             <span className="text-md">Favorited</span>
                             <HeartFill className="ml-2 text-red-500 mt-1" size={20} />
                         </div>
                     </div>
+            }
+            {
+                lp.userData.isCreator === true ?
+                    <div className="my-2 border border-red-400 rounded p-1.5 flex w-36 text-red-700 bg-red-50 hover:bg-red-100" onClick={() => db.deleteLearningPath(lp.id)}>
+                        <div className="mx-auto flex">
+                            <span className="text-md">Delete</span>
+                        </div>
+                    </div>
+                    : undefined
             }
         </div>
     )
