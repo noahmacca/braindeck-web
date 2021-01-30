@@ -11,7 +11,7 @@ import firebase from 'firebase/app';
 import {
     User
 } from './types';
-const authContext = createContext({ authUserId: {} });
+const authContext = createContext({ userId: {} });
 const { Provider } = authContext;
 
 export function AuthProvider(props: { children: ReactNode }): JSX.Element {
@@ -27,7 +27,7 @@ export const useRequireAuth = () => {
     const auth = useAuth();
     const router = useRouter();
     useEffect(() => {
-        if (auth.authUserId === '') {
+        if (auth.userId === '') {
             router.push('/login');
         }
     }, [auth, router]);
@@ -55,10 +55,10 @@ export const initializeUserDoc = (user: NewUserInput): User => {
 
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
-    // authUserId tracks user logged in state from auth.
+    // userId tracks user logged in state from auth.
     // Use this to get full user doc from the db.
     // Three states: null=unknown; ''=not logged in; non-empty string=logged in
-    const [authUserId, setAuthUserId] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     const createUser = (newUser: NewUserInput) => {
         const userInit = initializeUserDoc(newUser)
@@ -68,7 +68,7 @@ const useAuthProvider = () => {
             .doc(userInit.uid)
             .set(userInit)
             .then(() => {
-                setAuthUserId(userInit.uid);
+                setUserId(userInit.uid);
                 return userInit;
             })
             .catch((error) => {
@@ -102,7 +102,7 @@ const useAuthProvider = () => {
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
                 console.log('signing in, getting userAdditionalData');
-                setAuthUserId(response.user.uid);
+                setUserId(response.user.uid);
                 return response.user;
             })
             .catch((error) => {
@@ -111,11 +111,11 @@ const useAuthProvider = () => {
     };
 
     const handleAuthStateChanged = (newUser) => {
-        newUser ? setAuthUserId(newUser.uid) : setAuthUserId('')
+        newUser ? setUserId(newUser.uid) : setUserId('')
     };
 
     const signOut = () => {
-        return auth.signOut().then(() => setAuthUserId(''));
+        return auth.signOut().then(() => setUserId(''));
     };
 
     const sendPasswordResetEmail = (email) => {
@@ -131,7 +131,7 @@ const useAuthProvider = () => {
     ////////// Helper Functions //////////
 
     return {
-        authUserId,
+        userId,
         signUp,
         signIn,
         signOut,

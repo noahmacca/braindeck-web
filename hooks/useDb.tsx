@@ -55,17 +55,17 @@ const useDbProvider = () => {
 
     // On recepit of userId, subscribe to that user doc, and update user
     useEffect(() => {
-        if (auth.authUserId && auth.authUserId.length > 0) {
+        if (auth.userId && auth.userId.length > 0) {
             const unsubscribe = db
                 .collection('users')
-                .doc(auth.authUserId)
+                .doc(auth.userId)
                 .onSnapshot((doc) => {
                     const user: User = doc.data() as User;
                     setUser(user);
                 })
             return () => unsubscribe()
         }
-    }, [auth.authUserId]);
+    }, [auth.userId]);
 
     // update userLearningPaths when user or learningPaths updates
     useEffect(() => {

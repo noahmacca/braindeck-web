@@ -39,7 +39,7 @@ export default function Create({ testLp }) {
             <PageHead title="BrainDeck Create" />
             <NavBar />
             {
-                auth.authUserId === null ?
+                auth.userId === null ?
                     <div className="flex justify-center my-40">
                         <Spinner width="80" fill="#7C3AED" className="animate-spin" />
                     </div>
