@@ -153,6 +153,11 @@ const useDbProvider = () => {
         });
     }
 
+    const setUserRating = ({ lpId, uId, rating }: { lpId: string, uId: string, rating: number }) => {
+        console.log('setUserRating', lpId, uId, rating);
+        return
+    }
+
     const setUserName = ({ uId, name }: { uId: string, name: string }) => {
         return db.collection('users').doc(uId).update({
             name,
@@ -242,6 +247,7 @@ const useDbProvider = () => {
         setLpFavorite,
         setUserName,
         createLearningPath,
+        setUserRating,
         getLearningPathById,
         updateLearningPath,
         deleteLearningPath,
