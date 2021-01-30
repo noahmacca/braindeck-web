@@ -155,6 +155,29 @@ const useDbProvider = () => {
 
     const setUserRating = ({ lpId, uId, rating }: { lpId: string, uId: string, rating: number }) => {
         console.log('setUserRating', lpId, uId, rating);
+        // See if user has rated this learningPath
+        const updatedUserLearningPaths = user.learningPaths;
+        let isRated = false
+        updatedUserLearningPaths.forEach((uLp) => {
+            if (uLp.id === lpId) {
+                uLp.updated = Date.now();
+                uLp.isRated = !uLp.isFavorite;
+                isRated = uLp.isRated;
+            }
+        });
+        if (!isRated) {
+            // create new
+            updatedUserLearningPaths.push({
+                id: lpId,
+                created: Date.now(),
+                updated: Date.now(),
+                isRated: true
+            })
+            isRated=true
+        }
+
+        // Update the avgRating and countRating
+
         return
     }
 
