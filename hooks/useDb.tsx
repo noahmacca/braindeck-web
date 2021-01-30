@@ -47,7 +47,6 @@ const useDbProvider = () => {
                         }
                         lps.push(lp);
                     });
-                    console.log('subscribe learningPaths, setLearningPaths', lps);
                     setLearningPaths(lps);
                 });
             return () => unsubscribe();
@@ -61,9 +60,7 @@ const useDbProvider = () => {
                 .collection('users')
                 .doc(auth.authUserId)
                 .onSnapshot((doc) => {
-                    console.log('users doc new:', doc.data());
                     const user: User = doc.data() as User;
-                    console.log('subscribe to user docs, setUser', user, doc.data(), doc);
                     setUser(user);
                 })
             return () => unsubscribe()
@@ -74,7 +71,6 @@ const useDbProvider = () => {
     useEffect(() => {
         // if we update user or learningPaths, update userLearningPaths
         const userLearningPaths = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, user));
-        console.log('update to user or lps, setLearningPaths', userLearningPaths, user);
         setUserLearningPaths(userLearningPaths);
     }, [user, learningPaths])
 
