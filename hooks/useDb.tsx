@@ -128,24 +128,25 @@ const useDbProvider = () => {
             })
         }
 
-        return db.collection('users').doc(uId).update({
+        // Update learningPaths doc
+        db.collection('learningPaths').doc(lpId).update({
+            countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1)
+        }).then(() => {
+            console.log('updated ', lpId);
+            return true
+        })
+        .catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        })
+
+        // Update user doc
+        db.collection('users').doc(uId).update({
             learningPaths: updatedUserLearningPaths,
         }).then(() => {
             console.log('updated ', uId);
             // Now increment or decrement the number of favorites on the lp
             var washingtonRef = db.collection('cities').doc('DC');
-
-            // Atomically increment the population of the city by 50.
-            return db.collection('learningPaths').doc(lpId).update({
-                countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1)
-            }).then(() => {
-                console.log('updated ', lpId);
-                return true
-            })
-            .catch((err) => {
-                console.error("Error updating document: ", err);
-                return false
-            })
         }).catch((err) => {
             console.error("Error updating document: ", err);
             return false
