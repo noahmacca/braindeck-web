@@ -116,6 +116,7 @@ const useDbProvider = () => {
                 // update existing
                 uLp.updated = Date.now();
                 uLp.isFavorited = isFavorite;
+                isMatch = true
             }
         });
         if (!isMatch) {
@@ -125,9 +126,9 @@ const useDbProvider = () => {
                 created: Date.now(),
                 updated: Date.now(),
                 isFavorited: isFavorite
-            })
+            });
         }
-
+        
         // Update learningPaths doc
         updateDoc('learningPaths', lpId, {
             countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1),
