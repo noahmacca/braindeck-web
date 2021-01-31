@@ -36,11 +36,28 @@ export default function MyCoursesIndex() {
     useRequireAuth();
     const db = useDb();
 
-    let sortedFavoritedUserLps = [];
+    const displayLpsByCat = {
+        'complete': [],
+        'notStarted': [],
+        'inProgress': []
+    };
     if (db.userLearningPaths && db.user) {
-        sortedFavoritedUserLps = db.userLearningPaths.filter((uLp) => db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))
-        console.log('MyCourses', sortedFavoritedUserLps);
-        sortedFavoritedUserLps.sort(compareByDataUpdated);
+        db.userLearningPaths.forEach((uLp) => {
+            const uLpProgress = uLp.userData.numLearningResourcesTotal > 0 ? uLp.userData.completedContentIds.length / uLp.userData.numLearningResourcesTotal : 0
+            if (db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && ((userLp.isFavorited === true) || (uLp.userData.completedContentIds.length > 0)))) {
+                if (uLpProgress === 0) {
+                    displayLpsByCat.notStarted.push(uLp);
+                } else if (uLpProgress >= 1.0) {
+                    displayLpsByCat.complete.push(uLp);
+                } else {
+                    displayLpsByCat.inProgress.push(uLp);
+                }
+            }
+        })
+
+        displayLpsByCat.complete.sort(compareByDataUpdated);
+        displayLpsByCat.notStarted.sort(compareByDataUpdated);
+        displayLpsByCat.inProgress.sort(compareByDataUpdated);
     }
 
     return (
@@ -56,36 +73,20 @@ export default function MyCoursesIndex() {
                                 <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
                                     In Progress
                                 </div>
-                                <LpListSection lps={sortedFavoritedUserLps} />
-                            </div>
-                            {/* <div className="my-2 md:my-6 md:mx-4">
-                                <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                    In Progress
-                                </div>
-                                <LpListSection userLps={userLpsByCat.lpFavoriteInProgress} />
+                                <LpListSection lps={displayLpsByCat.inProgress} />
                             </div>
                             <div className="my-2 md:my-6 md:mx-4">
                                 <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
                                     Not Started
                                 </div>
-                                <LpListSection userLps={userLpsByCat.lpFavoriteNotStarted} />
+                                <LpListSection lps={displayLpsByCat.notStarted} />
                             </div>
                             <div className="my-2 md:my-6 md:mx-4">
                                 <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
                                     Complete
                                 </div>
-                                <LpListSection userLps={userLpsByCat.lpCompleted} />
+                                <LpListSection lps={displayLpsByCat.complete} />
                             </div>
-                            {
-                                userLpsByCat.lpCompletedButNewContent.length > 0 ?
-                                    <div className="my-2 md:my-6 md:mx-4">
-                                        <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                            Previously Complete (New Content Added)
-                                        </div>
-                                        <LpListSection userLps={userLpsByCat.lpCompletedButNewContent} />
-                                    </div> :
-                                    undefined
-                            } */}
                         </div>
                     </div>
                 </div>

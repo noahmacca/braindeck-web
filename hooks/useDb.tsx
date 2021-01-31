@@ -98,7 +98,7 @@ const useDbProvider = () => {
             lpu.data.learningConcepts.forEach((concept) => {
                 concept.learningResources.forEach((resource) => {
                     lpu.userData.numLearningResourcesTotal += 1
-                    if (user.learningResources.some((uResource) => uResource.id === resource.id)) {
+                    if (user.learningResources.some((uResource) => (uResource.id === resource.id) && (uResource.isCompleted))) {
                         lpu.userData.completedContentIds.push(resource.id);
                     }
                 });
