@@ -46,7 +46,7 @@ export default function Create({ testLp }) {
                             <button onClick={() => db.setUserName({ uId: db.user.uid, name: 'nomotest4' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
                             <div className="container mb-4 md:mb-6">
                                 <h1 className="mb-3">Your Created Learning Paths</h1>
-                                <LpListSection lps={db.userLearningPaths} />
+                                <LpListSection lps={db.userLearningPaths.filter((uLp) => uLp.userData.isCreator)} />
                             </div>
                         </div>
                     </div>
