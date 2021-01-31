@@ -4,7 +4,7 @@ import LearningPathSummary from './LearningPathSummary';
 import { useDb } from '../hooks/useDb';
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
 
-function renderLearningResource(learningResource: LearningResource, idx: string) {
+function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
     // const [isComplete, setIsComplete] = useState(isUserFavorite);
     const db = useDb();
     const isComplete = db.user.learningResources.some(uLr => (uLr.id === learningResource.id) && !!uLr.isCompleted);
@@ -37,13 +37,13 @@ function renderLearningResource(learningResource: LearningResource, idx: string)
             <div>
                 {
                     !isComplete ?
-                        <div className="rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-100 hover:bg-gray-200 cursor-pointer" onClick={() => alert(true)}>
+                        <div className="rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-100 hover:bg-gray-200 cursor-pointer" onClick={() => setLearningResourceComplete(learningResource.id, true)}>
                             <div className="mx-auto flex">
                                 <span className="text-sm">Complete</span>
                                 <Check className="ml-2 text-gray-500" size={20} />
                             </div>
                         </div> :
-                        <div className="rounded p-1 mt-1 flex w-28 text-green-700 bg-green-100 hover:bg-green-200 cursor-pointer" onClick={() => alert(false)}>
+                        <div className="rounded p-1 mt-1 flex w-28 text-green-700 bg-green-100 hover:bg-green-200 cursor-pointer" onClick={() => setLearningResourceComplete(learningResource.id, false)}>
                             <div className="mx-auto flex">
                                 <span className="text-sm">Completed</span>
                                 <CheckSquareFill className="ml-2 text-green-500" size={20} />
@@ -55,7 +55,7 @@ function renderLearningResource(learningResource: LearningResource, idx: string)
     )
 }
 
-function renderLearningConcepts(learningConcepts: Array<LearningConcept>) {
+function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLearningResourceComplete: Function) {
     return learningConcepts.map((learningConcept, idxConcept) => {
         return (
             <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${learningConcept.id}-concept`}>
@@ -66,7 +66,7 @@ function renderLearningConcepts(learningConcepts: Array<LearningConcept>) {
                             
                             return (
                                 <div key={`${learningResource.id}-content`}>
-                                    { renderLearningResource(learningResource, `${idxConcept + 1}.${idxResource + 1}.`)}
+                                    { renderLearningResource(learningResource, `${idxConcept + 1}.${idxResource + 1}.`, setLearningResourceComplete)}
                                 </div>
                             )
                         })
@@ -79,7 +79,11 @@ function renderLearningConcepts(learningConcepts: Array<LearningConcept>) {
 
 export default function LearningPathView({ lpId }: { lpId: string }) {
     const db = useDb();
-    const lp: LearningPathUser = db.userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+    const lp: LearningPathUser = db.userLearningPaths.filter((uLp) => uLp.id === lpId)[0];
+    const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
+        db.set
+        console.log('marking completed', lrId, isComplete);
+    }
     return (
         <div>
             <div className="relative bg-white overflow-hidden">
@@ -88,7 +92,7 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
                         lp={lp}
                         isCompact={false}
                     />
-                    {renderLearningConcepts(lp.data.learningConcepts)}
+                    {renderLearningConcepts(lp.data.learningConcepts, setLearningResourceComplete)}
                 </div>
             </div>
         </div>
