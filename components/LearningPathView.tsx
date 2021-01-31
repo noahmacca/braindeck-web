@@ -7,8 +7,7 @@ import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/ty
 function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
     // const [isComplete, setIsComplete] = useState(isUserFavorite);
     const db = useDb();
-    const isComplete = db.user.learningResources.some(uLr => (uLr.id === learningResource.id) && !!uLr.isCompleted);
-    console.log('renderLearningResource', isComplete)
+    const isComplete = db.user.learningResources?.some(uLr => (uLr.id === learningResource.id) && !!uLr.isCompleted);
 
     return (
         <div className="p-3 mx-3 bg-gray-50 mb-3 rounded-lg">

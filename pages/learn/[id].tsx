@@ -29,7 +29,6 @@ export async function getStaticPaths() {
 
 export default function LearningPathViewById({ paramId }: { paramId: string }) {
     const db = useDb();
-    
 
     return (
         <div>
