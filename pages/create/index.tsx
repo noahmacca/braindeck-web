@@ -20,7 +20,7 @@ export async function getStaticProps() {
 export default function Create({ testLp }) {
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
-    const auth = useRequireAuth();
+    useRequireAuth();
     const db = useDb();
 
     const addTestLp = () => {
