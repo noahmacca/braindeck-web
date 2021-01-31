@@ -137,8 +137,8 @@ const useDbProvider = () => {
         });
     }
 
-    const setUserRating = ({ lpId, uId, rating }: { lpId: string, uId: string, rating: number }) => {
-        console.log('setUserRating', lpId, uId, rating);
+    const setLpRating = ({ lpId, uId, rating }: { lpId: string, uId: string, rating: number }) => {
+        console.log('setLpRating', lpId, uId, rating);
         // See if user has rated this learningPath
         const updatedUserLearningPaths = user.learningPaths;
         let currUserRating = null;
@@ -158,6 +158,7 @@ const useDbProvider = () => {
                 rating: true
             });
         }
+        console.log('currUserRating', currUserRating)
 
         updateDoc('users', uId, {
             learningPaths: updatedUserLearningPaths,
@@ -179,10 +180,12 @@ const useDbProvider = () => {
             // New rating
             newN = currN + 1
             newAvgRating = ((currAvgRating * currN) + rating) / newN
+            console.log('no currUserRating', currN, newN, currAvgRating, newN)
         } else {
             // altered existing rating
-            newAvgRating = ((currAvgRating * currN) - currAvgRating + rating) / (currN)
+            newAvgRating = ((currAvgRating * currN) - currUserRating + rating) / (currN)
             newN = currN
+            console.log('no currUserRating', currN, newN, currAvgRating, newN)
         }
 
         return updateDoc('learningPaths', lpId, {
@@ -281,7 +284,7 @@ const useDbProvider = () => {
         setLpFavorite,
         setUserName,
         createLearningPath,
-        setUserRating,
+        setLpRating,
         getLearningPathById,
         updateDoc,
         deleteLearningPath,

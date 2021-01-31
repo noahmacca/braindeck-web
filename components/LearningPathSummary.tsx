@@ -102,7 +102,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
         uId: db.user.uid,
     })
 
-    const setUserRating = (rating: number) => db.setUserRating({
+    const setLpRating = (rating: number) => db.setLpRating({
         rating,
         lpId: lp.id,
         uId: db.user.uid
@@ -137,7 +137,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </span>
                 }
                 <span className="flex pr-1 md:pr-3">
-                    {renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setUserRating(numStars) })}
+                    {renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })}
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
