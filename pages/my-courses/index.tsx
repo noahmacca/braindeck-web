@@ -32,11 +32,10 @@ export default function MyCoursesIndex() {
     let hasAnyLearningPath = false;
     if (db.userLearningPaths && db.user) {
         db.userLearningPaths.forEach((uLp) => {
-            const uLpProgress = uLp.userData.numLearningResourcesTotal > 0 ? uLp.userData.completedContentIds.length / uLp.userData.numLearningResourcesTotal : 0
             if (db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && ((userLp.isFavorited === true) || (uLp.userData.completedContentIds.length > 0)))) {
-                if (uLpProgress === 0) {
+                if (uLp.userData.progress === 0) {
                     displayLpsByCat.notStarted.push(uLp);
-                } else if (uLpProgress >= 1.0) {
+                } else if (uLp.userData.progress >= 1.0) {
                     displayLpsByCat.complete.push(uLp);
                 } else {
                     displayLpsByCat.inProgress.push(uLp);

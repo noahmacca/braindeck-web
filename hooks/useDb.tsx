@@ -83,6 +83,7 @@ const useDbProvider = () => {
                 isCreator: false,
                 numLearningResourcesTotal: 0,
                 completedContentIds: [],
+                progress: 0.0,
             }
         }
 
@@ -93,16 +94,17 @@ const useDbProvider = () => {
 
         lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
         lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
-        lpu.userData.isCreator = user.uid === lp.data.author.uid,
+        lpu.userData.isCreator = user.uid === lp.data.author.uid;
+        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
 
-            lpu.data.learningConcepts.forEach((concept) => {
-                concept.learningResources.forEach((resource) => {
-                    lpu.userData.numLearningResourcesTotal += 1
-                    if (user.learningResources.some((uResource) => (uResource.id === resource.id) && (uResource.isCompleted))) {
-                        lpu.userData.completedContentIds.push(resource.id);
-                    }
-                });
+        lpu.data.learningConcepts.forEach((concept) => {
+            concept.learningResources.forEach((resource) => {
+                lpu.userData.numLearningResourcesTotal += 1
+                if (user.learningResources.some((uResource) => (uResource.id === resource.id) && (uResource.isCompleted))) {
+                    lpu.userData.completedContentIds.push(resource.id);
+                }
             });
+        });
 
         return lpu
     }
@@ -128,7 +130,7 @@ const useDbProvider = () => {
                 isFavorited: isFavorite
             });
         }
-        
+
         // Update learningPaths doc
         updateDoc('learningPaths', lpId, {
             countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1),

@@ -76,5 +76,6 @@ export interface LearningPathUser {
         isCreator: boolean,
         numLearningResourcesTotal: number,
         completedContentIds: Array<string>,
+        progress: number,
     }
 }

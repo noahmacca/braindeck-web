@@ -3,10 +3,10 @@ import { HeartFill, Heart, Star, StarFill, Trash } from 'react-bootstrap-icons';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
 
-const renderLpSummaryDetail = ({ lp, userProgress }:
+const renderLpSummaryDetail = ({ lp, progress }:
     {
         lp: LearningPathUser,
-        userProgress: number
+        progress: number
     }) => {
 
     return (
@@ -23,7 +23,7 @@ const renderLpSummaryDetail = ({ lp, userProgress }:
                 <div>
                     <div className="text-sm font-medium">Created by <span className="font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</span></div>
                     <div className="text-sm font-medium">Last Updated <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span></div>
-                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(userProgress * 100)}%</span></div>
+                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(progress * 100)}%</span></div>
                 </div>
             </div>
         </div>
@@ -92,7 +92,6 @@ const getChipColor = (type: string, val: string) => {
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const learningPath = lp.data;
-    const userProgress = lp.userData && lp.userData.numLearningResourcesTotal > 0 ? lp.userData.completedContentIds.length / lp.userData.numLearningResourcesTotal : 0;
     const db = useDb();
     const setLpFavorite = (isFavorite: boolean) => db.setLpFavorite({
         isFavorite,
@@ -147,7 +146,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 {renderInfoChip(lp.data.estDurationBucket, getChipColor('EST_DURATION', lp.data.estDurationBucket))}
             </div>
             { !isCompact ?
-                renderLpSummaryDetail({ lp, userProgress }) :
+                renderLpSummaryDetail({ lp, progress: lp.userData.progress }) :
                 <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
             }
         </div>
