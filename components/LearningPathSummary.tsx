@@ -1,4 +1,4 @@
-import { Console } from 'console';
+import Link from 'next/link'
 import { HeartFill, Heart, Star, StarFill, Trash } from 'react-bootstrap-icons';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
@@ -9,7 +9,6 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
         userProgress: number,
         isFavorite: boolean
     }) => {
-    const db = useDb();
 
     return (
         <div>
@@ -118,12 +117,16 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             {
                 isCompact ?
                     <div>
-                        <div className="text-xl pb-1 tracking-tight text-gray-700">{lp.data.title}</div>
+                        <Link href={`/learn/${lp.id}`}>
+                            <div className="text-xl pb-1 tracking-tight text-gray-700 cursor-pointer">{lp.data.title}</div>
+                        </Link>
                     </div>
                     :
                     <div>
                         <div className="text-sm text-gray-500">{lp.data.subject}</div>
-                        <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800">{learningPath.title}</div>
+                        <Link href={`/learn/${lp.id}`}>
+                            <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800 cursor-pointer">{learningPath.title}</div>
+                        </Link>
                     </div>
             }
             <div className="flex flex-wrap md:x-1 text-md font-light text-gray-500">
