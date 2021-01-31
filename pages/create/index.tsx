@@ -6,7 +6,7 @@ import {
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import LearningPathLoader from '../../components/LearningPathLoader';
+import LearningPathLoader from '../../components/LearningPathLoader'
 
 export async function getStaticProps() {
     const testLp = getLearningPathByIdTest('appleTest1');

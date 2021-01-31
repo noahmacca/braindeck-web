@@ -1,7 +1,5 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import { getLearningPathsForUser } from '../../lib/learningPaths';
-import { getUserById } from '../../lib/user';
 import LpListSection from "../../components/LpListSection";
 import LearningPathLoader from '../../components/LearningPathLoader';
 import { useRequireAuth } from '../../hooks/useAuth';
