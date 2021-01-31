@@ -41,6 +41,7 @@ export default function MyCoursesIndex() {
         'notStarted': [],
         'inProgress': []
     };
+    let hasAnyLearningPath = false;
     if (db.userLearningPaths && db.user) {
         db.userLearningPaths.forEach((uLp) => {
             const uLpProgress = uLp.userData.numLearningResourcesTotal > 0 ? uLp.userData.completedContentIds.length / uLp.userData.numLearningResourcesTotal : 0
@@ -52,6 +53,7 @@ export default function MyCoursesIndex() {
                 } else {
                     displayLpsByCat.inProgress.push(uLp);
                 }
+                hasAnyLearningPath = true
             }
         })
 
@@ -69,24 +71,42 @@ export default function MyCoursesIndex() {
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
                             <h1>Your Learning Paths</h1>
-                            <div className="my-2 md:my-6 md:mx-4">
-                                <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                    In Progress
+                            {
+                                !hasAnyLearningPath ?
+                                <div className="p-5 text-md text-gray-700 font-light">
+                                    Go favorite some learning paths!
+                                </div> :
+                                <div>
+                                    {
+                                        displayLpsByCat.inProgress &&
+                                        <div className="my-2 md:my-6 md:mx-4">
+                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
+                                                In Progress
+                                        </div>
+                                            <LpListSection lps={displayLpsByCat.inProgress} />
+                                        </div>
+                                    }
+                                    {
+                                        displayLpsByCat.notStarted.length > 0 &&
+                                        <div className="my-2 md:my-6 md:mx-4">
+                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
+                                                Not Started
+                                            </div>
+                                            <LpListSection lps={displayLpsByCat.notStarted} />
+                                        </div>
+                                    }
+                                    {
+                                        displayLpsByCat.complete.length > 0 &&
+                                        <div className="my-2 md:my-6 md:mx-4">
+                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
+                                                Complete
+                                            </div>
+                                            <LpListSection lps={displayLpsByCat.complete} />
+                                        </div>
+                                    }
                                 </div>
-                                <LpListSection lps={displayLpsByCat.inProgress} />
-                            </div>
-                            <div className="my-2 md:my-6 md:mx-4">
-                                <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                    Not Started
-                                </div>
-                                <LpListSection lps={displayLpsByCat.notStarted} />
-                            </div>
-                            <div className="my-2 md:my-6 md:mx-4">
-                                <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                    Complete
-                                </div>
-                                <LpListSection lps={displayLpsByCat.complete} />
-                            </div>
+
+                            }
                         </div>
                     </div>
                 </div>
