@@ -194,6 +194,34 @@ const useDbProvider = () => {
         });
     }
 
+    const setLearningResourceComplete = ({ uId, lrId, isComplete }: { uId: string, lrId: string, isComplete: boolean }) => {
+        // update user doc only
+        const updatedUserLearningResources = user.learningResources;
+        const nowMs = Date.now();
+        let isMatch = false;
+        updatedUserLearningResources.forEach((uLr) => {
+            if (uLr.id === lrId) {
+                uLr.updated = nowMs;
+                uLr.isCompleted = isComplete;
+                isMatch = true;
+            }
+        });
+
+        if (!isMatch) {
+            // add new entry
+            updatedUserLearningResources.push({
+                id: lrId,
+                created: nowMs,
+                updated: nowMs,
+                isCompleted: true,
+            });
+        }
+
+        updateDoc('users', uId, {
+            learningResources: updatedUserLearningResources,
+        });
+    }
+
     const setUserName = ({ uId, name }: { uId: string, name: string }) => {
         return db.collection('users').doc(uId).update({
             name,
@@ -288,5 +316,6 @@ const useDbProvider = () => {
         getLearningPathById,
         updateDoc,
         deleteLearningPath,
+        setLearningResourceComplete,
     }
 }

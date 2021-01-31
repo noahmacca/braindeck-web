@@ -81,8 +81,11 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
     const db = useDb();
     const lp: LearningPathUser = db.userLearningPaths.filter((uLp) => uLp.id === lpId)[0];
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
-        db.set
-        console.log('marking completed', lrId, isComplete);
+        db.setLearningResourceComplete({
+            uId: db.user.uid,
+            lrId,
+            isComplete
+        });
     }
     return (
         <div>
