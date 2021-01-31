@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import { HeartFill, Heart, Star, StarFill, Trash } from 'react-bootstrap-icons';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
@@ -52,11 +53,44 @@ const renderStarRating = (numStars: number, cb: any) => {
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-s p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-200 text-gray-700 font-light capitalize`}>
+        <span className={`text-s p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-gray-700 font-light capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )
 }
+
+const getChipColor = (type: string, val: string) => {
+    const normType = type.toUpperCase();
+    const normVal = val.toUpperCase();
+    const colorConfig = {
+        'DIFFICULTY': {
+            'EASY': 'green',
+            'MODERATE': 'indigo',
+            'HARD': 'yellow',
+            'ADVANCED': 'orange'
+        },
+        'EST_DURATION': {
+            'FAST (<1 HR)': 'green',
+            'FAST (1-2 HR)': 'indigo',
+            'MEDIUM (2-5 HR)': 'yellow',
+            'LONG (5-10 HR)': 'orange',
+            'VERY LONG (10-20 HR)': 'red',
+        }
+    }
+    let res = 'gray';
+    if (normType in colorConfig) {
+        if (normVal in colorConfig[normType]) {
+            res = colorConfig[normType][normVal]
+        } else {
+            console.log('Invalid colorConfig val', normVal);
+        }
+    } else {
+        console.log('Invalid colorConfig type', normType);
+    }
+    return res
+}
+
+
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const learningPath = lp.data;
@@ -107,8 +141,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
-                {renderInfoChip(lp.data.difficulty, 'green')}
-                {renderInfoChip(lp.data.estDurationBucket, 'yellow')}
+                {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
+                {renderInfoChip(lp.data.estDurationBucket, getChipColor('EST_DURATION', lp.data.estDurationBucket))}
             </div>
             { !isCompact ?
                 renderLpSummaryDetail({ lp, userProgress, isFavorite: lp.userData.isFavorite }) :
