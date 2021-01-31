@@ -156,7 +156,7 @@ const useDbProvider = () => {
                 id: lpId,
                 created: Date.now(),
                 updated: Date.now(),
-                rating: true
+                rating,
             });
         }
         console.log('currUserRating', currUserRating)
