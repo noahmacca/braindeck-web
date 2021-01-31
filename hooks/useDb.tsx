@@ -81,7 +81,7 @@ const useDbProvider = () => {
                 isFavorite: false,
                 isComplete: false,
                 isCreator: false,
-                numLearningResourcesTotal: 1,
+                numLearningResourcesTotal: 0,
                 completedContentIds: [],
             }
         }
