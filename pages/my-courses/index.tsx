@@ -66,7 +66,7 @@ export default function MyCoursesIndex() {
                                 </div> :
                                 <div>
                                     {
-                                        displayLpsByCat.inProgress &&
+                                        displayLpsByCat.inProgress.length > 0 &&
                                         <div className="my-2 md:my-6 md:mx-4">
                                             <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
                                                 In Progress
