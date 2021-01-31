@@ -164,13 +164,13 @@ const useDbProvider = () => {
         });
 
         // Update the avgRating and countRating on the LP itself
-        let currRating = 0;
+        let currAvgRating = 0;
         let currN = 0;
         let newAvgRating = 0;
         let newN = 0;
         userLearningPaths.forEach((uLp: LearningPathUser) => {
             if (uLp.id === lpId) {
-                currRating = uLp.data.avgRating;
+                currAvgRating = uLp.data.avgRating;
                 currN = uLp.data.countReviews
             }
         });
@@ -178,10 +178,10 @@ const useDbProvider = () => {
         if (!currUserRating) {
             // New rating
             newN = currN + 1
-            newAvgRating = ((currRating * currN) + rating) / newN
+            newAvgRating = ((currAvgRating * currN) + rating) / newN
         } else {
             // altered existing rating
-            newAvgRating = ((currRating * currN) - currUserRating + rating) / (currN)
+            newAvgRating = ((currAvgRating * currN) - currAvgRating + rating) / (currN)
             newN = currN
         }
 
