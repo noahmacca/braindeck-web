@@ -7,14 +7,10 @@ export default function LpListSection({ lps }: { lps: Array<LearningPathUser> })
         <div>
             {lps.map((lp) => (
                 <div key={lp.id} className=" mb-2">
-                    {/* <Link href={`/learn/${lp.id}`}> */}
-                    <div className="cursor-pointer">
-                        <LearningPathSummary
-                            lp={lp}
-                            isCompact={false}
-                        />
-                    </div>
-                    {/* </Link> */}
+                    <LearningPathSummary
+                        lp={lp}
+                        isCompact={false}
+                    />
                 </div>
             ))}
         </div>
