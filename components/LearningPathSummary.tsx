@@ -38,12 +38,12 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
 
 const renderStarRating = (numStars: number, cb: any) => {
     const stars = []
-    for (let i = 1; i <= 5; i++) { // note: starts at index 1
+    for (let i = 1; i <= 5; i++) {
         stars.push(
             i <= numStars ?
-            <StarFill id={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
-            :
-            <Star id={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
+                <StarFill key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
+                :
+                <Star key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
         )
     }
 
@@ -53,6 +53,14 @@ const renderStarRating = (numStars: number, cb: any) => {
         </div>
     )
 
+}
+
+const renderInfoChip = (text: string, color: string) => {
+    return (
+        <span className={`text-s p-1 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-${color}-700 font-light capitalize`}>
+            {text.toLocaleLowerCase()}
+        </span>
+    )
 }
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
@@ -99,12 +107,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     <span className="pl-1">{lp.data.avgRating}</span>
                     <span className="pl-1">({lp.data.countReviews} reviews)</span>
                 </span>
-                <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-green-100 text-green-700 font-light capitalize">
-                    {lp.data.difficulty.toLowerCase()}
-                </span>
-                <span className="text-xs p-1 ml-1 md:ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light capitalize">
-                    {lp.data.estDurationBucket.toLowerCase()}
-                </span>
+                {renderInfoChip(lp.data.difficulty, 'green')}
+                {renderInfoChip(lp.data.estDurationBucket, 'yellow')}
             </div>
             { !isCompact ?
                 renderLpSummaryDetail({ lp, userProgress, isFavorite: lp.userData.isFavorite }) :
