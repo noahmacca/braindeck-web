@@ -6,6 +6,7 @@ import LpListSection from "../../components/LpListSection";
 import LearningPathLoader from '../../components/LearningPathLoader';
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from "../../hooks/useDb";
+import Link from 'next/link';
 
 export async function getStaticProps() {
     const user = getUserById('user1');
@@ -73,8 +74,8 @@ export default function MyCoursesIndex() {
                             <h1>Your Learning Paths</h1>
                             {
                                 !hasAnyLearningPath ?
-                                <div className="p-5 text-md text-gray-700 font-light">
-                                    Go favorite some learning paths!
+                                <div className="py-5 text-md text-gray-700 font-light">
+                                    Go check out <Link href="/explore"><a>Explore</a></Link> and favorite some learning paths
                                 </div> :
                                 <div>
                                     {
