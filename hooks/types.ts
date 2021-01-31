@@ -10,7 +10,7 @@ export interface User {
         updated: number
         isCompleted?: boolean,
         isFavorited?: boolean,
-        isRated?: boolean,
+        rating?: number,
     }>,
     learningResources: Array<{
         id: string,

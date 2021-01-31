@@ -29,7 +29,7 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
             </div>
             {
                 lp.userData.isCreator === true ?
-                    <Trash className="cursor-pointer" size={24} onClick={() => db.deleteLearningPath(lp.id)} />
+                    <Trash className="mx-5 cursor-pointer" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
                     : undefined
             }
         </div>
@@ -104,8 +104,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 }
                 <span className="flex pr-1 md:pr-3">
                     {renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setUserRating(numStars) })}
-                    <span className="pl-1">{lp.data.avgRating}</span>
-                    <span className="pl-1">({lp.data.countReviews} reviews)</span>
+                    <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
+                    <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
                 {renderInfoChip(lp.data.difficulty, 'green')}
                 {renderInfoChip(lp.data.estDurationBucket, 'yellow')}

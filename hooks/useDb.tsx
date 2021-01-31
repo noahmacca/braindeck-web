@@ -129,27 +129,11 @@ const useDbProvider = () => {
         }
 
         // Update learningPaths doc
-        db.collection('learningPaths').doc(lpId).update({
-            countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1)
-        }).then(() => {
-            console.log('updated ', lpId);
-            return true
-        })
-        .catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
-        })
-
-        // Update user doc
-        db.collection('users').doc(uId).update({
+        updateDoc('learningPaths', lpId, {
+            countFavorite: firebase.firestore.FieldValue.increment(isFavorite ? 1 : -1),
+        });
+        updateDoc('users', uId, {
             learningPaths: updatedUserLearningPaths,
-        }).then(() => {
-            console.log('updated ', uId);
-            // Now increment or decrement the number of favorites on the lp
-            var washingtonRef = db.collection('cities').doc('DC');
-        }).catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
         });
     }
 
@@ -157,28 +141,54 @@ const useDbProvider = () => {
         console.log('setUserRating', lpId, uId, rating);
         // See if user has rated this learningPath
         const updatedUserLearningPaths = user.learningPaths;
-        let isRated = false
+        let currUserRating = null;
         updatedUserLearningPaths.forEach((uLp) => {
             if (uLp.id === lpId) {
                 uLp.updated = Date.now();
-                uLp.isRated = !uLp.isFavorite;
-                isRated = uLp.isRated;
+                currUserRating = uLp.rating; // track the current rating to update the avg
+                uLp.rating = rating;
             }
         });
-        if (!isRated) {
+        if (!currUserRating) {
             // create new
             updatedUserLearningPaths.push({
                 id: lpId,
                 created: Date.now(),
                 updated: Date.now(),
-                isRated: true
-            })
-            isRated=true
+                rating: true
+            });
         }
 
-        // Update the avgRating and countRating
+        updateDoc('users', uId, {
+            learningPaths: updatedUserLearningPaths,
+        });
 
-        return
+        // Update the avgRating and countRating on the LP itself
+        let currRating = 0;
+        let currN = 0;
+        let newAvgRating = 0;
+        let newN = 0;
+        userLearningPaths.forEach((uLp: LearningPathUser) => {
+            if (uLp.id === lpId) {
+                currRating = uLp.data.avgRating;
+                currN = uLp.data.countReviews
+            }
+        });
+
+        if (!currUserRating) {
+            // New rating
+            newN = currN + 1
+            newAvgRating = ((currRating * currN) + rating) / newN
+        } else {
+            // altered existing rating
+            newAvgRating = ((currRating * currN) - currUserRating + rating) / (currN)
+            newN = currN
+        }
+
+        return updateDoc('learningPaths', lpId, {
+            avgRating: newAvgRating,
+            countReviews: newN
+        });
     }
 
     const setUserName = ({ uId, name }: { uId: string, name: string }) => {
@@ -239,16 +249,17 @@ const useDbProvider = () => {
             })
     }
 
-    const updateLearningPath = (id: string, update: Object) => {
-        return db.collection('learningPaths').doc(id).update(update)
+    const updateDoc = (collection: string, docId: string, update: Object) => {
+        return db.collection(collection).doc(docId).update(update)
             .then(() => {
-                console.log('updated ', id);
+                console.log('updated ', docId);
                 return true
             })
             .catch((err) => {
                 console.error("Error updating document: ", err);
                 return false
             })
+
     }
 
     const deleteLearningPath = (id: string) => {
@@ -272,7 +283,7 @@ const useDbProvider = () => {
         createLearningPath,
         setUserRating,
         getLearningPathById,
-        updateLearningPath,
+        updateDoc,
         deleteLearningPath,
     }
 }
