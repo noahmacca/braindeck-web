@@ -8,17 +8,6 @@ import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from "../../hooks/useDb";
 import Link from 'next/link';
 
-export async function getStaticProps() {
-    const user = getUserById('user1');
-    const userLpsByCat = getLearningPathsForUser(user.data);
-    return {
-        props: {
-            user,
-            userLpsByCat
-        }
-    }
-}
-
 function compareByDataUpdated(a, b) {
     if (a.data.updated < b.data.updated) {
         return 1;
