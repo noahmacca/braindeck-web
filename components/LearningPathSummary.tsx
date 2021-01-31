@@ -27,11 +27,6 @@ const renderLpSummaryDetail = ({ lp, userProgress, isFavorite }:
                     <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(userProgress * 100)}%</span></div>
                 </div>
             </div>
-            {
-                lp.userData.isCreator === true ?
-                    <Trash className="mx-5 cursor-pointer" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
-                    : undefined
-            }
         </div>
     )
 }
@@ -57,7 +52,7 @@ const renderStarRating = (numStars: number, cb: any) => {
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-s p-1 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-${color}-700 font-light capitalize`}>
+        <span className={`text-s p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-200 text-gray-700 font-light capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )
@@ -81,6 +76,11 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
 
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
+            {
+                lp.userData.isCreator === true ?
+                    <Trash className="mx-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
+                    : undefined
+            }
             {
                 isCompact ?
                     <div>
