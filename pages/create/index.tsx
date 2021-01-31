@@ -6,7 +6,7 @@ import {
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import Spinner from '../../components/icons/Spinner';
+import LearningPathLoader from '../../components/LearningPathLoader';
 
 export async function getStaticProps() {
     const testLp = getLearningPathByIdTest('appleTest1');
@@ -38,25 +38,20 @@ export default function Create({ testLp }) {
         <div>
             <PageHead title="BrainDeck Create" />
             <NavBar />
-            {
-                auth.userId === null ?
-                    <div className="flex justify-center my-40">
-                        <Spinner width="80" fill="#7C3AED" className="animate-spin" />
-                    </div>
-                    :
-                    <div className="relative bg-white overflow-hidden">
-                        <div className="mx-auto px-6 mt-6 max-w-4xl">
+            <LearningPathLoader>
+                <div className="relative bg-white overflow-hidden">
+                    <div className="mx-auto px-6 mt-6 max-w-4xl">
+                        <div className="container mb-4 md:mb-6">
+                            <button onClick={() => addTestLp()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningPath</button>
+                            <button onClick={() => db.setUserName({ uId: db.user.uid, name: 'nomotest4' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
                             <div className="container mb-4 md:mb-6">
-                                <button onClick={() => addTestLp()} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Add sample LearningPath</button>
-                                <button onClick={() => db.setUserName({ uId: db.user.uid, name: 'nomotest4' })} className="m-3 p-4 bg-red-200 font-semibold rounded-md">Update Name</button>
-                                <div className="container mb-4 md:mb-6">
-                                    <h1 className="mb-3">Your Created Learning Paths</h1>
-                                    <LpListSection lps={db.userLearningPaths} />
-                                </div>
+                                <h1 className="mb-3">Your Created Learning Paths</h1>
+                                <LpListSection lps={db.userLearningPaths} />
                             </div>
                         </div>
                     </div>
-            }
+                </div>
+            </LearningPathLoader>
         </div>
     )
 }

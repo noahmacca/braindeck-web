@@ -1,9 +1,9 @@
 import LearningPathView from '../../components/LearningPathView';
 import PageHead from '../../components/PageHead';
 import NavBar from '../../components/NavBar';
-import Spinner from '../../components/icons/Spinner';
 import { useDb } from '../../hooks/useDb';
 import { db } from '../../config/firebase';
+import LearningPathLoader from '../../components/LearningPathLoader';
 
 export async function getStaticProps({ params }) {
     return {
@@ -34,15 +34,11 @@ export default function LearningPathViewById({ paramId }: { paramId: string }) {
         <div>
             <PageHead title="BrainDeck Learning Path" />
             <NavBar />
-            {
-                (db.userLearningPaths.length === 0) ?
-                    <div className="flex justify-center my-40">
-                        <Spinner width="80" fill="#7C3AED" className="animate-spin" />
-                    </div> :
-                    <LearningPathView
-                        lpId={paramId}
-                    />
-            }
+            <LearningPathLoader>
+                <LearningPathView
+                    lpId={paramId}
+                />
+            </LearningPathLoader>
         </div>
     )
 }
