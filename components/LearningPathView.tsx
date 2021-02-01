@@ -5,7 +5,6 @@ import { useDb } from '../hooks/useDb';
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
 
 function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
-    // const [isComplete, setIsComplete] = useState(isUserFavorite);
     const db = useDb();
     const isComplete = db.user.learningResources?.some(uLr => (uLr.id === learningResource.id) && !!uLr.isCompleted);
 
@@ -55,6 +54,11 @@ function renderLearningResource(learningResource: LearningResource, idx: string,
 }
 
 function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLearningResourceComplete: Function) {
+    if (learningConcepts.length === 0) {
+        return (
+            <div className="font-light text-gray-700 p-2 text-lg">No learning paths yet!</div>
+        )
+    }
     return learningConcepts.map((learningConcept, idxConcept) => {
         return (
             <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${learningConcept.id}-concept`}>
