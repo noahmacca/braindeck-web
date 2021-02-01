@@ -49,7 +49,7 @@ export default function NavBar() {
                             </div> :
                             <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
                                 {NavTab('explore', router.pathname)}
-                                {NavTab('my courses', router.pathname)}
+                                {NavTab('favorites', router.pathname)}
                                 {NavTab('create', router.pathname)}
                                 {NavTab('profile', router.pathname)}
                                 <span onClick={() => auth.signOut()} className="px-3 py-2 rounded-md font-medium hover:text-indigo-400 text-indigo-600 cursor-pointer">Logout</span>
