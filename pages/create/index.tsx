@@ -18,9 +18,9 @@ export async function getStaticProps() {
     }
 }
 
-const renderCreateLpModal = (setShouldShowCreateModal: Function) => {
+const renderCreateLpModal = (shouldShowModal: boolean, setShouldShowCreateModal: Function) => {
     return (
-        <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center transition-opacity ease-in-out ${shouldShowModal ? null : 'opacity-0 pointer-events-none'}`}>
             <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
 
             <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
@@ -95,7 +95,7 @@ export default function CreateIndex({ testLp }) {
                         </div>
                     </div>
                 </div>
-                { shouldShowCreateModal && renderCreateLpModal(setShouldShowCreateModal)}
+                {renderCreateLpModal(shouldShowCreateModal, setShouldShowCreateModal)}
             </LearningPathLoader>
         </div>
     )
