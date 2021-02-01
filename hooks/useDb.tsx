@@ -108,8 +108,7 @@ const useDbProvider = () => {
         lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
         lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
-        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
-
+        
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
                 lpu.userData.numLearningResourcesTotal += 1
@@ -118,7 +117,8 @@ const useDbProvider = () => {
                 }
             });
         });
-
+        
+        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
         return lpu
     }
 
