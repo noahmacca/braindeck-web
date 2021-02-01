@@ -162,7 +162,7 @@ const NewLearningPathForm = ({ dismiss }: { dismiss: Function}) => {
                 )}
             </div>
             <div>
-                <span className="block w-full rounded-md shadow-sm mt-3">
+                <span className="block w-full rounded-md shadow-sm mt-6">
                     <Button title="Submit" type="submit" isLoading={isLoading} />
                 </span>
             </div>

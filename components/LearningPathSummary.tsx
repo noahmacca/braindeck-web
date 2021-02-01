@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { HeartFill, Heart, Star, StarFill, Trash, PencilSquare } from 'react-bootstrap-icons';
+import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
+import NewLearningPathForm from '../components/forms/NewLearningPathForm';
+import FormModal from '../components/forms/FormModal';
 
 const renderLpSummaryDetail = ({ lp, progress }:
     {
@@ -91,6 +94,7 @@ const getChipColor = (type: string, val: string) => {
 
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
+    const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
     const learningPath = lp.data;
     const db = useDb();
     const setLpFavorite = (isFavorite: boolean) => db.setLpFavorite({
@@ -111,7 +115,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 lp.userData.isCreator === true ?
                     <span>
                         <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
-                        <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => alert('edit')} />
+                        <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowEditModal(true)} />
                     </span>
                     : undefined
             }
@@ -152,6 +156,15 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 renderLpSummaryDetail({ lp, progress: lp.userData.progress }) :
                 <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
             }
+            <FormModal
+                title="Edit Learning Path"
+                shouldShowModal={shouldShowEditModal}
+                dismissModal={() => setShouldShowEditModal(false)}
+            >
+                <NewLearningPathForm
+                    dismiss={() => setShouldShowEditModal(false)}
+                />
+            </FormModal>
         </div>
     )
 }

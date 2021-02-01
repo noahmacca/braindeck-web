@@ -3,7 +3,7 @@ import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
 import NewLearningPathForm from '../../components/forms/NewLearningPathForm';
 import FormModal from '../../components/forms/FormModal';
@@ -14,21 +14,6 @@ export default function CreateIndex() {
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
     useRequireAuth();
     const db = useDb();
-
-    const _handleKeyDown = (event) => {
-        switch (event.keyCode) {
-            case 27: // ESCAPE_KEY
-                setShouldShowCreateModal(false);
-                break;
-            default:
-                break;
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener("keydown", _handleKeyDown);
-        return document.removeEventListener("keydown", (e) => _handleKeyDown(e));
-    }, []);
 
     return (
         <div>
@@ -56,7 +41,6 @@ export default function CreateIndex() {
                         dismiss={() => setShouldShowCreateModal(false)}
                     />
                 </FormModal>
-                {/* {renderCreateLpModal(shouldShowCreateModal, setShouldShowCreateModal)} */}
             </LearningPathLoader>
         </div>
     )
