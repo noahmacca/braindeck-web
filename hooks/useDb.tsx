@@ -314,6 +314,10 @@ const useDbProvider = () => {
         });
     }
 
+    const deleteLearningConcept = (lpId: string, lcId: string) => {
+        console.log('deleting learning concept', lpId, lcId);
+    }
+
     // const updateLearningConcept = (lpId: string, lpUserInput: UserInputLearningConceptData) => {
     //     return updateDoc('learningPaths', lpId, {
     //         updated: Date.now(),
@@ -368,6 +372,7 @@ const useDbProvider = () => {
         createLearningPath,
         updateLearningPath,
         createLearningConcept,
+        deleteLearningConcept,
         setLpRating,
         getLearningPathById,
         updateDoc,
