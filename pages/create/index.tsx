@@ -8,6 +8,7 @@ import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
 import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
+import NewLearningPathForm from '../../components/forms/NewLearningPathForm';
 
 export async function getStaticProps() {
     const testLp = getLearningPathByIdTest('appleTest1');
@@ -42,11 +43,7 @@ const renderCreateLpModal = (shouldShowModal: boolean, setShouldShowCreateModal:
                         </div>
                     </div>
 
-                    <p>Modal content can go here</p>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
+                    <NewLearningPathForm />
 
                     <div className="flex justify-end pt-2">
                         <button className="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
