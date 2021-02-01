@@ -19,6 +19,7 @@ import {
 const dbContext = createContext({ userLearningPaths: [], user: null });
 const { Provider } = dbContext;
 
+
 export function DbProvider(props: { children: ReactNode }): JSX.Element {
     const db = useDbProvider();
     return <Provider value={db}>{props.children}</Provider>
@@ -26,6 +27,16 @@ export function DbProvider(props: { children: ReactNode }): JSX.Element {
 
 export const useDb: any = () => {
     return useContext(dbContext);
+}
+
+function compareByUpdated(a, b) {
+    if (a.data.updated < b.data.updated) {
+        return 1;
+    }
+    if (a.data.updated > b.data.updated) {
+        return -1;
+    }
+    return 0;
 }
 
 const useDbProvider = () => {
@@ -72,6 +83,7 @@ const useDbProvider = () => {
     useEffect(() => {
         // if we update user or learningPaths, update userLearningPaths
         const userLearningPaths = learningPaths.map((lp) => annotateLearningPathsWithUserData(lp, user));
+        userLearningPaths.sort(compareByUpdated)
         setUserLearningPaths(userLearningPaths);
     }, [user, learningPaths])
 
