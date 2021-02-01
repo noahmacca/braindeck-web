@@ -1,23 +1,11 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import {
-    getLearningPathByIdTest
-} from '../../lib/learningPaths';
 import LpListSection from "../../components/LpListSection";
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
 import { useState, useEffect } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
 import NewLearningPathForm from '../../components/forms/NewLearningPathForm';
-
-export async function getStaticProps() {
-    const testLp = getLearningPathByIdTest('appleTest1');
-    return {
-        props: {
-            testLp
-        }
-    }
-}
 
 const renderCreateLpModal = (shouldShowModal: boolean, setShouldShowCreateModal: Function) => {
     return (
@@ -55,7 +43,7 @@ const renderCreateLpModal = (shouldShowModal: boolean, setShouldShowCreateModal:
 
 
 
-export default function CreateIndex({ testLp }) {
+export default function CreateIndex() {
     const [shouldShowCreateModal, setShouldShowCreateModal] = useState(false);
     // Page layout
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
@@ -77,17 +65,6 @@ export default function CreateIndex({ testLp }) {
         return document.removeEventListener("keydown", (e) => _handleKeyDown(e));
     }, []);
 
-    const addTestLp = () => {
-        const newLp = testLp;
-        newLp.data.author = {
-            uid: db.user.uid,
-            name: db.user.name
-        }
-        db.createLearningPath(newLp.data).then((res) => {
-            console.log('done creating learning path', res);
-        });
-    }
-
     return (
         <div>
             <PageHead title="BrainDeck Create" />
@@ -97,7 +74,6 @@ export default function CreateIndex({ testLp }) {
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
                             <button onClick={() => setShouldShowCreateModal(true)} className="mr-3 p-2 px-3 bg-indigo-200 rounded-md">New</button>
-                            <button onClick={() => addTestLp()} className="mr-3 p-2 px-3 bg-indigo-200 rounded-md">New (Sample)</button>
                             <button onClick={() => db.setUserName({ uId: db.user.uid, name: 'nomotest4' })} className="mr-3 mb-3 p-2 px-3 bg-indigo-200 rounded-md">Update Name</button>
                             <div className="container mb-4 md:mb-6">
                                 <h1 className="mb-3">Your Created Learning Paths</h1>
