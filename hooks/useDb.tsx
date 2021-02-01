@@ -280,6 +280,15 @@ const useDbProvider = () => {
             });
     }
 
+    const updateLearningPath = (lpId: string, lpUserInput: UserInputLearningPathData) => {
+        console.log('updateLearningPath', lpUserInput);
+        console.log('updateLearningPath', lpId);
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            ...lpUserInput
+        })
+    }
+
     const getLearningPathById = (id: string): any => {
         return db.collection('learningPaths').doc(id).get()
             .then((doc) => {
@@ -325,6 +334,7 @@ const useDbProvider = () => {
         setLpFavorite,
         setUserName,
         createLearningPath,
+        updateLearningPath,
         setLpRating,
         getLearningPathById,
         updateDoc,

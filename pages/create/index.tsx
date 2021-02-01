@@ -5,7 +5,7 @@ import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
 import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
-import NewLearningPathForm from '../../components/forms/NewLearningPathForm';
+import LearningPathForm from '../../components/forms/LearningPathForm';
 import FormModal from '../../components/forms/FormModal';
 
 export default function CreateIndex() {
@@ -37,7 +37,7 @@ export default function CreateIndex() {
                     shouldShowModal={shouldShowCreateModal}
                     dismissModal={() => setShouldShowCreateModal(false)}
                 >
-                    <NewLearningPathForm
+                    <LearningPathForm
                         dismiss={() => setShouldShowCreateModal(false)}
                     />
                 </FormModal>

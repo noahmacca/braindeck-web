@@ -3,7 +3,7 @@ import { HeartFill, Heart, Star, StarFill, Trash, PencilSquare } from 'react-boo
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
-import NewLearningPathForm from '../components/forms/NewLearningPathForm';
+import LearningPathForm from './forms/LearningPathForm';
 import FormModal from '../components/forms/FormModal';
 
 const renderLpSummaryDetail = ({ lp, progress }:
@@ -161,8 +161,16 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 shouldShowModal={shouldShowEditModal}
                 dismissModal={() => setShouldShowEditModal(false)}
             >
-                <NewLearningPathForm
+                <LearningPathForm
                     dismiss={() => setShouldShowEditModal(false)}
+                    initialData={{
+                        title: lp.data.title,
+                        subject: lp.data.subject,
+                        learningGoal: lp.data.learningGoal,
+                        background: lp.data.background,
+                        difficulty: lp.data.difficulty,
+                        duration: lp.data.duration
+                    }}
                 />
             </FormModal>
         </div>
