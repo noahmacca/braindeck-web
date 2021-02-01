@@ -293,8 +293,6 @@ const useDbProvider = () => {
     }
 
     const updateLearningPath = (lpId: string, lpUserInput: UserInputLearningPathData) => {
-        console.log('updateLearningPath', lpUserInput);
-        console.log('updateLearningPath', lpId);
         return updateDoc('learningPaths', lpId, {
             updated: Date.now(),
             ...lpUserInput

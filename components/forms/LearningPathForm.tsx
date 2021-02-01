@@ -17,7 +17,6 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
     const [error, setError] = useState(null);
 
     const onSubmit = (data) => {
-        console.log('onSubmit', data);
         setIsLoading(true);
         setError(null);
         const userInputLearningPathData: UserInputLearningPathData = {
@@ -34,7 +33,7 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
                 response.error ? setError(null) : dismiss();
             })
         } else {
-            return db.updateLeraningPath(lpId, userInputLearningPathData).then((response) => {
+            return db.updateLearningPath(lpId, userInputLearningPathData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(null) : dismiss();
             })

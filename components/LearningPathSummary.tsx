@@ -172,6 +172,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         difficulty: lp.data.difficulty,
                         duration: lp.data.duration
                     }}
+                    lpId={lp.id}
                 />
             </FormModal>
         </div>
