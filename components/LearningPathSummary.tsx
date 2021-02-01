@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { HeartFill, Heart, Star, StarFill, Trash } from 'react-bootstrap-icons';
+import { HeartFill, Heart, Star, StarFill, Trash, PencilSquare } from 'react-bootstrap-icons';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
 
@@ -109,7 +109,10 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
         <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
-                    <Trash className="mx-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
+                    <span>
+                        <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
+                        <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => alert('edit')} />
+                    </span>
                     : undefined
             }
             {
