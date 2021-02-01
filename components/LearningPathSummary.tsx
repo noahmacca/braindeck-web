@@ -72,6 +72,7 @@ const getChipColor = (type: string, val: string) => {
         },
         'EST_DURATION': {
             'FAST (<1 HR)': 'green',
+            'QUICK (<1 HR)': 'green',
             'FAST (1-2 HR)': 'indigo',
             'MEDIUM (2-5 HR)': 'yellow',
             'LONG (5-10 HR)': 'orange',

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import LearningPathSummary from './LearningPathSummary';
 import { useDb } from '../hooks/useDb';
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
+import FormModal from '../components/forms/FormModal';
 
 function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
     const db = useDb();
@@ -53,12 +54,57 @@ function renderLearningResource(learningResource: LearningResource, idx: string,
     )
 }
 
-function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLearningResourceComplete: Function) {
-    if (learningConcepts.length === 0) {
-        return (
-            <div className="font-light text-gray-700 p-2 text-lg">No learning paths yet!</div>
-        )
-    }
+function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLearningResourceComplete: Function, isCreator: boolean) {
+    const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
+
+    return (
+        <div>
+            {
+                learningConcepts.length === 0 ?
+                    <div className="font-light text-gray-700 p-2 text-lg">No learning paths yet!</div>
+                    :
+                    learningConcepts.map((learningConcept, idxConcept) => {
+                        return (
+                            <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${learningConcept.id}-concept`}>
+                                <div className="text-2xl pb-1 font-semibold text-gray-800">{`${idxConcept + 1}. ${learningConcept.title}`}</div>
+                                <div>
+                                    {
+                                        learningConcept.learningResources.map((learningResource, idxResource) => {
+
+                                            return (
+                                                <div key={`${learningResource.id}-content`}>
+                                                    { renderLearningResource(learningResource, `${idxConcept + 1}.${idxResource + 1}.`, setLearningResourceComplete)}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
+                    })
+            }
+            {
+                isCreator === true ?
+                    <div>
+                        <div
+                            className="rounded-md py-2 px-3 font-light text-lg bg-gray-100 hover:bg-gray-200 cursor-pointer"
+                            onClick={() => setShouldShowEditModal(true)}
+                        >
+                            New Concept
+                        </div>
+                        <FormModal
+                            title="Create Learning Concept"
+                            shouldShowModal={shouldShowEditModal}
+                            dismissModal={() => setShouldShowEditModal(false)}
+                        >
+                            <div>hello</div>
+                        </FormModal>
+                    </div>
+                    : null
+            }
+        </div>
+    )
+
     return learningConcepts.map((learningConcept, idxConcept) => {
         return (
             <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${learningConcept.id}-concept`}>
@@ -66,7 +112,7 @@ function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLea
                 <div>
                     {
                         learningConcept.learningResources.map((learningResource, idxResource) => {
-                            
+
                             return (
                                 <div key={`${learningResource.id}-content`}>
                                     { renderLearningResource(learningResource, `${idxConcept + 1}.${idxResource + 1}.`, setLearningResourceComplete)}
@@ -98,7 +144,7 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
                         lp={lp}
                         isCompact={false}
                     />
-                    {renderLearningConcepts(lp.data.learningConcepts, setLearningResourceComplete)}
+                    {renderLearningConcepts(lp.data.learningConcepts, setLearningResourceComplete, lp.userData.isCreator)}
                 </div>
             </div>
         </div>
