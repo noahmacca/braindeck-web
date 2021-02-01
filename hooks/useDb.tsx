@@ -13,6 +13,7 @@ import {
     LearningPath,
     LearningPathData,
     UserInputLearningPathData,
+    UserInputLearningConceptData,
     User,
     LearningPathUser
 } from './types';
@@ -279,8 +280,6 @@ const useDbProvider = () => {
 
     const createLearningPath = (lpUserInput: UserInputLearningPathData) => {
         const lp = initLearningPath(lpUserInput);
-        console.log('createLearningPath', lpUserInput);
-        console.log('createLearningPath', lp);
         return db.collection('learningPaths')
             .add(lp)
             .then((docRef) => {
@@ -298,6 +297,29 @@ const useDbProvider = () => {
             ...lpUserInput
         })
     }
+
+    const createLearningConcept = (lpId: string, lcUserInput: UserInputLearningConceptData) => {
+        const lc = {
+            id: v4(),
+            ...lcUserInput,
+            learningResources: []
+        };
+
+        console.log('createLearningConcept')
+        const lp = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        console.log('createLearningConcept', lp)
+        lp.data.learningConcepts.push(lc);
+        return updateDoc('learningPaths', lpId, {
+            learningConcepts: lp.data.learningConcepts
+        });
+    }
+
+    // const updateLearningConcept = (lpId: string, lpUserInput: UserInputLearningConceptData) => {
+    //     return updateDoc('learningPaths', lpId, {
+    //         updated: Date.now(),
+    //         ...lpUserInput
+    //     })
+    // }
 
     const getLearningPathById = (id: string): any => {
         return db.collection('learningPaths').doc(id).get()
@@ -345,6 +367,7 @@ const useDbProvider = () => {
         setUserName,
         createLearningPath,
         updateLearningPath,
+        createLearningConcept,
         setLpRating,
         getLearningPathById,
         updateDoc,

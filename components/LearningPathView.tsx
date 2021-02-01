@@ -2,8 +2,9 @@ import { CheckSquareFill, Check } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import LearningPathSummary from './LearningPathSummary';
 import { useDb } from '../hooks/useDb';
-import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
+import { LearningPathUser, LearningConcept, LearningResource, UserInputLearningPathData } from '../hooks/types';
 import FormModal from '../components/forms/FormModal';
+import LearningConceptForm from '../components/forms/LearningConceptForm'
 
 function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
     const db = useDb();
@@ -54,8 +55,9 @@ function renderLearningResource(learningResource: LearningResource, idx: string,
     )
 }
 
-function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLearningResourceComplete: Function, isCreator: boolean) {
+function renderLearningConcepts(lp: LearningPathUser, setLearningResourceComplete: Function, isCreator: boolean) {
     const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
+    const learningConcepts = lp.data.learningConcepts
 
     return (
         <div>
@@ -97,33 +99,16 @@ function renderLearningConcepts(learningConcepts: Array<LearningConcept>, setLea
                             shouldShowModal={shouldShowEditModal}
                             dismissModal={() => setShouldShowEditModal(false)}
                         >
-                            <div>hello</div>
+                            <LearningConceptForm
+                                dismiss={() => setShouldShowEditModal(false)}
+                                lpId={lp.id}
+                            />
                         </FormModal>
                     </div>
                     : null
             }
         </div>
     )
-
-    return learningConcepts.map((learningConcept, idxConcept) => {
-        return (
-            <div className="bg-white px-5 pt-5 items-center text-gray-700" key={`${learningConcept.id}-concept`}>
-                <div className="text-2xl pb-1 font-semibold text-gray-800">{`${idxConcept + 1}. ${learningConcept.title}`}</div>
-                <div>
-                    {
-                        learningConcept.learningResources.map((learningResource, idxResource) => {
-
-                            return (
-                                <div key={`${learningResource.id}-content`}>
-                                    { renderLearningResource(learningResource, `${idxConcept + 1}.${idxResource + 1}.`, setLearningResourceComplete)}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </div>
-        )
-    })
 }
 
 export default function LearningPathView({ lpId }: { lpId: string }) {
@@ -144,7 +129,7 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
                         lp={lp}
                         isCompact={false}
                     />
-                    {renderLearningConcepts(lp.data.learningConcepts, setLearningResourceComplete, lp.userData.isCreator)}
+                    {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
                 </div>
             </div>
         </div>

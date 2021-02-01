@@ -6,12 +6,9 @@ import { useState } from 'react';
 import { UserInputLearningPathData } from '../../hooks/types';
 
 import Button from '../Button';
-import { db } from '../../config/firebase';
 
 const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, initialData?: UserInputLearningPathData, lpId?: string }) => {
-    const auth = useAuth();
     const db = useDb();
-    const router = useRouter();
     const { register, errors, handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);

@@ -35,6 +35,12 @@ export interface LearningResource {
     highlight?: string
 }
 
+export interface UserInputLearningConceptData {
+    id?: string,
+    title: string,
+    description:string,
+}
+
 export interface LearningConcept {
     id?: string,
     title: string,
