@@ -15,11 +15,10 @@ export async function getStaticProps() {
     }
 }
 
-export default function Profile() {
+export default function ProfileIndex() {
     const auth = useRequireAuth();
     const db = useDb();
     
-
     return (
         <div>
             <PageHead title="BrainDeck Home" />
@@ -39,8 +38,8 @@ export default function Profile() {
                             </div>
                             <div className="mt-3 text-l font-semibold">Learning Paths</div>
                             <div className="mx-3 mb-3">
-                                <div className='font-light'>Favorited: {(db.userLearningPaths.filter((uLp) => db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))).length}</div>
-                                <div className='font-light'>Completed: {(db.userLearningPaths.filter((uLp) => db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isCompleted === true)))).length}</div>
+                                <div className='font-light'>Favorited: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))).length}</div>
+                                <div className='font-light'>Completed: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (uLp.userData.progress >= 1.0)))).length}</div>
                             </div>
                         </div>
                     </div>
