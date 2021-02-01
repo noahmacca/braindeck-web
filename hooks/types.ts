@@ -42,9 +42,18 @@ export interface LearningConcept {
     learningResources: Array<LearningResource>
 }
 
+export interface UserInputLearningPathData {
+    title: string,
+    subject: string,
+    learningGoal: string,
+    background: string,
+    difficulty: string, // TODO: enum
+    duration: string, // TODO: enum
+}
+
 export interface LearningPathData {
-    created?: number,
-    updated?: number,
+    created: number,
+    updated: number,
     title: string,
     subject: string,
     author: {
@@ -54,7 +63,7 @@ export interface LearningPathData {
     learningGoal: string,
     background: string,
     difficulty: string, // TODO: enum
-    estDurationBucket: string, // TODO: enum
+    duration: string, // TODO: enum
     countFavorite: number,
     countComplete: number,
     countReviews: number,

@@ -1,12 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
+import { useDb } from '../../hooks/useDb';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import Button from '../Button';
+import { db } from '../../config/firebase';
 
-const NewLearningPathForm: React.FC = () => {
+const NewLearningPathForm = ({ dismiss }: { dismiss: Function}) => {
     const auth = useAuth();
+    const db = useDb();
     const router = useRouter();
     const { register, errors, handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +17,19 @@ const NewLearningPathForm: React.FC = () => {
 
     const onSubmit = (data) => {
         console.log('onSubmit', data);
+        setIsLoading(true);
+        setError(null);
+        return db.createLearningPath({
+            title: data.title,
+            subject: data.subject,
+            learningGoal: data.learningGoal,
+            background: data.background,
+            difficulty: data.difficulty,
+            duration: data.duration,
+        }).then((response) => {
+            setIsLoading(false);
+            response.error ? setError(null) : dismiss();
+        })
     };
 
     return (
@@ -133,15 +149,15 @@ const NewLearningPathForm: React.FC = () => {
                 <label className="block text-sm font-medium leading-5 text-gray-700">
                     Difficulty
                 </label>
-                <select name="estDifficulty" ref={register} className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+                <select name="difficulty" ref={register} className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
                     <option value="Easy">Easy</option>
                     <option value="Moderate">Moderate</option>
                     <option value="Hard">Hard</option>
                     <option value="Advanced">Advanced</option>
                 </select>
-                {errors.estDifficulty && (
+                {errors.difficulty && (
                     <div className="mt-2 text-xs text-red-600">
-                        {errors.estDifficulty.message}
+                        {errors.difficulty.message}
                     </div>
                 )}
             </div>

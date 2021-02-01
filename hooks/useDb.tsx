@@ -12,6 +12,7 @@ import firebase from 'firebase/app';
 import {
     LearningPath,
     LearningPathData,
+    UserInputLearningPathData,
     User,
     LearningPathUser
 } from './types';
@@ -237,30 +238,39 @@ const useDbProvider = () => {
         });
     }
 
-    const initLearningPath = (lp: LearningPathData): LearningPathData => {
-        const initLp = lp;
-        // add created and updated to learning path
+    const initLearningPath = (lpUserInput: UserInputLearningPathData): LearningPathData => {
         const nowMs = Date.now();
-        initLp.created = nowMs;
-        initLp.updated = nowMs;
-
+        return {
+            ...lpUserInput,
+            created: nowMs,
+            updated: nowMs,
+            author: {
+                uid: user.uid,
+                name: user.name
+            },
+            countFavorite: 0,
+            countComplete: 0,
+            countReviews: 0,
+            avgRating: 0,
+            learningConcepts: []
+        }
         // for each learningResource for each learningConcept, add id, created, and updated
-        initLp.learningConcepts.forEach((lc) => {
-            lc.id = v4();
-            lc.learningResources.forEach((lr) => {
-                lr.created = nowMs;
-                lr.updated = nowMs;
-                lr.id = v4();
-            });
-        });
-
-        return initLp
+        // initLp.learningConcepts.forEach((lc) => {
+        //     lc.id = v4();
+        //     lc.learningResources.forEach((lr) => {
+        //         lr.created = nowMs;
+        //         lr.updated = nowMs;
+        //         lr.id = v4();
+        //     });
+        // });
     }
 
-    const createLearningPath = (lp: LearningPathData) => {
-        const lpInit = initLearningPath(lp);
+    const createLearningPath = (lpUserInput: UserInputLearningPathData) => {
+        const lp = initLearningPath(lpUserInput);
+        console.log('createLearningPath', lpUserInput);
+        console.log('createLearningPath', lp);
         return db.collection('learningPaths')
-            .add(lpInit)
+            .add(lp)
             .then((docRef) => {
                 return docRef
             })

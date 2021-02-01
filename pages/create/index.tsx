@@ -43,7 +43,9 @@ const renderCreateLpModal = (shouldShowModal: boolean, setShouldShowCreateModal:
                         </div>
                     </div>
 
-                    <NewLearningPathForm />
+                    <NewLearningPathForm
+                        dismiss={() => setShouldShowCreateModal(false)}
+                    />
                 </div>
             </div>
         </div>

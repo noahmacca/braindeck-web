@@ -143,7 +143,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
                 {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
-                {renderInfoChip(lp.data.estDurationBucket, getChipColor('EST_DURATION', lp.data.estDurationBucket))}
+                {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
             </div>
             { !isCompact ?
                 renderLpSummaryDetail({ lp, progress: lp.userData.progress }) :
