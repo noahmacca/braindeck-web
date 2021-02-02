@@ -23,7 +23,7 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => alert('delete resource')} />
+                        <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningResource(lp.id, lc.id, lr.id)} />
                         <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowLrEditModal(true)} />
                     </span>
                     : undefined

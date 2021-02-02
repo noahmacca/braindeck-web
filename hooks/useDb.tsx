@@ -425,6 +425,36 @@ const useDbProvider = () => {
         });
     }
 
+    const deleteLearningResource = (lpId: string, lcId: string, lrId: string) => {
+        console.log('deleting learning resource', lpId, lcId, lrId);
+        let isMatch = false;
+        const lpMatch: LearningPathUser = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        const lrsNew = []
+        const lcsNew = lpMatch.data.learningConcepts.map((lc) => {
+            if (lc.id === lcId) {
+                lc.learningResources.forEach((lr) => {
+                    if (lr.id === lrId) {
+                        isMatch=true;
+                    } else {
+                        lrsNew.push(lr);
+                    }
+                })
+                lc.learningResources = lrsNew;
+                lc.updated = Date.now();
+            }
+            return lc
+        })
+        if (!isMatch) {
+            console.warn('no matching learning concept found; not updating');
+            return null
+        }
+
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            learningConcepts: lcsNew
+        });
+    }
+
 
     const getLearningPathById = (id: string): any => {
         return db.collection('learningPaths').doc(id).get()
@@ -477,6 +507,7 @@ const useDbProvider = () => {
         deleteLearningConcept,
         createLearningResource,
         updateLearningResource,
+        deleteLearningResource,
         setLpRating,
         getLearningPathById,
         updateDoc,
