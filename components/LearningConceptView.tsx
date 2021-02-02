@@ -37,7 +37,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
     const db = useDb();
 
     return (
-        <div className="bg-gray-100 px-4 py-3 rounded-lg mx-4 my-4 items-center text-gray-700">
+        <div className="bg-gray-100 px-4 pt-3 pb-1 rounded-lg mx-4 my-2 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
                     <span>
@@ -46,7 +46,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     </span>
                     : undefined
             }
-            <div className="mb-4">
+            <div className="mb-2">
                 <div className="text-2xl pb-1 font-medium text-gray-800">{`${conceptIdx + 1}. ${lc.title}`}</div>
                 <div className="text-md pb-1 font-light text-gray-600">{`${lc.description}`}</div>
             </div>

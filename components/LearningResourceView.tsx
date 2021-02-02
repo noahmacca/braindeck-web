@@ -29,7 +29,7 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
                     : undefined
             }
             <div className="text-xl mb-2">
-                <a href={`${lr.url}`}>{`${lr.title}`}</a>
+                <a href={`${lr.url}`} target="_blank">{`${lr.title}`}</a>
             </div>
             <div className="text-sm mb-4">
                 By {lr.author}{' '}
