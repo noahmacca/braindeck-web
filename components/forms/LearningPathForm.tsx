@@ -148,7 +148,9 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.difficulty}
                     name="difficulty"
-                    ref={register}
+                    ref={register({
+                        required: 'Please select a difficulty'
+                    })}
                 >
                     <option value="Easy">Easy</option>
                     <option value="Moderate">Moderate</option>
