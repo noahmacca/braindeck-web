@@ -66,7 +66,7 @@ const renderAddLearningConcept = (lpId: string, shouldShowCreateModal: boolean, 
                 New Concept
             </div>
             <FormModal
-                title="Create Learning Concept"
+                title="New Concept"
                 shouldShowModal={shouldShowCreateModal}
                 dismissModal={() => setShouldShowCreateModal(false)}
             >
