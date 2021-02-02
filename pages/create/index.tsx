@@ -26,7 +26,10 @@ export default function CreateIndex() {
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
                             <div className="text-center">
-                                <button onClick={() => setShouldShowCreateModal(true)} className="mb-16 font-medium text-xl py-4 px-10 bg-green-200 rounded-md">
+                                <button
+                                    onClick={() => setShouldShowCreateModal(true)}
+                                    className="mb-16 font-medium text-xl py-4 px-10 text-gray-50 bg-green-600 hover:bg-green-500 rounded-md"
+                                >
                                     New Learning Path
                                 </button>
                             </div>
@@ -34,9 +37,9 @@ export default function CreateIndex() {
                                 <SectionHeader text="Created Learning Paths" />
                                 {
                                     createdLps.length === 0 ?
-                                    <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>
-                                    :
-                                    <LpListSection lps={createdLps} />
+                                        <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>
+                                        :
+                                        <LpListSection lps={createdLps} />
                                 }
                             </div>
                         </div>

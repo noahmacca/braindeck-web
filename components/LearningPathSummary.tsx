@@ -54,7 +54,7 @@ const renderStarRating = (numStars: number, cb: any) => {
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-s p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-gray-700 font-light capitalize`}>
+        <span className={`text-xs p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-600 text-white capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )

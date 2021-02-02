@@ -19,7 +19,7 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
     }
 
     return (
-        <div className="p-3 mx-3 bg-gray-50 mb-3 rounded-lg">
+        <div className="p-3 mx-3 bg-white mb-3 rounded-lg">
             {
                 lp.userData.isCreator === true ?
                     <span>
@@ -28,23 +28,17 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
                     </span>
                     : undefined
             }
-            <div className="text-xl mb-1">
+            <div className="text-xl mb-2">
                 <a href={`${lr.url}`}>{`${lr.title}`}</a>
             </div>
             <div className="text-sm mb-4">
-                {lr.author}{' '}
-                <span className="capitalize ml-2 text-xs p-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
+                By {lr.author}{' '}
+                <span className="capitalize ml-2 text-s border rounded-md px-2 py-1">
                     {lr.format.toLowerCase()}
                 </span>{' '}
-                {
-                    lr.difficulty === "EASY" ?
-                        <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
-                            {lr.difficulty.toLowerCase()}
-                        </span> :
-                        <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
-                            {lr.difficulty.toLowerCase()}
-                        </span>
-                }
+                <span className="capitalize text-s border rounded-md px-2 py-1 ml-2">
+                    {lr.difficulty.toLowerCase()}
+                </span>
             </div>
             <div className="pb-2">
                 {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{lr.description}</span></div>}
@@ -53,13 +47,13 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             <div>
                 {
                     !isComplete ?
-                        <div className="rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-100 hover:bg-gray-200 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                        <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-100 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
                             <div className="mx-auto flex">
                                 <span className="text-sm">Complete</span>
-                                <Check className="ml-2 text-gray-500" size={20} />
+                                {/* <Check className="ml-2 text-gray-500" size={20} /> */}
                             </div>
                         </div> :
-                        <div className="rounded p-1 mt-1 flex w-28 text-green-700 bg-green-100 hover:bg-green-200 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                        <div className="rounded-md border border-green-100 p-1 mt-1 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
                             <div className="mx-auto flex">
                                 <span className="text-sm">Completed</span>
                                 <CheckSquareFill className="ml-2 text-green-500" size={20} />

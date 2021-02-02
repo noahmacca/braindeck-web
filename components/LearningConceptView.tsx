@@ -11,7 +11,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
     return (
         <div>
             <div
-                className="w-44 rounded-md text-center font-gray-800 py-2 text-md font-medium text-md bg-green-100 hover:bg-green-200 cursor-pointer"
+                className="w-44 rounded-md text-center font-gray-800 py-2 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Resource
@@ -37,7 +37,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
     const db = useDb();
 
     return (
-        <div className="bg-white mx-5 my-5 items-center text-gray-700">
+        <div className="bg-gray-100 px-4 py-3 rounded-lg mx-4 my-4 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
                     <span>
@@ -46,9 +46,9 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     </span>
                     : undefined
             }
-            <div>
-                <div className="text-2xl pb-1 font-semibold text-gray-800">{`${conceptIdx + 1}. ${lc.title}`}</div>
-                <div className="text-md pb-1 font-light text-gray-800">{`${lc.description}`}</div>
+            <div className="mb-4">
+                <div className="text-2xl pb-1 font-medium text-gray-800">{`${conceptIdx + 1}. ${lc.title}`}</div>
+                <div className="text-md pb-1 font-light text-gray-600">{`${lc.description}`}</div>
             </div>
             <div>
                 {
