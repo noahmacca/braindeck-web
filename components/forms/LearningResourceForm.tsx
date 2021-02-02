@@ -11,7 +11,6 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
     const { register, errors, handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    console.log('initialData', initialData);
 
     const onSubmit = (data) => {
         setIsLoading(true);

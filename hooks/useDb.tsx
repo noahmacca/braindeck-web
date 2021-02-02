@@ -374,7 +374,6 @@ const useDbProvider = () => {
 
         let isMatch = false;
         const lpMatch: LearningPathUser = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
-        console.log('createLearningResource 1', lpMatch)
         const lcsNew = lpMatch.data.learningConcepts.map((lc) => {
             if (lc.id === lcId) {
                 isMatch = true;
@@ -383,7 +382,6 @@ const useDbProvider = () => {
             }
             return lc
         })
-        console.log('createLearningResource 2', lcsNew)
         if (!isMatch) {
             console.warn('no matching learning concept found; not updating');
             return null
