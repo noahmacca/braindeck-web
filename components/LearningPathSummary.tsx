@@ -120,6 +120,16 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
             {
+                lp.userData.isFavorite ?
+                    <div className="float-right text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
+                        Favorited
+                    </div>
+                    :
+                    <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
+                        Favorite
+                    </div>
+            }
+            {
                 lp.userData.isCreator === true ?
                     <span>
                         <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
@@ -146,11 +156,6 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 {
                     lp.userData.isFavorite ?
                         <span className="flex">
-                            <div className="rounded-md border text-gray-700 text-sm border-red-100 bg-red-50 p-1 flex w-24 cursor-pointer" onClick={() => setLpFavorite(false)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-sm">Favorited</span>
-                                </div>
-                            </div>
                             <span className="flex px-1 md:pr-3 align-middle">
                                 <HeartFill className="px-1 text-red-500" size={26} />
                                 <span>
@@ -160,11 +165,6 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </span>
                         :
                         <span className="flex">
-                            <div className="rounded-md border text-gray-700 text-sm p-1 flex w-24 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-sm">Favorite</span>
-                                </div>
-                            </div>
                             <span className="flex px-1 md:pr-3 align-middle">
                                 <Heart className="px-1 text-red-500" size={26} />
                                 <span>
