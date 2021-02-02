@@ -124,7 +124,9 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.duration}
                     name="duration"
-                    ref={register}
+                    ref={register({
+                        required: 'Please select a duration'
+                    })}
                 >
                     <option value="Quick (<1 Hr)">Quick (&lt;1 Hr)</option>
                     <option value="Fast (1-2 Hr)">Fast (1-2 Hr)</option>
