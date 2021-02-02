@@ -103,6 +103,7 @@ const getChipColor = (type: string, val: string) => {
 
 export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
     const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
+    const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
     const learningPath = lp.data;
     const db = useDb();
     const setLpFavorite = (isFavorite: boolean) => db.setLpFavorite({
@@ -132,8 +133,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowEditModal(true)} />
+                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowEditModal(true)} />
                     </span>
                     : undefined
             }
@@ -199,6 +200,23 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                     }}
                     lpId={lp.id}
                 />
+            </FormModal>
+            <FormModal
+                title="Delete Learning Path?"
+                shouldShowModal={shouldShowConfirmDeleteModal}
+                dismissModal={() => setShouldShowConfirmDeleteModal(false)}
+            >
+                <div className="italic text-gray-500 mb-2">
+                    {lp.data.title}
+                </div>
+                <div className="flex text-center">
+                    <div className="flex-1 p-3 m-2 rounded-lg hover:bg-gray-100 cursor-pointer" onClick={() => setShouldShowConfirmDeleteModal(false)}>
+                        Cancel
+                    </div>
+                    <div className="flex-1 p-3 m-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white cursor-pointer" onClick={() => db.deleteLearningPath(lp.id)}>
+                        Delete
+                    </div>
+                </div>
             </FormModal>
         </div>
     )
