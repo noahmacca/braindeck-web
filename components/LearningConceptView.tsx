@@ -48,8 +48,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
             }
             <div>
                 <div className="text-2xl pb-1 font-semibold text-gray-800">{`${conceptIdx + 1}. ${lc.title}`}</div>
-                <div className="text-xl pb-1 font-light text-gray-800">{`${lc.description}`}</div>
-
+                <div className="text-md pb-1 font-light text-gray-800">{`${lc.description}`}</div>
             </div>
             <div>
                 {
@@ -70,7 +69,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                 }
             </div>
             <FormModal
-                title="Edit Concept"
+                title="Edit Unit"
                 shouldShowModal={shouldShowLcEditModal}
                 dismissModal={() => setShouldShowLcEditModal(false)}
             >
