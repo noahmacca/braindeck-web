@@ -14,6 +14,7 @@ import {
     LearningPathData,
     UserInputLearningPathData,
     UserInputLearningConceptData,
+    UserInputLearningResourceData,
     User,
     LearningPathUser
 } from './types';
@@ -310,9 +311,7 @@ const useDbProvider = () => {
             learningResources: []
         };
 
-        console.log('createLearningConcept')
         const lp = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
-        console.log('createLearningConcept', lp)
         lp.data.learningConcepts.push(lc);
         return updateDoc('learningPaths', lpId, {
             learningConcepts: lp.data.learningConcepts
@@ -363,12 +362,38 @@ const useDbProvider = () => {
         });
     }
 
-    // const updateLearningConcept = (lpId: string, lpUserInput: UserInputLearningConceptData) => {
-    //     return updateDoc('learningPaths', lpId, {
-    //         updated: Date.now(),
-    //         ...lpUserInput
-    //     })
-    // }
+    ////////////// LEARNING CONCEPT //////////////
+    const createLearningResource = (lpId: string, lcId: string, lrUserInput: UserInputLearningResourceData) => {
+        const nowMs = Date.now();
+        const lr = {
+            id: v4(),
+            created: nowMs,
+            updated: nowMs,
+            ...lrUserInput
+        };
+
+        let isMatch = false;
+        const lpMatch: LearningPathUser = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        console.log('createLearningResource 1', lpMatch)
+        const lcsNew = lpMatch.data.learningConcepts.map((lc) => {
+            if (lc.id === lcId) {
+                isMatch = true;
+                lc.learningResources.push(lr);
+                lc.updated = Date.now();
+            }
+            return lc
+        })
+        console.log('createLearningResource 2', lcsNew)
+        if (!isMatch) {
+            console.warn('no matching learning concept found; not updating');
+            return null
+        }
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            learningConcepts: lcsNew
+        });
+    }
+
 
     const getLearningPathById = (id: string): any => {
         return db.collection('learningPaths').doc(id).get()
@@ -419,6 +444,7 @@ const useDbProvider = () => {
         createLearningConcept,
         updateLearningConcept,
         deleteLearningConcept,
+        createLearningResource,
         setLpRating,
         getLearningPathById,
         updateDoc,

@@ -6,7 +6,7 @@ import { UserInputLearningResourceData } from '../../hooks/types';
 
 import Button from '../Button';
 
-const LearningResourceForm = ({ dismiss, lpId, lrId, initialData }: { dismiss: Function, lpId: string, lrId?: string, initialData?: UserInputLearningResourceData }) => {
+const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dismiss: Function, lpId: string, lcId: string, lrId?: string, initialData?: UserInputLearningResourceData }) => {
     const db = useDb();
     const { register, errors, handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -16,16 +16,21 @@ const LearningResourceForm = ({ dismiss, lpId, lrId, initialData }: { dismiss: F
     const onSubmit = (data) => {
         setIsLoading(true);
         setError(null);
-        // const userInputLearningConceptData: UserInputLearningResourceData = {
-        //     title: data.title,
-        //     description: data.description,
-        // }
+        const userInputLearningResourceData: UserInputLearningResourceData = {
+            title: data.title,
+            author: data.author,
+            url: data.url,
+            format: data.format,
+            difficulty: data.format,
+            description: data.description,
+            highlight: data.highlight,
+        }
         if (!lrId) {
             console.log('new', data);
-            // return db.createLearningConcept(lpId, userInputLearningConceptData).then((response) => {
-            //     setIsLoading(false);
-            //     response.error ? setError(response.error) : dismiss();
-            // })
+            return db.createLearningResource(lpId, lcId, userInputLearningResourceData).then((response) => {
+                setIsLoading(false);
+                response.error ? setError(response.error) : dismiss();
+            })
         } else {
             console.log('update', data);
             // return db.updateLearningConcept(lpId, lcId, userInputLearningConceptData).then((response) => {

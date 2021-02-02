@@ -17,13 +17,14 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
                 New Learning Resource
             </div>
             <FormModal
-                title="New Resource"
+                title="Create Resource"
                 shouldShowModal={shouldShowCreateModal}
                 dismissModal={() => setShouldShowCreateModal(false)}
             >
                 <LearningResourceForm
                     dismiss={() => setShouldShowCreateModal(false)}
                     lpId={lpId}
+                    lcId={lcId}
                 />
             </FormModal>
         </div>
@@ -60,8 +61,8 @@ export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningP
                             <div key={`${learningResource.id}-content`}>
                                 <LearningResourceView
                                     lp={lp}
+                                    lc={lc}
                                     lr={learningResource}
-                                    resourceIdx={resourceIdx}
                                 />
                             </div>
                         )

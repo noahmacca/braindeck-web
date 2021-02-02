@@ -1,12 +1,12 @@
 import { CheckSquareFill, Check } from 'react-bootstrap-icons';
-import { LearningPathUser, LearningResource,  } from '../hooks/types';
+import { LearningPathUser, LearningConcept, LearningResource  } from '../hooks/types';
 import { useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import LearningResourceForm from './forms/LearningResourceForm';
 import FormModal from './forms/FormModal';
 
-export default function LearningResourceView({lp, lr, resourceIdx}: {lp: LearningPathUser, lr: LearningResource, resourceIdx: number}) {
+export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser, lc: LearningConcept, lr: LearningResource}) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
     const db = useDb();
     const isComplete = db.user.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
@@ -29,7 +29,7 @@ export default function LearningResourceView({lp, lr, resourceIdx}: {lp: Learnin
                     : undefined
             }
             <div className="text-xl mb-1">
-                {`${resourceIdx} `}<a href={`${lr.url}`}>{`${lr.title}`}</a>
+                <a href={`${lr.url}`}>{`${lr.title}`}</a>
             </div>
             <div className="text-sm mb-4">
                 {lr.author}{' '}
@@ -68,13 +68,14 @@ export default function LearningResourceView({lp, lr, resourceIdx}: {lp: Learnin
                 }
             </div>
             <FormModal
-                title="Edit Concept"
+                title="Edit Resource"
                 shouldShowModal={shouldShowLrEditModal}
                 dismissModal={() => setShouldShowLrEditModal(false)}
             >
                 <LearningResourceForm
                     dismiss={() => setShouldShowLrEditModal(false)}
                     lpId={lp.id}
+                    lcId={lc.id}
                     // lrId={lr.id}
                     // initialData={{
                     //     title: lc.title,
