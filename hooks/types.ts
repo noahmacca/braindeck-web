@@ -22,6 +22,16 @@ export interface User {
     favoriteTopics: Array<string> // TODO make these entities
 }
 
+export interface UserInputLearningResourceData {
+    title: string,
+    author: string,
+    url: string,
+    format: string, // TODO: enum
+    difficulty: string, // TODO: enum
+    description?: string,
+    highlight?: string
+}
+
 export interface LearningResource {
     id?: string,
     created?: number,

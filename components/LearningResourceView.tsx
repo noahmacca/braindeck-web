@@ -3,7 +3,7 @@ import { LearningPathUser, LearningResource,  } from '../hooks/types';
 import { useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
-import LearningConceptForm from './forms/LearningConceptForm';
+import LearningResourceForm from './forms/LearningResourceForm';
 import FormModal from './forms/FormModal';
 
 export default function LearningResourceView({lp, lr, resourceIdx}: {lp: LearningPathUser, lr: LearningResource, resourceIdx: number}) {
@@ -72,10 +72,10 @@ export default function LearningResourceView({lp, lr, resourceIdx}: {lp: Learnin
                 shouldShowModal={shouldShowLrEditModal}
                 dismissModal={() => setShouldShowLrEditModal(false)}
             >
-                <LearningConceptForm
+                <LearningResourceForm
                     dismiss={() => setShouldShowLrEditModal(false)}
                     lpId={lp.id}
-                    // lrId={lc.id}
+                    // lrId={lr.id}
                     // initialData={{
                     //     title: lc.title,
                     //     description: lc.description

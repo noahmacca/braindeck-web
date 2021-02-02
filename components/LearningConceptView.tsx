@@ -4,6 +4,7 @@ import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import FormModal from './forms/FormModal';
 import LearningConceptForm from './forms/LearningConceptForm';
+import LearningResourceForm from './forms/LearningResourceForm';
 import LearningResourceView from './LearningResourceView';
 
 const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateModal: boolean, setShouldShowCreateModal: Function) => {
@@ -20,7 +21,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
                 shouldShowModal={shouldShowCreateModal}
                 dismissModal={() => setShouldShowCreateModal(false)}
             >
-                <LearningConceptForm
+                <LearningResourceForm
                     dismiss={() => setShouldShowCreateModal(false)}
                     lpId={lpId}
                 />
