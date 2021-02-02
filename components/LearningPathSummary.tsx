@@ -25,14 +25,14 @@ const renderLpSummaryDetail = ({ lp, progress }:
                 </div>
                 <hr />
                 <div className="md:flex md:text-center pt-2">
+                    <div className="flex-1 text-sm font-medium">Your Progress{' '}
+                        <span className="font-light">{Math.round(progress * 100)}%</span>
+                    </div>
                     <div className="flex-1 text-sm font-medium">Created By{' '}
                         <span className="font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</span>
                     </div>
                     <div className="flex-1 text-sm font-medium">Updated{' '}
                         <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
-                    </div>
-                    <div className="flex-1 text-sm font-medium">Your Progress{' '}
-                        <span className="font-light">{Math.round(progress * 100)}%</span>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 {
                     lp.userData.isFavorite ?
                         <span className="flex">
-                            <span className="flex px-1 md:pr-3 align-middle">
+                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
                                 <HeartFill className="px-1 text-red-500" size={26} />
                                 <span>
                                     {lp.data.countFavorite}
@@ -165,7 +165,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </span>
                         :
                         <span className="flex">
-                            <span className="flex px-1 md:pr-3 align-middle">
+                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
                                 <Heart className="px-1 text-red-500" size={26} />
                                 <span>
                                     {lp.data.countFavorite}
