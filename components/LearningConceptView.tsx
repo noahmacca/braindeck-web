@@ -14,7 +14,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
                 className="rounded-md py-1 px-2 font-light text-md bg-gray-100 hover:bg-gray-200 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
-                New Learning Resource
+                Add New Resource
             </div>
             <FormModal
                 title="Create Resource"
@@ -41,8 +41,8 @@ export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningP
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningConcept(lp.id, lc.id)} />
-                        <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowLcEditModal(true)} />
+                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400" size={18} onClick={() => db.deleteLearningConcept(lp.id, lc.id)} />
+                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={18} onClick={() => setShouldShowLcEditModal(true)} />
                     </span>
                     : undefined
             }
@@ -54,7 +54,7 @@ export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningP
             <div>
                 {
                     lc.learningResources.length === 0 ?
-                    <div className="font-light text-gray-700 p-2 text-md">No resources for this concept</div>
+                    <div className="font-light text-gray-700 p-2 text-md">No learning resources yet. Add one!</div>
                     :
                     lc.learningResources.map((learningResource, resourceIdx) => {
                         return (

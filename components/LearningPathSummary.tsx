@@ -115,8 +115,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-5 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
-                        <PencilSquare className="mr-7 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowEditModal(true)} />
+                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400" size={20} onClick={() => db.deleteLearningPath(lp.id)} />
+                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={20} onClick={() => setShouldShowEditModal(true)} />
                     </span>
                     : undefined
             }

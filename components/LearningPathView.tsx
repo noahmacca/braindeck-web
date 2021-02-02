@@ -63,7 +63,7 @@ const renderAddLearningConcept = (lpId: string, shouldShowCreateModal: boolean, 
                 className="rounded-md py-2 px-3 font-light text-lg bg-gray-100 hover:bg-gray-200 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
-                New Concept
+                Add New Unit
             </div>
             <FormModal
                 title="New Concept"
@@ -86,7 +86,7 @@ function renderLearningConcepts(lp: LearningPathUser, setLearningResourceComplet
         <div>
             {
                 learningConcepts.length === 0 ?
-                    <div className="font-light text-gray-700 p-2 text-lg">No learning paths yet!</div>
+                    <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>
                     :
                     <span>
                         {learningConcepts.map((learningConcept, conceptIdx) => (
