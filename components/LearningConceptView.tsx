@@ -11,7 +11,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
     return (
         <div>
             <div
-                className="rounded-md py-1 px-2 font-light text-md bg-gray-100 hover:bg-gray-200 cursor-pointer"
+                className="w-44 rounded-md text-center font-gray-800 py-2 text-md font-medium text-md bg-green-100 hover:bg-green-200 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Resource
@@ -31,13 +31,13 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
     )
 }
 
-export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningPathUser, lc: LearningConcept, conceptIdx: number}) {
+export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: LearningPathUser, lc: LearningConcept, conceptIdx: number }) {
     const [shouldShowLrCreateModal, setShouldShowLrCreateModal] = useState(false);
     const [shouldShowLcEditModal, setShouldShowLcEditModal] = useState(false);
     const db = useDb();
 
     return (
-        <div className="bg-white mx-5 mt-5 items-center text-gray-700">
+        <div className="bg-white mx-5 my-5 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
                     <span>
@@ -54,19 +54,19 @@ export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningP
             <div>
                 {
                     lc.learningResources.length === 0 ?
-                    <div className="font-light text-gray-700 p-2 text-md">No learning resources yet. Add one!</div>
-                    :
-                    lc.learningResources.map((learningResource, resourceIdx) => {
-                        return (
-                            <div key={`${learningResource.id}-content`}>
-                                <LearningResourceView
-                                    lp={lp}
-                                    lc={lc}
-                                    lr={learningResource}
-                                />
-                            </div>
-                        )
-                    })
+                        <div className="font-light text-gray-700 p-2 text-md">No learning resources yet. Add one!</div>
+                        :
+                        lc.learningResources.map((learningResource, resourceIdx) => {
+                            return (
+                                <div key={`${learningResource.id}-content`}>
+                                    <LearningResourceView
+                                        lp={lp}
+                                        lc={lc}
+                                        lr={learningResource}
+                                    />
+                                </div>
+                            )
+                        })
                 }
             </div>
             <FormModal

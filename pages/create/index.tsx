@@ -14,6 +14,7 @@ export default function CreateIndex() {
     // Show all of the user's created learning paths. Can edit each one, and create new ones.
     useRequireAuth();
     const db = useDb();
+    const createdLps = db.userLearningPaths.filter((uLp) => uLp.userData.isCreator)
 
     return (
         <div>
@@ -23,11 +24,19 @@ export default function CreateIndex() {
                 <div className="relative bg-white overflow-hidden">
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
-                            <button onClick={() => setShouldShowCreateModal(true)} className="mr-3 p-2 px-3 bg-indigo-200 rounded-md">New</button>
-                            <button onClick={() => db.setUserName({ uId: db.user.uid, name: 'nomotest4' })} className="mr-3 mb-3 p-2 px-3 bg-indigo-200 rounded-md">Update Name</button>
+                            <div className="text-center">
+                                <button onClick={() => setShouldShowCreateModal(true)} className="mb-16 font-medium text-xl py-4 px-10 bg-green-200 rounded-md">
+                                    New Learning Path
+                                </button>
+                            </div>
                             <div className="container mb-4 md:mb-6">
-                                <h1 className="mb-3">Your Created Learning Paths</h1>
-                                <LpListSection lps={db.userLearningPaths.filter((uLp) => uLp.userData.isCreator)} />
+                                <h1 className="mb-3">Created Learning Paths</h1>
+                                {
+                                    createdLps.length === 0 ?
+                                    <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>
+                                    :
+                                    <LpListSection lps={createdLps} />
+                                }
                             </div>
                         </div>
                     </div>
