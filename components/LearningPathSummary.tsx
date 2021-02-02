@@ -5,6 +5,7 @@ import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
 import LearningPathForm from './forms/LearningPathForm';
 import FormModal from '../components/forms/FormModal';
+import ConfirmationForm from './forms/ConfirmationForm';
 
 const renderLpSummaryDetail = ({ lp, progress }:
     {
@@ -206,17 +207,11 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 shouldShowModal={shouldShowConfirmDeleteModal}
                 dismissModal={() => setShouldShowConfirmDeleteModal(false)}
             >
-                <div className="italic text-gray-500 mb-2">
-                    {lp.data.title}
-                </div>
-                <div className="flex text-center">
-                    <div className="flex-1 p-3 m-2 rounded-lg hover:bg-gray-100 cursor-pointer" onClick={() => setShouldShowConfirmDeleteModal(false)}>
-                        Cancel
-                    </div>
-                    <div className="flex-1 p-3 m-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white cursor-pointer" onClick={() => db.deleteLearningPath(lp.id)}>
-                        Delete
-                    </div>
-                </div>
+                <ConfirmationForm
+                    info={lp.data.title}
+                    dismissAction={() => setShouldShowConfirmDeleteModal(false)}
+                    confirmAction={() => db.deleteLearningPath(lp.id)}
+                />
             </FormModal>
         </div>
     )
