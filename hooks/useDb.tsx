@@ -394,6 +394,37 @@ const useDbProvider = () => {
         });
     }
 
+    const updateLearningResource = (lpId: string, lcId: string, lrId: string, lrUserInput: UserInputLearningResourceData) => {
+        let isMatch = false;
+        const lpMatch: LearningPathUser = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        const lcsNew = lpMatch.data.learningConcepts.map((lc) => {
+            if (lc.id === lcId) {
+                lc.learningResources.forEach((lr) => {
+                    if (lr.id === lrId) {
+                        isMatch = true;
+                        lr.updated = Date.now();
+                        lr.title = lrUserInput.title;
+                        lr.author = lrUserInput.author;
+                        lr.url = lrUserInput.url;
+                        lr.format = lrUserInput.format;
+                        lr.difficulty = lrUserInput.difficulty;
+                        lr.description = lrUserInput.description;
+                        lr.highlight = lrUserInput.highlight;
+                    }
+                })
+            }
+            return lc
+        })
+        if (!isMatch) {
+            console.warn('no matching learning concept found; not updating');
+            return null
+        }
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            learningConcepts: lcsNew
+        });
+    }
+
 
     const getLearningPathById = (id: string): any => {
         return db.collection('learningPaths').doc(id).get()
@@ -445,6 +476,7 @@ const useDbProvider = () => {
         updateLearningConcept,
         deleteLearningConcept,
         createLearningResource,
+        updateLearningResource,
         setLpRating,
         getLearningPathById,
         updateDoc,

@@ -76,11 +76,16 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
                     dismiss={() => setShouldShowLrEditModal(false)}
                     lpId={lp.id}
                     lcId={lc.id}
-                    // lrId={lr.id}
-                    // initialData={{
-                    //     title: lc.title,
-                    //     description: lc.description
-                    // }}
+                    lrId={lr.id}
+                    initialData={{
+                        title: lr.title,
+                        author: lr.author,
+                        url: lr.url,
+                        format: lr.format,
+                        difficulty: lr.difficulty,
+                        description: lr.description,
+                        highlight: lr.highlight,
+                    }}
                 />
             </FormModal>
         </div>
