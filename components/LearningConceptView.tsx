@@ -6,12 +6,13 @@ import FormModal from './forms/FormModal';
 import LearningConceptForm from './forms/LearningConceptForm';
 import LearningResourceForm from './forms/LearningResourceForm';
 import LearningResourceView from './LearningResourceView';
+import ConfirmationForm from './forms/ConfirmationForm';
 
 const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateModal: boolean, setShouldShowCreateModal: Function) => {
     return (
         <div>
             <div
-                className="w-44 rounded-md text-center font-gray-800 py-2 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                className="w-44 rounded-md text-center font-gray-800 py-2 mb-2 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Resource
@@ -34,6 +35,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
 export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: LearningPathUser, lc: LearningConcept, conceptIdx: number }) {
     const [shouldShowLrCreateModal, setShouldShowLrCreateModal] = useState(false);
     const [shouldShowLcEditModal, setShouldShowLcEditModal] = useState(false);
+    const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
     const db = useDb();
 
     return (
@@ -41,8 +43,8 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400" size={18} onClick={() => db.deleteLearningConcept(lp.id, lc.id)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={18} onClick={() => setShouldShowLcEditModal(true)} />
+                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowLcEditModal(true)} />
                     </span>
                     : undefined
             }
@@ -88,6 +90,17 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     renderAddLearningResource(lp.id, lc.id, shouldShowLrCreateModal, setShouldShowLrCreateModal)
                     : null
             }
+            <FormModal
+                title="Create Resource"
+                shouldShowModal={shouldShowConfirmDeleteModal}
+                dismissModal={() => setShouldShowConfirmDeleteModal(false)}
+            >
+                <ConfirmationForm
+                    info={lc.title}
+                    dismissAction={() => setShouldShowConfirmDeleteModal(false)}
+                    confirmAction={() => db.deleteLearningConcept(lp.id, lc.id)}
+                />
+            </FormModal>
         </div>
     )
 }
