@@ -36,7 +36,6 @@ export interface LearningResource {
 }
 
 export interface UserInputLearningConceptData {
-    id?: string,
     title: string,
     description:string,
 }
@@ -44,6 +43,8 @@ export interface UserInputLearningConceptData {
 export interface LearningConcept {
     id?: string,
     title: string,
+    created: number,
+    updated: number,
     description: string,
     learningResources: Array<LearningResource>
 }

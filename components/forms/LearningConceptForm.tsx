@@ -11,6 +11,7 @@ const LearningConceptForm = ({ dismiss, lpId, initialData, lcId }: { dismiss: Fu
     const { register, errors, handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    console.log('initialData', initialData);
 
     const onSubmit = (data) => {
         setIsLoading(true);
@@ -22,13 +23,13 @@ const LearningConceptForm = ({ dismiss, lpId, initialData, lcId }: { dismiss: Fu
         if (!lcId) {
             return db.createLearningConcept(lpId, userInputLearningConceptData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(null) : dismiss();
+                response.error ? setError(response.error) : dismiss();
             })
         } else {
-            // return db.updateLearningConcept(lpId, lcId, userInputLearningConceptData).then((response) => {
-            //     setIsLoading(false);
-            //     response.error ? setError(null) : dismiss();
-            // })
+            return db.updateLearningConcept(lpId, lcId, userInputLearningConceptData).then((response) => {
+                setIsLoading(false);
+                response.error ? setError(response.error) : dismiss();
+            })
         }
 
     };

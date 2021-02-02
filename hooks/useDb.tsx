@@ -278,6 +278,7 @@ const useDbProvider = () => {
         // });
     }
 
+    ////////////// LEARNING PATH //////////////
     const createLearningPath = (lpUserInput: UserInputLearningPathData) => {
         const lp = initLearningPath(lpUserInput);
         return db.collection('learningPaths')
@@ -298,10 +299,14 @@ const useDbProvider = () => {
         })
     }
 
+    ////////////// LEARNING CONCEPT //////////////
     const createLearningConcept = (lpId: string, lcUserInput: UserInputLearningConceptData) => {
+        const nowMs = Date.now();
         const lc = {
             id: v4(),
             ...lcUserInput,
+            created: nowMs,
+            updated: nowMs,
             learningResources: []
         };
 
@@ -314,8 +319,48 @@ const useDbProvider = () => {
         });
     }
 
+    const updateLearningConcept = (lpId: string, lcId: string, lcUserInput: UserInputLearningConceptData) => {
+        let isMatch = false;
+        const lpMatch = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        const lcsNew = lpMatch.data.learningConcepts.map((lc) => {
+            if (lc.id === lcId) {
+                isMatch = true;
+                lc.updated = Date.now();
+                lc.title = lcUserInput.title;
+                lc.description = lcUserInput.description;
+            }
+            return lc
+        })
+        if (!isMatch) {
+            console.warn('no matching learning concept found; not updating');
+            return null
+        }
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            learningConcepts: lcsNew
+        });
+    }
+
     const deleteLearningConcept = (lpId: string, lcId: string) => {
         console.log('deleting learning concept', lpId, lcId);
+        let isMatch = false;
+        const lpMatch = userLearningPaths.filter((uLp) => uLp.id === lpId)[0]
+        const lcsNew = []
+        lpMatch.data.learningConcepts.forEach((lc) => {
+            if (lc.id === lcId) {
+                isMatch=true;
+                return null
+            }
+            lcsNew.push(lc)
+        })
+        if (!isMatch) {
+            console.warn('no matching learning concept found; not updating');
+            return null
+        }
+        return updateDoc('learningPaths', lpId, {
+            updated: Date.now(),
+            learningConcepts: lcsNew
+        });
     }
 
     // const updateLearningConcept = (lpId: string, lpUserInput: UserInputLearningConceptData) => {
@@ -372,6 +417,7 @@ const useDbProvider = () => {
         createLearningPath,
         updateLearningPath,
         createLearningConcept,
+        updateLearningConcept,
         deleteLearningConcept,
         setLpRating,
         getLearningPathById,
