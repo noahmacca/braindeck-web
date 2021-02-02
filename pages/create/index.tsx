@@ -7,6 +7,7 @@ import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
 import LearningPathForm from '../../components/forms/LearningPathForm';
 import FormModal from '../../components/forms/FormModal';
+import SectionHeader from "../../components/SectionHeader";
 
 export default function CreateIndex() {
     const [shouldShowCreateModal, setShouldShowCreateModal] = useState(false);
@@ -30,7 +31,7 @@ export default function CreateIndex() {
                                 </button>
                             </div>
                             <div className="container mb-4 md:mb-6">
-                                <h1 className="mb-3">Created Learning Paths</h1>
+                                <SectionHeader text="Created Learning Paths" />
                                 {
                                     createdLps.length === 0 ?
                                     <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>

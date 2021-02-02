@@ -3,6 +3,7 @@ import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import LearningPathLoader from '../../components/LearningPathLoader';
 import { useDb } from '../../hooks/useDb';
+import SectionHeader from "../../components/SectionHeader";
 
 const NUM_DISPLAY_LPS = 20;
 
@@ -30,7 +31,7 @@ export default function ExploreIndex({ subLpsArr }) {
                 <div className="relative bg-white overflow-hidden">
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
-                            <h1 className="my-3 text-3xl">Most Popular Learning Paths</h1>
+                            <SectionHeader text="Top Learning Paths" />
                             <LpListSection lps={uLps.slice(0,NUM_DISPLAY_LPS)} />
                         </div>
                     </div>

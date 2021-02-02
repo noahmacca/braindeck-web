@@ -2,6 +2,7 @@ import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import LpListSection from "../../components/LpListSection";
 import LearningPathLoader from '../../components/LearningPathLoader';
+import SectionHeader from '../../components/SectionHeader';
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from "../../hooks/useDb";
 import Link from 'next/link';
@@ -15,6 +16,8 @@ function compareByDataUpdated(a, b) {
     }
     return 0;
 }
+
+
 
 
 export default function MyCoursesIndex() {
@@ -57,41 +60,34 @@ export default function MyCoursesIndex() {
                 <div className="relative bg-white overflow-hidden">
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
-                            <h1>Your Learning Paths</h1>
                             {
                                 !hasAnyLearningPath ?
-                                <div className="py-5 text-md text-gray-700 font-light">
-                                    Go check out <Link href="/explore"><a>Explore</a></Link> and favorite some learning paths
-                                </div> :
-                                <div>
-                                    {
-                                        displayLpsByCat.inProgress.length > 0 &&
-                                        <div className="my-2 md:my-6 md:mx-4">
-                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                                In Progress
-                                        </div>
-                                            <LpListSection lps={displayLpsByCat.inProgress} />
-                                        </div>
-                                    }
-                                    {
-                                        displayLpsByCat.notStarted.length > 0 &&
-                                        <div className="my-2 md:my-6 md:mx-4">
-                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                                Not Started
+                                    <div className="py-5 text-md text-gray-700 font-light">
+                                        Go check out <Link href="/explore"><a>Explore</a></Link> and favorite some learning paths
+                                    </div> :
+                                    <div>
+                                        {
+                                            displayLpsByCat.inProgress.length > 0 &&
+                                            <div className="my-2 md:my-6 md:mx-4">
+                                                <SectionHeader text="In Progress" />
+                                                <LpListSection lps={displayLpsByCat.inProgress} />
                                             </div>
-                                            <LpListSection lps={displayLpsByCat.notStarted} />
-                                        </div>
-                                    }
-                                    {
-                                        displayLpsByCat.complete.length > 0 &&
-                                        <div className="my-2 md:my-6 md:mx-4">
-                                            <div className="text-xl md:mb-1 tracking-tight font-light text-gray-600 capitalize inline-block">
-                                                Complete
+                                        }
+                                        {
+                                            displayLpsByCat.notStarted.length > 0 &&
+                                            <div className="my-2 md:my-6 md:mx-4">
+                                                <SectionHeader text="Not Started" />
+                                                <LpListSection lps={displayLpsByCat.notStarted} />
                                             </div>
-                                            <LpListSection lps={displayLpsByCat.complete} />
-                                        </div>
-                                    }
-                                </div>
+                                        }
+                                        {
+                                            displayLpsByCat.complete.length > 0 &&
+                                            <div className="my-2 md:my-6 md:mx-4">
+                                                <SectionHeader text="Completed" />
+                                                <LpListSection lps={displayLpsByCat.complete} />
+                                            </div>
+                                        }
+                                    </div>
 
                             }
                         </div>
