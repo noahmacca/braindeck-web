@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import FormModal from './forms/FormModal';
-import LearningConceptForm from './forms/LearningConceptForm'
+import LearningConceptForm from './forms/LearningConceptForm';
+import LearningResourceView from './LearningResourceView';
 
 const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateModal: boolean, setShouldShowCreateModal: Function) => {
     return (
@@ -50,10 +51,17 @@ export default function LearningConceptView({lp, lc, conceptIdx}: {lp: LearningP
             </div>
             <div>
                 {
-                    lc.learningResources.map((learningResource, idxResource) => {
+                    lc.learningResources.length === 0 ?
+                    <div className="font-light text-gray-700 p-2 text-md">No resources for this concept</div>
+                    :
+                    lc.learningResources.map((learningResource, resourceIdx) => {
                         return (
                             <div key={`${learningResource.id}-content`}>
-                                <div>{ learningResource.id }</div>
+                                <LearningResourceView
+                                    lp={lp}
+                                    lr={learningResource}
+                                    resourceIdx={resourceIdx}
+                                />
                             </div>
                         )
                     })
