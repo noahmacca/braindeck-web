@@ -33,10 +33,10 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             </div>
             <div className="text-sm mb-4">
                 By {lr.author}{' '}
-                <span className="capitalize ml-2 bg-gray-100 text-gray-600 rounded-md px-2 py-1 font-medium">
+                <span className="capitalize ml-2 bg-gray-100 text-gray-600 rounded-md px-2 py-1">
                     {lr.format.toLowerCase()}
                 </span>{' '}
-                <span className="capitalize bg-gray-100 text-gray-600 rounded-md px-2 py-1 ml-2 font-medium">
+                <span className="capitalize bg-gray-100 text-gray-600 rounded-md px-2 py-1 ml-2">
                     {lr.difficulty.toLowerCase()}
                 </span>
             </div>
@@ -47,7 +47,7 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             <div>
                 {
                     !isComplete ?
-                        <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-100 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                        <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
                             <div className="mx-auto flex">
                                 <span className="text-sm">Complete</span>
                             </div>

@@ -61,7 +61,7 @@ const renderStarRating = (numStars: number, cb: any) => {
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-200 text-gray-700 font-medium capitalize`}>
+        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-gray-600 capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )
@@ -142,14 +142,35 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </Link>
                     </div>
             }
-            <div className="flex flex-wrap md:x-1 text-md font-light text-gray-500">
+            <div className="flex flex-wrap md:x-1 text-md text-gray-500">
                 {
                     lp.userData.isFavorite ?
-                        <span className="flex pr-1 md:pr-3">
-                            <HeartFill className="px-1 text-red-500 cursor-pointer" size={24} onClick={() => setLpFavorite(false)} />{lp.data.countFavorite}
-                        </span> :
-                        <span className="flex pr-1 md:pr-3">
-                            <Heart className="px-1 text-red-500 cursor-pointer" size={24} onClick={() => setLpFavorite(true)} />{lp.data.countFavorite}
+                        <span className="flex">
+                            <div className="rounded-md border text-gray-700 text-sm border-red-100 bg-red-50 p-1 flex w-24 cursor-pointer" onClick={() => setLpFavorite(false)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-sm">Favorited</span>
+                                </div>
+                            </div>
+                            <span className="flex px-1 md:pr-3 align-middle">
+                                <HeartFill className="px-1 text-red-500" size={26} />
+                                <span>
+                                    {lp.data.countFavorite}
+                                </span>
+                            </span>
+                        </span>
+                        :
+                        <span className="flex">
+                            <div className="rounded-md border text-gray-700 text-sm p-1 flex w-24 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-sm">Favorite</span>
+                                </div>
+                            </div>
+                            <span className="flex px-1 md:pr-3 align-middle">
+                                <Heart className="px-1 text-red-500" size={26} />
+                                <span>
+                                    {lp.data.countFavorite}
+                                </span>
+                            </span>
                         </span>
                 }
                 <span className="flex pr-1 md:pr-3">
@@ -160,7 +181,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
                 {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
             </div>
-            { renderLpSummaryDetail({ lp, progress: lp.userData.progress }) }
+            { renderLpSummaryDetail({ lp, progress: lp.userData.progress })}
             <FormModal
                 title="Edit Learning Path"
                 shouldShowModal={shouldShowEditModal}
