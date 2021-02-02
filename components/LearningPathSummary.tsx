@@ -14,7 +14,7 @@ const renderLpSummaryDetail = ({ lp, progress }:
 
     return (
         <div>
-            <div className="px-2 py-3">
+            <div className="px-2 pt-3">
                 <div className="pb-3">
                     <div className="text-sm font-medium">Learning Goal</div>
                     <div className="text-md font-light">{lp.data.learningGoal}</div>
@@ -23,10 +23,17 @@ const renderLpSummaryDetail = ({ lp, progress }:
                     <div className="text-sm font-medium">Background Knowledge</div>
                     <div className="text-md font-light">{lp.data.background}</div>
                 </div>
-                <div>
-                    <div className="text-sm font-medium">Created by <span className="font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</span></div>
-                    <div className="text-sm font-medium">Last Updated <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span></div>
-                    <div className="text-sm font-medium">Your Progress <span className="font-light">{Math.round(progress * 100)}%</span></div>
+                <hr />
+                <div className="md:flex md:text-center pt-2">
+                    <div className="flex-1 text-sm font-medium">Created By{' '}
+                        <span className="font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</span>
+                    </div>
+                    <div className="flex-1 text-sm font-medium">Updated{' '}
+                        <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex-1 text-sm font-medium">Your Progress{' '}
+                        <span className="font-light">{Math.round(progress * 100)}%</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,7 +61,7 @@ const renderStarRating = (numStars: number, cb: any) => {
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-xs p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-600 text-white capitalize`}>
+        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-200 text-gray-700 font-medium capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )
@@ -66,16 +73,16 @@ const getChipColor = (type: string, val: string) => {
     const colorConfig = {
         'DIFFICULTY': {
             'EASY': 'green',
-            'MODERATE': 'indigo',
-            'HARD': 'yellow',
-            'ADVANCED': 'orange'
+            'MODERATE': 'yellow',
+            'HARD': 'red',
+            'ADVANCED': 'red'
         },
         'EST_DURATION': {
             'FAST (<1 HR)': 'green',
             'QUICK (<1 HR)': 'green',
-            'FAST (1-2 HR)': 'indigo',
+            'FAST (1-2 HR)': 'green',
             'MEDIUM (2-5 HR)': 'yellow',
-            'LONG (5-10 HR)': 'orange',
+            'LONG (5-10 HR)': 'red',
             'VERY LONG (10-20 HR)': 'red',
         }
     }
@@ -111,7 +118,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
     });
 
     return (
-        <div className="bg-gray-100 rounded-xl p-3 md:p-5 items-center text-gray-700">
+        <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
                     <span>
@@ -153,10 +160,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
                 {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
             </div>
-            { !isCompact ?
-                renderLpSummaryDetail({ lp, progress: lp.userData.progress }) :
-                <div className="text-sm pt-2 text-gray-500">{learningPath.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
-            }
+            { renderLpSummaryDetail({ lp, progress: lp.userData.progress }) }
             <FormModal
                 title="Edit Learning Path"
                 shouldShowModal={shouldShowEditModal}
