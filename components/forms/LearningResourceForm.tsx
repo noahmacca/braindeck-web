@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { UserInputLearningResourceData } from '../../hooks/types';
 
@@ -8,7 +7,7 @@ import Button from '../Button';
 
 const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dismiss: Function, lpId: string, lcId: string, lrId?: string, initialData?: UserInputLearningResourceData }) => {
     const db = useDb();
-    const { register, errors, handleSubmit } = useForm();
+    const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -20,7 +19,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             author: data.author,
             url: data.url,
             format: data.format,
-            difficulty: data.format,
+            difficulty: data.difficulty,
             description: data.description,
             highlight: data.highlight,
         }
@@ -28,14 +27,15 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             return db.createLearningResource(lpId, lcId, userInputLearningResourceData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(response.error) : dismiss();
+                reset();
             })
         } else {
             return db.updateLearningResource(lpId, lcId, lrId, userInputLearningResourceData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(response.error) : dismiss();
+                reset();
             })
         }
-
     };
 
     return (
@@ -47,7 +47,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.url}
-                    type="text"
+                    type="text" 
                     name="url"
                     ref={register({
                         required: 'Please enter a url',
