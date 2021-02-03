@@ -1,9 +1,17 @@
 import PageHead from '../components/PageHead'
 import Link from 'next/link'
 import { useAuth } from '../hooks/useAuth';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
     const auth = useAuth();
+    const router = useRouter();
+    useEffect(() => {
+        if (auth.userId) {
+            router.push('/favorites');
+        }
+    }, [auth]);
     return (
         <>
             <PageHead title="BrainDeck" />

@@ -7,7 +7,6 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
-import firebase from 'firebase/app';
 import {
     User
 } from './types';

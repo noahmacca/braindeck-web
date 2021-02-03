@@ -34,7 +34,7 @@ export default function NavBar() {
                 <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                     <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                         <div className="flex items-center justify-between w-full md:w-auto">
-                            <Link href="/">
+                            <Link href={`${!auth.userId ? '/' : '/favorites'}`}>
                                 <a><img className="h-8 w-auto sm:h-10" src="/bdLogo-md.jpeg" /></a>
                             </Link>
                         </div>
@@ -60,7 +60,7 @@ export default function NavBar() {
             <div className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-10">
                 <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div className="px-5 p-4 flex items-center justify-between">
-                        <Link href="/">
+                        <Link href={`${!auth.userId ? '/' : '/favorites'}`}>
                             <a><img className="h-8 w-auto sm:h-10" src="/bdLogo-md.jpeg" /></a>
                         </Link>
                         {
