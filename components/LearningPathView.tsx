@@ -66,7 +66,7 @@ const renderAddLearningConcept = (lpId: string, shouldShowCreateModal: boolean, 
                 Add New Unit
             </div>
             <FormModal
-                title="New Unit"
+                title="Create Unit"
                 shouldShowModal={shouldShowCreateModal}
                 dismissModal={() => setShouldShowCreateModal(false)}
             >
