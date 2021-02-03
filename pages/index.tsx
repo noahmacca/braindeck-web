@@ -8,7 +8,7 @@ export default function Home() {
     const auth = useAuth();
     const router = useRouter();
     useEffect(() => {
-        if (auth.userId && auth.userId !== '') {
+        if (auth.userId) {
             router.push('/favorites');
         }
     }, [auth]);
