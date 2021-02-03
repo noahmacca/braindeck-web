@@ -5,9 +5,11 @@ import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import LearningResourceForm from './forms/LearningResourceForm';
 import FormModal from './forms/FormModal';
+import ConfirmationForm from './forms/ConfirmationForm';
 
 export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser, lc: LearningConcept, lr: LearningResource}) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
+    const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
     const db = useDb();
     const isComplete = db.user.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
@@ -23,8 +25,8 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={16} onClick={() => db.deleteLearningResource(lp.id, lc.id, lr.id)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400" size={16} onClick={() => setShouldShowLrEditModal(true)} />
+                        <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowLrEditModal(true)} />
                     </span>
                     : undefined
             }
@@ -79,6 +81,17 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
                         description: lr.description,
                         highlight: lr.highlight,
                     }}
+                />
+            </FormModal>
+            <FormModal
+                title="Delete Resource?"
+                shouldShowModal={shouldShowConfirmDeleteModal}
+                dismissModal={() => setShouldShowConfirmDeleteModal(false)}
+            >
+                <ConfirmationForm
+                    info={lr.title}
+                    dismissAction={() => setShouldShowConfirmDeleteModal(false)}
+                    confirmAction={() => db.deleteLearningResource(lp.id, lc.id, lr.id)}
                 />
             </FormModal>
         </div>

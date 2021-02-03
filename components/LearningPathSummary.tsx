@@ -134,7 +134,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             {
                 lp.userData.isCreator === true ?
                     <span>
-                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                        <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
                         <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowEditModal(true)} />
                     </span>
                     : undefined

@@ -12,7 +12,7 @@ const renderAddLearningResource = (lpId: string, lcId: string, shouldShowCreateM
     return (
         <div>
             <div
-                className="w-44 rounded-md text-center font-gray-800 py-2 mb-2 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                className="w-44 rounded-md text-center font-gray-800 py-2 my-4 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Resource
@@ -91,7 +91,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     : null
             }
             <FormModal
-                title="Create Resource"
+                title="Delete Unit?"
                 shouldShowModal={shouldShowConfirmDeleteModal}
                 dismissModal={() => setShouldShowConfirmDeleteModal(false)}
             >
