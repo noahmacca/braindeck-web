@@ -96,7 +96,7 @@ export default function NavBar() {
                                     </div> :
                                     <div className="px-2 pt-2 pb-3 space-y-1">
                                         {MobileNavTab('explore', router.pathname)}
-                                        {MobileNavTab('my courses', router.pathname)}
+                                        {MobileNavTab('favorites', router.pathname)}
                                         {MobileNavTab('create', router.pathname)}
                                         {MobileNavTab('profile', router.pathname)}
                                         <span onClick={() => auth.signOut()} className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">Logout</span>
