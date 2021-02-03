@@ -1,34 +1,13 @@
 import LearningPathView from '../../components/LearningPathView';
 import PageHead from '../../components/PageHead';
 import NavBar from '../../components/NavBar';
-import { useDb } from '../../hooks/useDb';
 import { db } from '../../config/firebase';
 import LearningPathLoader from '../../components/LearningPathLoader';
+import { useRouter } from 'next/router';
 
-export async function getStaticProps({ params }) {
-    return {
-        props: {
-            paramId: params.id
-        }
-    }
-}
-
-export async function getStaticPaths() {
-    const lps = await db.collection('learningPaths').get()
-    const paths = lps.docs.map((doc) => ({
-        params: {
-            id: doc.id
-        }
-    }));
-
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export default function LearningPathViewById({ paramId }: { paramId: string }) {
-    const db = useDb();
+export default function LearningPathViewById() {
+    const router = useRouter();
+    const lpId: string = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id
 
     return (
         <div>
@@ -36,7 +15,7 @@ export default function LearningPathViewById({ paramId }: { paramId: string }) {
             <NavBar />
             <LearningPathLoader>
                 <LearningPathView
-                    lpId={paramId}
+                    lpId={lpId}
                 />
             </LearningPathLoader>
         </div>
