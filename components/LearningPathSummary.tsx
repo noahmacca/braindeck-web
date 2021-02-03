@@ -124,16 +124,16 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             {
                 db.user ?
                     lp.userData.isFavorite ?
-                        <div className="float-right text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
+                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
                             Favorited
                         </div>
                         :
-                        <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
+                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
                             Favorite
                         </div>
                     :
                     <Link href="/login">
-                        <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white">
+                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white">
                             Favorite
                         </div>
                     </Link>
@@ -200,7 +200,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                             renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })
                             :
                             <Link href="/login">
-                                {renderStarRating(Math.round(lp.data.avgRating), () => {})}
+                                {renderStarRating(Math.round(lp.data.avgRating), () => { })}
                             </Link>
                     }
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>

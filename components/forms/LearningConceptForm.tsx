@@ -8,7 +8,7 @@ import Button from '../Button';
 
 const LearningConceptForm = ({ dismiss, lpId, initialData, lcId }: { dismiss: Function, lpId: string, initialData?: UserInputLearningConceptData, lcId?: string }) => {
     const db = useDb();
-    const { register, errors, handleSubmit } = useForm();
+    const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -23,11 +23,13 @@ const LearningConceptForm = ({ dismiss, lpId, initialData, lcId }: { dismiss: Fu
             return db.createLearningConcept(lpId, userInputLearningConceptData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(response.error) : dismiss();
+                reset();
             })
         } else {
             return db.updateLearningConcept(lpId, lcId, userInputLearningConceptData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(response.error) : dismiss();
+                reset();
             })
         }
 

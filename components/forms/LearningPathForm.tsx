@@ -9,7 +9,7 @@ import Button from '../Button';
 
 const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, initialData?: UserInputLearningPathData, lpId?: string }) => {
     const db = useDb();
-    const { register, errors, handleSubmit } = useForm();
+    const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -28,11 +28,13 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
             return db.createLearningPath(userInputLearningPathData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(null) : dismiss();
+                reset();
             })
         } else {
             return db.updateLearningPath(lpId, userInputLearningPathData).then((response) => {
                 setIsLoading(false);
                 response.error ? setError(null) : dismiss();
+                reset();
             })
         }
 
