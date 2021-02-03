@@ -60,7 +60,7 @@ const renderAddLearningConcept = (lpId: string, shouldShowCreateModal: boolean, 
     return (
         <div>
             <div
-                className="w-36 mt-10 rounded-md text-center py-2 font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                className="w-44 mx-auto mt-6 rounded-md text-center py-3 font-medium text-lg text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Unit

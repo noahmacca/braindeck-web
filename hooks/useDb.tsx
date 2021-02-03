@@ -176,7 +176,6 @@ const useDbProvider = () => {
                 rating,
             });
         }
-        console.log('currUserRating', currUserRating)
 
         updateDoc('users', uId, {
             learningPaths: updatedUserLearningPaths,
@@ -198,12 +197,10 @@ const useDbProvider = () => {
             // New rating
             newN = currN + 1
             newAvgRating = ((currAvgRating * currN) + rating) / newN
-            console.log('no currUserRating', currN, newN, currAvgRating, newN)
         } else {
             // altered existing rating
             newAvgRating = ((currAvgRating * currN) - currUserRating + rating) / (currN)
             newN = currN
-            console.log('no currUserRating', currN, newN, currAvgRating, newN)
         }
 
         return updateDoc('learningPaths', lpId, {
