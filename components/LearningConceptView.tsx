@@ -39,7 +39,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
     const db = useDb();
 
     return (
-        <div className="bg-gray-100 px-4 pt-3 pb-1 rounded-lg mx-4 my-2 items-center text-gray-700">
+        <div className="bg-gray-100 px-4 pt-3 pb-1 rounded-lg md:mx-4 my-2 items-center text-gray-700">
             {
                 lp.userData.isCreator === true ?
                     <span>
