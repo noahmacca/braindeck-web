@@ -77,7 +77,10 @@ const useDbProvider = () => {
                     const user: User = doc.data() as User;
                     setUser(user);
                 })
-            return () => unsubscribe()
+            return () => {
+                unsubscribe();
+                setUser(null);
+            }
         }
     }, [auth.userId]);
 

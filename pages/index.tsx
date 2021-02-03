@@ -26,7 +26,7 @@ export default function Home() {
                                     <Link href="/explore">
                                         <a className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer">Explore</a>
                                     </Link>
-                                    {!auth.userId && <a href="#" className="font-medium text-indigo-600 hover:text-indigo-400">Log in</a>}
+                                    {!auth.userId && <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-400">Log in</a>}
                                 </div>
                             </nav>
                         </div>

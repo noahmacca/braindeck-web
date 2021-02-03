@@ -1,17 +1,18 @@
 import { CheckSquareFill } from 'react-bootstrap-icons';
-import { LearningPathUser, LearningConcept, LearningResource  } from '../hooks/types';
+import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
 import { useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import LearningResourceForm from './forms/LearningResourceForm';
 import FormModal from './forms/FormModal';
 import ConfirmationForm from './forms/ConfirmationForm';
+import Link from 'next/link'
 
-export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser, lc: LearningConcept, lr: LearningResource}) {
+export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathUser, lc: LearningConcept, lr: LearningResource }) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
     const db = useDb();
-    const isComplete = db.user.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
+    const isComplete = db.user?.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
         db.setLearningResourceComplete({
             uId: db.user.uid,
@@ -48,18 +49,27 @@ export default function LearningResourceView({lp, lc, lr}: {lp: LearningPathUser
             </div>
             <div>
                 {
-                    !isComplete ?
-                        <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
-                            <div className="mx-auto flex">
-                                <span className="text-sm">Complete</span>
+                    db.user ?
+                        !isComplete ?
+                            <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-sm">Complete</span>
+                                </div>
+                            </div> :
+                            <div className="rounded-md border border-green-100 p-1 mt-1 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-sm">Completed</span>
+                                    <CheckSquareFill className="ml-2 text-green-500" size={20} />
+                                </div>
                             </div>
-                        </div> :
-                        <div className="rounded-md border border-green-100 p-1 mt-1 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
-                            <div className="mx-auto flex">
-                                <span className="text-sm">Completed</span>
-                                <CheckSquareFill className="ml-2 text-green-500" size={20} />
+                        :
+                        <Link href="/login">
+                            <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer">
+                                <div className="mx-auto flex">
+                                    <span className="text-sm">Complete</span>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                 }
             </div>
             <FormModal

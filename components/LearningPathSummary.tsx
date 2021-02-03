@@ -53,7 +53,7 @@ const renderStarRating = (numStars: number, cb: any) => {
     }
 
     return (
-        <div className="flex">
+        <div className="flex cursor-pointer">
             {stars}
         </div>
     )
@@ -122,14 +122,21 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
             {
-                lp.userData.isFavorite ?
-                    <div className="float-right text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
-                        Favorited
-                    </div>
+                db.user ?
+                    lp.userData.isFavorite ?
+                        <div className="float-right text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
+                            Favorited
+                        </div>
+                        :
+                        <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
+                            Favorite
+                        </div>
                     :
-                    <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
-                        Favorite
-                    </div>
+                    <Link href="/login">
+                        <div className="float-right text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white">
+                            Favorite
+                        </div>
+                    </Link>
             }
             {
                 lp.userData.isCreator === true ?
@@ -156,27 +163,46 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
             }
             <div className="flex flex-wrap md:x-1 text-md text-gray-500">
                 {
-                    lp.userData.isFavorite ?
-                        <span className="flex">
-                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
-                                <HeartFill className="px-1 text-red-500" size={26} />
-                                <span>
-                                    {lp.data.countFavorite}
+                    db.user ?
+                        lp.userData.isFavorite ?
+                            <span className="flex">
+                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
+                                    <HeartFill className="px-1 text-red-500" size={26} />
+                                    <span>
+                                        {lp.data.countFavorite}
+                                    </span>
                                 </span>
                             </span>
-                        </span>
+                            :
+                            <span className="flex">
+                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
+                                    <Heart className="px-1 text-red-500" size={26} />
+                                    <span>
+                                        {lp.data.countFavorite}
+                                    </span>
+                                </span>
+                            </span>
                         :
-                        <span className="flex">
-                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
-                                <Heart className="px-1 text-red-500" size={26} />
-                                <span>
-                                    {lp.data.countFavorite}
+                        <Link href="/login">
+                            <span className="flex">
+                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer">
+                                    <Heart className="px-1 text-red-500" size={26} />
+                                    <span>
+                                        {lp.data.countFavorite}
+                                    </span>
                                 </span>
                             </span>
-                        </span>
+                        </Link>
                 }
                 <span className="flex pr-1 md:pr-3">
-                    {renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })}
+                    {
+                        db.user ?
+                            renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })
+                            :
+                            <Link href="/login">
+                                {renderStarRating(Math.round(lp.data.avgRating), () => {})}
+                            </Link>
+                    }
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
