@@ -41,19 +41,19 @@ const renderLpSummaryDetail = ({ lp, progress }:
     )
 }
 
-const renderStarRating = (numStars: number, cb: any) => {
+const renderStarRating = (numStars: number, isClickable: Boolean, cb: any) => {
     const stars = []
     for (let i = 1; i <= 5; i++) {
         stars.push(
             i <= numStars ?
-                <StarFill key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
+                <StarFill key={`${i}-key`} onClick={isClickable ? () => cb(i) : null} className={`text-yellow-300 ${isClickable ? "hover:bg-gray-200" : ""} mt-0.5`} size={18} />
                 :
-                <Star key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
+                <Star key={`${i}-key`} onClick={isClickable ? () => cb(i) : null} className={`text-yellow-300 ${isClickable ? "hover:bg-gray-200" : ""} mt-0.5`} size={18} />
         )
     }
 
     return (
-        <div className="flex cursor-pointer">
+        <div className={`flex ${isClickable ? "cursor-pointer" : ""}`}>
             {stars}
         </div>
     )
@@ -118,6 +118,8 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
         lpId: lp.id,
         uId: db.user.uid
     });
+
+    console.log('lp.userData.isComplete', lp.userData.isComplete);
 
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
@@ -197,10 +199,10 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 <span className="flex pr-1 md:pr-3">
                     {
                         db.user ?
-                            renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })
+                            renderStarRating(Math.round(lp.data.avgRating), lp.userData.progress === 1.0, (numStars) => { setLpRating(numStars) })
                             :
                             <Link href="/login">
-                                {renderStarRating(Math.round(lp.data.avgRating), () => { })}
+                                {renderStarRating(Math.round(lp.data.avgRating), lp.userData.progress === 1.0, () => { })}
                             </Link>
                     }
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>

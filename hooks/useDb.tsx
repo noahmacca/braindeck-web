@@ -111,6 +111,9 @@ const useDbProvider = () => {
         }
 
         lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
+        // TODO: Actually set/remove isComplete. Note that this is separate from progress == 1.0 because the creator can add more
+        // resources in the future, and it's helpful to know that the user previously completed and new things were
+        // added in the future.
         lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
         
