@@ -22,7 +22,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     }
 
     return (
-        <div className="p-3 mx-3 bg-white mb-2 rounded-lg">
+        <div className="p-3 md:mx-3 bg-white mb-2 rounded-lg">
             {
                 lp.userData.isCreator === true ?
                     <span>
