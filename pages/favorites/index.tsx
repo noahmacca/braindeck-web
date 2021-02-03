@@ -32,20 +32,21 @@ export default function MyCoursesIndex() {
         'notStarted': [],
         'inProgress': []
     };
-    let hasAnyLearningPath = false;
+    let hasActiveLearningPath = false;
     if (db.userLearningPaths && db.user) {
         db.userLearningPaths.forEach((uLp) => {
             if (db.user.learningPaths.some((userLp) => (userLp.id === uLp.id) && ((userLp.isFavorited === true) || (uLp.userData.completedContentIds.length > 0)))) {
                 if (uLp.userData.progress === 0) {
                     displayLpsByCat.notStarted.push(uLp);
+                    hasActiveLearningPath = true;
                 } else if (uLp.userData.progress >= 1.0) {
                     displayLpsByCat.complete.push(uLp);
                 } else {
                     displayLpsByCat.inProgress.push(uLp);
+                    hasActiveLearningPath = true;
                 }
-                hasAnyLearningPath = true
             }
-        })
+        });
 
         displayLpsByCat.complete.sort(compareByDataUpdated);
         displayLpsByCat.notStarted.sort(compareByDataUpdated);
@@ -61,9 +62,18 @@ export default function MyCoursesIndex() {
                     <div className="mx-auto px-6 mt-6 max-w-4xl">
                         <div className="container mb-4 md:mb-6">
                             {
-                                !hasAnyLearningPath ?
-                                    <div className="py-5 text-md text-gray-700 font-light">
-                                        Go check out <Link href="/explore"><a>Explore</a></Link> and favorite some learning paths
+                                !hasActiveLearningPath ?
+                                    <div className="py-5 text-lg text-gray-700 font-light text-center">
+                                        No active learning paths found. Go favorite some!
+                                        <div>
+                                            <Link href="/explore">
+                                                <button
+                                                    className="mb-10 mt-6 font-medium text-xl py-4 px-10 text-gray-50 bg-green-600 hover:bg-green-500 rounded-md"
+                                                >
+                                                    Explore
+                                            </button>
+                                            </Link>
+                                        </div>
                                     </div> :
                                     <div>
                                         {
@@ -80,16 +90,17 @@ export default function MyCoursesIndex() {
                                                 <LpListSection lps={displayLpsByCat.notStarted} />
                                             </div>
                                         }
-                                        {
-                                            displayLpsByCat.complete.length > 0 &&
-                                            <div className="my-2 md:my-6 md:mx-4">
-                                                <SectionHeader text="Completed" />
-                                                <LpListSection lps={displayLpsByCat.complete} />
-                                            </div>
-                                        }
                                     </div>
-
                             }
+                            <div>
+                                {
+                                    displayLpsByCat.complete.length > 0 &&
+                                    <div className="my-2 md:my-6 md:mx-4">
+                                        <SectionHeader text="Completed" />
+                                        <LpListSection lps={displayLpsByCat.complete} />
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
