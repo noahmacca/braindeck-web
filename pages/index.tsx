@@ -26,7 +26,7 @@ export default function Home() {
                                     <Link href="/explore">
                                         <a className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer">Explore</a>
                                     </Link>
-                                    { !auth.user && <a href="#" className="font-medium text-indigo-600 hover:text-indigo-400">Log in</a> }
+                                    {!auth.userId && <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-400">Log in</a>}
                                 </div>
                             </nav>
                         </div>
@@ -41,9 +41,9 @@ export default function Home() {
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <div className="rounded-md shadow">
-                                        <Link href="/signup">
+                                        <Link href="/explore">
                                             <a className="w-full flex items-center justify-center px-8 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-3 md:text-lg md:px-10 cursor-pointer">
-                                                Sign Up
+                                                Explore
                                             </a>
                                         </Link>
                                     </div>

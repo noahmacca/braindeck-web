@@ -1,4 +1,5 @@
 import { AuthProvider } from '../hooks/useAuth';
+import { DbProvider } from '../hooks/useDb';
 import { useEffect } from "react";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
@@ -20,7 +21,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 
     return (
         <AuthProvider>
-            <Component {...pageProps} />
+            <DbProvider>
+                <Component {...pageProps} />
+            </DbProvider>
         </AuthProvider>
     );
 };

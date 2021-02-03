@@ -4,6 +4,15 @@ import { getUserById } from './user';
 
 const lpDir = path.join(process.cwd(), 'learningPaths')
 
+export function getLearningPathByIdTest(id: string) {
+    const fullPath = path.join(path.join(process.cwd(), 'learningPathsTest'), `${id}.json`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    return {
+        id,
+        data: JSON.parse(fileContents)
+    }
+}
+
 export function getLearningPathById(id: string) {
     const fullPath = path.join(lpDir, `${id}.json`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');

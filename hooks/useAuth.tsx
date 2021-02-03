@@ -7,7 +7,11 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
-const authContext = createContext({ user: {} });
+import firebase from 'firebase/app';
+import {
+    User
+} from './types';
+const authContext = createContext({ userId: {} });
 const { Provider } = authContext;
 
 export function AuthProvider(props: { children: ReactNode }): JSX.Element {
@@ -23,7 +27,7 @@ export const useRequireAuth = () => {
     const auth = useAuth();
     const router = useRouter();
     useEffect(() => {
-        if (!auth.user) {
+        if (auth.userId === '') {
             router.push('/login');
         }
     }, [auth, router]);
@@ -31,22 +35,51 @@ export const useRequireAuth = () => {
     return auth;
 };
 
+interface NewUserInput {
+    uid: string,
+    email: string,
+    name: string
+}
+
+export const initializeUserDoc = (user: NewUserInput): User => {
+    return {
+        uid: user.uid,
+        email: user.email,
+        name: user.name,
+        created: Date.now(),
+        learningPaths: [],
+        learningResources: [],
+        favoriteTopics: []
+    }
+}
+
 // Provider hook that creates an auth object and handles it's state
 const useAuthProvider = () => {
-    const [user, setUser] = useState(null);
-    const createUser = (user) => {
+    // userId tracks user logged in state from auth.
+    // Use this to get full user doc from the db.
+    // Three states: null=unknown; ''=not logged in; non-empty string=logged in
+    const [userId, setUserId] = useState(null);
+
+    const createUser = (newUser: NewUserInput) => {
+        const userInit = initializeUserDoc(newUser)
+
         return db
             .collection('users')
-            .doc(user.uid)
-            .set(user)
+            .doc(userInit.uid)
+            .set(userInit)
             .then(() => {
-                setUser(user);
-                return user;
+                setUserId(userInit.uid);
+                return userInit;
             })
             .catch((error) => {
                 return { error };
             });
     };
+
+    useEffect(() => {
+        const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
+        return () => unsub();
+    }, []);
 
     const signUp = ({ name, email, password }) => {
         return auth
@@ -57,7 +90,6 @@ const useAuthProvider = () => {
                     uid: response.user.uid,
                     email,
                     name,
-                    created: Date.now(),
                 });
             })
             .catch((error) => {
@@ -65,24 +97,12 @@ const useAuthProvider = () => {
             });
     };
 
-    const getUserAdditionalData = (user) => {
-        return db
-            .collection('users')
-            .doc(user.uid)
-            .get()
-            .then((userData) => {
-                if (userData.data()) {
-                    setUser(userData.data());
-                }
-            });
-    };
-
     const signIn = ({ email, password }) => {
         return auth
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
-                setUser(response.user);
-                getUserAdditionalData(response.user);
+                console.log('signing in, getting userAdditionalData');
+                setUserId(response.user.uid);
                 return response.user;
             })
             .catch((error) => {
@@ -90,31 +110,12 @@ const useAuthProvider = () => {
             });
     };
 
-    const handleAuthStateChanged = (user) => {
-        setUser(user);
-        if (user) {
-            getUserAdditionalData(user);
-        }
+    const handleAuthStateChanged = (newUser) => {
+        newUser ? setUserId(newUser.uid) : setUserId('')
     };
 
-    useEffect(() => {
-        const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
-        return () => unsub();
-    }, []);
-
-    useEffect(() => {
-        if (user?.uid) {
-            // Subscribe to user document on mount
-            const unsubscribe = db
-                .collection('users')
-                .doc(user.uid)
-                .onSnapshot((doc) => setUser(doc.data()));
-            return () => unsubscribe();
-        }
-    }, []);
-
     const signOut = () => {
-        return auth.signOut().then(() => setUser(false));
+        return auth.signOut().then(() => setUserId(''));
     };
 
     const sendPasswordResetEmail = (email) => {
@@ -127,8 +128,10 @@ const useAuthProvider = () => {
             });
     };
 
+    ////////// Helper Functions //////////
+
     return {
-        user,
+        userId,
         signUp,
         signIn,
         signOut,

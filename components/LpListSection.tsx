@@ -1,17 +1,18 @@
 import LearningPathSummary from './LearningPathSummary';
 import Link from 'next/link';
+import { LearningPathUser } from '../hooks/types';
 
-export default function LpListSection({ userLps }) {
-    return userLps.map((uLp) => (
-        <div key={uLp.id} className=" mb-2">
-            <Link href={`/learn/${uLp.id}`}>
-                <div className="cursor-pointer">
+export default function LpListSection({ lps }: { lps: Array<LearningPathUser> }) {
+    return (
+        <div>
+            {lps.map((lp) => (
+                <div key={lp.id} className=" mb-2">
                     <LearningPathSummary
-                        userLp={uLp}
-                        isCompact
+                        lp={lp}
+                        isCompact={false}
                     />
                 </div>
-            </Link>
+            ))}
         </div>
-    ))
+    )
 }
