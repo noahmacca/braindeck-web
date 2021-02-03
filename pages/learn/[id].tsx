@@ -1,7 +1,6 @@
 import LearningPathView from '../../components/LearningPathView';
 import PageHead from '../../components/PageHead';
 import NavBar from '../../components/NavBar';
-import { db } from '../../config/firebase';
 import LearningPathLoader from '../../components/LearningPathLoader';
 import { useRouter } from 'next/router';
 
