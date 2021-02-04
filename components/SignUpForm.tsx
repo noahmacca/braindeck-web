@@ -16,15 +16,14 @@ const SignUpForm: React.FC = () => {
     const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art']
 
     const onSubmit = (data) => {
-        console.log('data', data);
+        const favoriteTopics = data.favoriteTopics.filter((i: string) => i !== "Other");
         const userInputSignupData: UserInputSignupData = {
             name: data.name,
             email: data.email,
             password: data.password,
-            favoriteTopics: data.favoriteTopicOther ? [...data.favoriteTopics, data.favoriteTopicOther] : data.favoriteTopics,
+            favoriteTopics: data.favoriteTopicOther ? [...favoriteTopics, data.favoriteTopicOther] : favoriteTopics,
         }
 
-        console.log(userInputSignupData);
 
         setIsLoading(true);
         setError(null);
@@ -136,7 +135,7 @@ const SignUpForm: React.FC = () => {
                 ))}
                 <div className="mt-1 rounded-md">
                     <label className="inline-flex items-center">
-                        <input name="favoriteTopics" value="Other" onClick={() => setShouldShowOtherInput(true)} type="checkbox" className="form-checkbox border-gray-300" ref={register()} />
+                        <input name="favoriteTopics" value="Other" onClick={() => setShouldShowOtherInput(!shouldShowOtherInput)} type="checkbox" className="form-checkbox border-gray-300" ref={register()} />
                         <span className="ml-2 text-gray-700 text-sm">Other</span>
                     </label>
                 </div>

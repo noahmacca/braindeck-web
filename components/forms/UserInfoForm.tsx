@@ -1,33 +1,27 @@
 import { UserInfoUpdate } from '../../hooks/types';
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 import Button from '../Button';
 
 const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData: UserInfoUpdate }) => {
     const db = useDb();
-    const router = useRouter();
     const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art'];
     const otherTopics = initialData.favoriteTopics?.filter((t) => topicOptions.indexOf(t) === -1)
-    const otherTopic = otherTopics.length > 0 ? otherTopics[0] : null; // Only support one "Other" option for now.
+    const otherTopic = otherTopics?.length > 0 ? otherTopics[0] : null; // Only support one "Other" option for now.
     const [shouldShowOtherInput, setShouldShowOtherInput] = useState(otherTopic ? true : false)
 
     const onSubmit = (data) => {
-        console.log('data', data);
         const favoriteTopics = data.favoriteTopics.filter((i: string) => i !== "Other");
         const userInfoUpdate: UserInfoUpdate = {
             uId: initialData.uId,
             name: data.name,
             favoriteTopics: data.favoriteTopicOther ? [...favoriteTopics, data.favoriteTopicOther] : favoriteTopics,
         }
-
-        console.log(userInfoUpdate);
 
         setIsLoading(true);
         setError(null);
@@ -82,7 +76,7 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
                                 className="form-checkbox border-gray-300"
                                 value={`${topicOption}`}
                                 ref={register()}
-                                defaultChecked={initialData.favoriteTopics.indexOf(topicOption) > -1}
+                                defaultChecked={initialData.favoriteTopics?.indexOf(topicOption) > -1}
                             />
                             <span className="ml-2 text-gray-700 text-sm">{topicOption}</span>
                         </label>
