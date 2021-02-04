@@ -177,24 +177,12 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </Link>
                 }
                 <span className="flex pr-1 md:pr-3">
-                    {
-                        db.user ?
-                            <StarRating
-                                size={18}
-                                numStars={Math.round(lp.data.avgRating)}
-                                isClickable={lp.userData.progress === 1.0}
-                                cb={(numStars: number) => { setLpRating(numStars) }}
-                            />
-                            :
-                            <Link href="/login">
-                                <StarRating
-                                    size={18}
-                                    numStars={Math.round(lp.data.avgRating)}
-                                    isClickable={lp.userData.progress === 1.0}
-                                    cb={(numStars: number) => { setLpRating(numStars) }}
-                                />
-                            </Link>
-                    }
+                    <StarRating
+                        size={18}
+                        numStars={Math.round(lp.data.avgRating)}
+                        isClickable={lp.userData.progress === 1.0}
+                        cb={(numStars: number) => { setLpRating(numStars) }}
+                    />
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
