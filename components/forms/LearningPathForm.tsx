@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { UserInputLearningPathData } from '../../hooks/types';
 
