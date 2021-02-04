@@ -1,22 +1,10 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import { getUserById } from '../../lib/user';
 import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
 import LearningPathLoader from '../../components/LearningPathLoader'
 
-
-export async function getStaticProps() {
-    const user = getUserById('user1');
-    return {
-        props: {
-            user,
-        }
-    }
-}
-
 export default function ProfileIndex() {
-    const auth = useRequireAuth();
     const db = useDb();
     
     return (
@@ -42,9 +30,13 @@ export default function ProfileIndex() {
                                 <div className='font-light'>Completed: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (uLp.userData.progress >= 1.0)))).length}</div>
                             </div>
                             <div className="mt-3 text-l font-semibold">Favorite Topics</div>
-                            <div className="mx-3 mb-3">
-                                <div className='font-light'>Coming soon!</div>
-                            </div>
+                            <ol className="ml-7 mb-3 font-light list-disc">
+                                {db.user?.favoriteTopics.map((favoriteTopic) => (
+                                    <li key={`${favoriteTopic}`} className="capitalize">
+                                        {favoriteTopic}
+                                    </li>
+                                ))}
+                            </ol>
                         </div>
                     </div>
                 </div>
