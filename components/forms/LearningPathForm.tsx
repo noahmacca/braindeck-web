@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { UserInputLearningPathData } from '../../hooks/types';
 
 import Button from '../Button';
 
 const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, initialData?: UserInputLearningPathData, lpId?: string }) => {
     const db = useDb();
+    const router = useRouter();
     const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,8 +30,10 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
                 if (response.error) {
                     setError(response.error)
                 } else {
+                    const lpId = response.path.split('/')[1];
                     dismiss();
                     reset();
+                    router.push(`/learn/${lpId}`);
                 }
             })
         } else {
