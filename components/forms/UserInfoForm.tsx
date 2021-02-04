@@ -2,6 +2,7 @@ import { UserInfoUpdate } from '../../hooks/types';
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
 import { useState } from 'react';
+import { userTopicOptions } from '../../lib/config';
 
 import Button from '../Button';
 
@@ -10,8 +11,7 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
     const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art'];
-    const otherTopics = initialData.favoriteTopics?.filter((t) => topicOptions.indexOf(t) === -1)
+    const otherTopics = initialData.favoriteTopics?.filter((t) => userTopicOptions.indexOf(t) === -1)
     const otherTopic = otherTopics?.length > 0 ? otherTopics[0] : null; // Only support one "Other" option for now.
     const [shouldShowOtherInput, setShouldShowOtherInput] = useState(otherTopic ? true : false)
 
@@ -67,7 +67,7 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
                 >
                     Favorite Learning Topics (Optional)
                 </label>
-                {topicOptions.map((topicOption: string) => (
+                {userTopicOptions.map((topicOption: string) => (
                     <div key={`${topicOption}`} className="mt-1 rounded-md">
                         <label className="inline-flex items-center">
                             <input

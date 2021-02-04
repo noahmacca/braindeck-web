@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { userTopicOptions } from '../lib/config';
 
 import Button from './Button';
 
@@ -13,7 +14,6 @@ const SignUpForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [shouldShowOtherInput, setShouldShowOtherInput] = useState(false)
-    const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art']
 
     const onSubmit = (data) => {
         const favoriteTopics = data.favoriteTopics.filter((i: string) => i !== "Other");
@@ -125,7 +125,7 @@ const SignUpForm: React.FC = () => {
                 >
                     Favorite Learning Topics (Optional)
                 </label>
-                {topicOptions.map((topicOption: string) => (
+                {userTopicOptions.map((topicOption: string) => (
                     <div key={`${topicOption}`} className="mt-1 rounded-md">
                         <label className="inline-flex items-center">
                             <input name="favoriteTopics" type="checkbox" className="form-checkbox border-gray-300" value={`${topicOption}`} ref={register()} />
