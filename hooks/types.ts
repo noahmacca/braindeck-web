@@ -36,6 +36,11 @@ export interface UserInputSignupData {
     favoriteTopics: Array<string>;
 }
 
+export interface UserInfoUpdate {
+    name: string;
+    favoriteTopics: Array<string>;
+}
+
 export interface UserInputLearningResourceData {
     title: string,
     author: string,
