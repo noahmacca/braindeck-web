@@ -60,6 +60,7 @@ export default function ProfileIndex() {
                     <UserInfoForm
                         dismiss={() => setShouldShowEditModal(false)}
                         initialData={{
+                            uId: db.user?.uid,
                             name: db.user?.name,
                             favoriteTopics: db.user?.favoriteTopics
                         }}

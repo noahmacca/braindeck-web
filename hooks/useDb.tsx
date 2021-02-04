@@ -16,6 +16,7 @@ import {
     UserInputLearningConceptData,
     UserInputLearningResourceData,
     User,
+    UserInfoUpdate,
     LearningPathUser
 } from './types';
 const dbContext = createContext({ userLearningPaths: [], user: null });
@@ -123,10 +124,6 @@ const useDbProvider = () => {
             }
         })
 
-        // lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
-        // lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
-        // lpu.userData.isCreator = user.uid === lp.data.author.uid;
-        
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
                 lpu.userData.numLearningResourcesTotal += 1
@@ -139,7 +136,27 @@ const useDbProvider = () => {
         lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
         return lpu
     }
+    ///////////// USER PROFILE ///////////////
+    const setUserName = ({ uId, name }: { uId: string, name: string }) => {
+        return db.collection('users').doc(uId).update({
+            name,
+        }).then(() => {
+            console.log('updated', uId);
+            return true
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
 
+    const updateUserInfo = ({ uId, name, favoriteTopics }: UserInfoUpdate) => {
+        return updateDoc('users', uId, {
+            name,
+            favoriteTopics
+        });
+    }
+
+    ///////////// LEARNING PATHS ///////////////
     const setLpFavorite = ({ lpId, uId, isFavorite }: { lpId: string, uId: string, isFavorite: boolean }) => {
         // Update user docs
         const updatedUserLearningPaths = user.learningPaths;
@@ -250,18 +267,6 @@ const useDbProvider = () => {
 
         updateDoc('users', uId, {
             learningResources: updatedUserLearningResources,
-        });
-    }
-
-    const setUserName = ({ uId, name }: { uId: string, name: string }) => {
-        return db.collection('users').doc(uId).update({
-            name,
-        }).then(() => {
-            console.log('updated', uId);
-            return true
-        }).catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
         });
     }
 
@@ -511,6 +516,7 @@ const useDbProvider = () => {
         userLearningPaths,
         setLpFavorite,
         setUserName,
+        updateUserInfo,
         createLearningPath,
         updateLearningPath,
         createLearningConcept,

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 import Button from '../Button';
 
@@ -13,33 +14,32 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art'];
-    const otherTopics = initialData.favoriteTopics.filter((t) => topicOptions.indexOf(t) === -1)
+    const otherTopics = initialData.favoriteTopics?.filter((t) => topicOptions.indexOf(t) === -1)
     const otherTopic = otherTopics.length > 0 ? otherTopics[0] : null; // Only support one "Other" option for now.
-    console.log('otherTopic', initialData.favoriteTopics, otherTopic);
     const [shouldShowOtherInput, setShouldShowOtherInput] = useState(otherTopic ? true : false)
 
     const onSubmit = (data) => {
         console.log('data', data);
-        const favoriteTopics = data.favoriteTopics.filter((i) => i !== "Other");
+        const favoriteTopics = data.favoriteTopics.filter((i: string) => i !== "Other");
         const userInfoUpdate: UserInfoUpdate = {
+            uId: initialData.uId,
             name: data.name,
             favoriteTopics: data.favoriteTopicOther ? [...favoriteTopics, data.favoriteTopicOther] : favoriteTopics,
         }
 
         console.log(userInfoUpdate);
 
-        // setIsLoading(true);
-        // setError(null);
-        // return db.updateUserInfo(userInfoUpdate).then((response) => {
-        //     setIsLoading(false);
-        //     if (response.error) {
-        //         setError(response.error)
-        //     } else {
-        //         reset();
-        //         dismiss();
-        //         setShouldShowOtherInput(false);
-        //     }
-        // });
+        setIsLoading(true);
+        setError(null);
+        return db.updateUserInfo(userInfoUpdate).then((response) => {
+            setIsLoading(false);
+            if (response.error) {
+                setError(response.error)
+            } else {
+                reset();
+                dismiss();
+            }
+        });
     };
 
     return (

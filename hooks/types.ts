@@ -37,6 +37,7 @@ export interface UserInputSignupData {
 }
 
 export interface UserInfoUpdate {
+    uId: string,
     name: string;
     favoriteTopics: Array<string>;
 }
