@@ -22,6 +22,13 @@ export interface User {
     favoriteTopics: Array<string> // TODO make these entities
 }
 
+export interface UserInputSignupData {
+    name: string;
+    email: string;
+    password: string;
+    favoriteTopics: Array<string>;
+}
+
 export interface UserInputLearningResourceData {
     title: string,
     author: string,

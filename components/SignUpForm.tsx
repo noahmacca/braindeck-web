@@ -1,15 +1,10 @@
+import { UserInputSignupData } from '../hooks/types';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import Button from './Button';
-
-interface SignUpData {
-    name: string;
-    email: string;
-    password: string;
-}
 
 const SignUpForm: React.FC = () => {
     const auth = useAuth();
@@ -20,8 +15,16 @@ const SignUpForm: React.FC = () => {
     const [shouldShowOtherInput, setShouldShowOtherInput] = useState(false)
     const topicOptions = ['News', 'Finance', 'Technology', 'Product Design', 'Science', 'Mathematics', 'Machine Learning', 'Software Engineering', 'Photography', 'Art']
 
-    const onSubmit = (data: SignUpData) => {
+    const onSubmit = (data) => {
         console.log('data', data);
+        const userInputSignupData: UserInputSignupData = {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            favoriteTopics: data.favoriteTopicOther ? [...data.favoriteTopics, data.favoriteTopicOther] : data.favoriteTopics,
+        }
+
+        console.log(userInputSignupData);
 
         // setIsLoading(true);
         // setError(null);
@@ -122,14 +125,14 @@ const SignUpForm: React.FC = () => {
                 {topicOptions.map((topicOption: string) => (
                     <div key={`${topicOption}`} className="mt-1 rounded-md">
                         <label className="inline-flex items-center">
-                            <input name="favTopics" type="checkbox" className="form-checkbox border-gray-300" value={`${topicOption}`} ref={register()} />
+                            <input name="favoriteTopics" type="checkbox" className="form-checkbox border-gray-300" value={`${topicOption}`} ref={register()} />
                             <span className="ml-2 text-gray-700 text-sm">{topicOption}</span>
                         </label>
                     </div>
                 ))}
                 <div className="mt-1 rounded-md">
                     <label className="inline-flex items-center">
-                        <input name="favTopics" value="Other" onClick={() => setShouldShowOtherInput(true)} type="checkbox" className="form-checkbox border-gray-300" ref={register()} />
+                        <input name="favoriteTopics" value="Other" onClick={() => setShouldShowOtherInput(true)} type="checkbox" className="form-checkbox border-gray-300" ref={register()} />
                         <span className="ml-2 text-gray-700 text-sm">Other</span>
                     </label>
                 </div>
@@ -138,7 +141,7 @@ const SignUpForm: React.FC = () => {
                     <input
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                         type="text"
-                        name="favTopicsOther"
+                        name="favoriteTopicOther"
                         ref={register()}
                     />
                 }
