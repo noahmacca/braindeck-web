@@ -1,6 +1,7 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
 import { useDb } from '../../hooks/useDb';
+import { useRequireAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
 import FormModal from '../../components/forms/FormModal'
@@ -8,6 +9,7 @@ import UserInfoForm from '../../components/forms/UserInfoForm'
 
 export default function ProfileIndex() {
     const db = useDb();
+    useRequireAuth();
     const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
 
     return (
