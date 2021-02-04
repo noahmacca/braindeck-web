@@ -216,7 +216,10 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 <ConfirmationForm
                     info={lp.data.title}
                     dismissAction={() => setShouldShowConfirmDeleteModal(false)}
-                    confirmAction={() => db.deleteLearningPath(lp.id)}
+                    confirmAction={() => {
+                        db.deleteLearningPath(lp.id);
+                        setShouldShowConfirmDeleteModal(false);
+                    }}
                 />
             </FormModal>
         </div>

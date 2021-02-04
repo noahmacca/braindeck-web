@@ -73,8 +73,6 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
         });
     }
 
-    console.log('LearningPathView', lp, db.user);
-
     return (
         <div>
             <div className="relative bg-white overflow-hidden">
