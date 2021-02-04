@@ -45,7 +45,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
             </div>
             <div className="pb-2">
                 {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{lr.description}</span></div>}
-                {lr.highlight && <div className="text-sm font-medium">Highlight <span className="font-light">{lr.highlight}</span></div>}
+                {lr.highlight && <div className="text-sm mt-1 font-medium">Highlight <span className="font-light">{lr.highlight}</span></div>}
             </div>
             <div>
                 {
