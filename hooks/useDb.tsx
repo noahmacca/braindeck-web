@@ -16,6 +16,7 @@ import {
     UserInputLearningConceptData,
     UserInputLearningResourceData,
     User,
+    UserInfoUpdate,
     LearningPathUser
 } from './types';
 const dbContext = createContext({ userLearningPaths: [], user: null });
@@ -99,6 +100,7 @@ const useDbProvider = () => {
                 isFavorite: false,
                 isComplete: false,
                 isCreator: false,
+                rating: 0,
                 numLearningResourcesTotal: 0,
                 completedContentIds: [],
                 progress: 0.0,
@@ -106,14 +108,22 @@ const useDbProvider = () => {
         }
 
         if (!user?.uid) {
-            // Might not have user object
+            // Might not have user object yet
             return lpu
         }
 
-        lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
-        lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
+        user.learningPaths.forEach((uLp) => {
+            if (uLp.id === lp.id) {
+                lpu.userData.isFavorite = uLp.isFavorited ? uLp.isFavorited : false;
+                // TODO: Actually set/remove isComplete. Note that this is separate from progress == 1.0 because the creator can add more
+                // resources in the future, and it's helpful to know that the user previously completed and new things were
+                // added in the future.
+                lpu.userData.isComplete = uLp.isCompleted ? uLp.isCompleted : false;
+                lpu.userData.rating = uLp.rating ? uLp.rating : 0;
+            }
+        })
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
-        
+
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
                 lpu.userData.numLearningResourcesTotal += 1
@@ -126,7 +136,27 @@ const useDbProvider = () => {
         lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
         return lpu
     }
+    ///////////// USER PROFILE ///////////////
+    const setUserName = ({ uId, name }: { uId: string, name: string }) => {
+        return db.collection('users').doc(uId).update({
+            name,
+        }).then(() => {
+            console.log('updated', uId);
+            return true
+        }).catch((err) => {
+            console.error("Error updating document: ", err);
+            return false
+        });
+    }
 
+    const updateUserInfo = ({ uId, name, favoriteTopics }: UserInfoUpdate) => {
+        return updateDoc('users', uId, {
+            name,
+            favoriteTopics
+        });
+    }
+
+    ///////////// LEARNING PATHS ///////////////
     const setLpFavorite = ({ lpId, uId, isFavorite }: { lpId: string, uId: string, isFavorite: boolean }) => {
         // Update user docs
         const updatedUserLearningPaths = user.learningPaths;
@@ -237,18 +267,6 @@ const useDbProvider = () => {
 
         updateDoc('users', uId, {
             learningResources: updatedUserLearningResources,
-        });
-    }
-
-    const setUserName = ({ uId, name }: { uId: string, name: string }) => {
-        return db.collection('users').doc(uId).update({
-            name,
-        }).then(() => {
-            console.log('updated', uId);
-            return true
-        }).catch((err) => {
-            console.error("Error updating document: ", err);
-            return false
         });
     }
 
@@ -498,6 +516,7 @@ const useDbProvider = () => {
         userLearningPaths,
         setLpFavorite,
         setUserName,
+        updateUserInfo,
         createLearningPath,
         updateLearningPath,
         createLearningConcept,

@@ -26,14 +26,22 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
         if (!lrId) {
             return db.createLearningResource(lpId, lcId, userInputLearningResourceData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(response.error) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         } else {
             return db.updateLearningResource(lpId, lcId, lrId, userInputLearningResourceData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(response.error) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         }
     };

@@ -14,8 +14,8 @@ export default function FormModal({ title, shouldShowModal, dismissModal, childr
 
     useEffect(() => {
         document.addEventListener("keydown", _handleKeyDown);
-        return document.removeEventListener("keydown", (e) => _handleKeyDown(e));
-    }, []);
+        return document.removeEventListener("keydown", _handleKeyDown);
+    });
 
     return (
         <div className={`modal fixed w-full h-full top-0 left-0 flex items-center justify-center transition-opacity ease-in-out ${shouldShowModal ? null : 'opacity-0 pointer-events-none'}`}>

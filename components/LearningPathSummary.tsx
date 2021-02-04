@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { HeartFill, Heart, Star, StarFill, Trash, PencilSquare } from 'react-bootstrap-icons';
+import { HeartFill, Heart, Trash, PencilSquare } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
 import LearningPathForm from './forms/LearningPathForm';
 import FormModal from '../components/forms/FormModal';
 import ConfirmationForm from './forms/ConfirmationForm';
+import StarRating from './StarRating';
 
 const renderLpSummaryDetail = ({ lp, progress }:
     {
@@ -17,7 +18,7 @@ const renderLpSummaryDetail = ({ lp, progress }:
         <div>
             <div className="px-2 pt-3">
                 <div className="pb-3">
-                    <div className="text-sm font-medium">Learning Goal</div>
+                    <div className="text-sm font-medium">Outcome</div>
                     <div className="text-md font-light">{lp.data.learningGoal}</div>
                 </div>
                 <div className="pb-3">
@@ -39,25 +40,6 @@ const renderLpSummaryDetail = ({ lp, progress }:
             </div>
         </div>
     )
-}
-
-const renderStarRating = (numStars: number, cb: any) => {
-    const stars = []
-    for (let i = 1; i <= 5; i++) {
-        stars.push(
-            i <= numStars ?
-                <StarFill key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
-                :
-                <Star key={`${i}-key`} onClick={() => cb(i)} className="text-yellow-300 hover:bg-gray-200 mt-0.5" size={18} />
-        )
-    }
-
-    return (
-        <div className="flex cursor-pointer">
-            {stars}
-        </div>
-    )
-
 }
 
 const renderInfoChip = (text: string, color: string) => {
@@ -195,14 +177,12 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                         </Link>
                 }
                 <span className="flex pr-1 md:pr-3">
-                    {
-                        db.user ?
-                            renderStarRating(Math.round(lp.data.avgRating), (numStars) => { setLpRating(numStars) })
-                            :
-                            <Link href="/login">
-                                {renderStarRating(Math.round(lp.data.avgRating), () => { })}
-                            </Link>
-                    }
+                    <StarRating
+                        size={18}
+                        numStars={Math.round(lp.data.avgRating)}
+                        isClickable={lp.userData.progress === 1.0}
+                        cb={(numStars: number) => { setLpRating(numStars) }}
+                    />
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
                     <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
                 </span>
@@ -236,7 +216,10 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 <ConfirmationForm
                     info={lp.data.title}
                     dismissAction={() => setShouldShowConfirmDeleteModal(false)}
-                    confirmAction={() => db.deleteLearningPath(lp.id)}
+                    confirmAction={() => {
+                        db.deleteLearningPath(lp.id);
+                        setShouldShowConfirmDeleteModal(false);
+                    }}
                 />
             </FormModal>
         </div>

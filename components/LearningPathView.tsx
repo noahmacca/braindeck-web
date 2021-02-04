@@ -6,61 +6,13 @@ import { LearningPathUser, LearningConcept, LearningResource, UserInputLearningP
 import FormModal from '../components/forms/FormModal';
 import LearningConceptForm from '../components/forms/LearningConceptForm'
 import LearningConceptView from './LearningConceptView';
-
-function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
-    const db = useDb();
-    const isComplete = db.user.learningResources?.some(uLr => (uLr.id === learningResource.id) && !!uLr.isCompleted);
-
-    return (
-        <div className="p-3 mx-3 bg-gray-50 mb-3 rounded-lg">
-            <div className="text-xl mb-1">
-                {`${idx} `}<a href={`${learningResource.url}`}>{`${learningResource.title}`}</a>
-            </div>
-            <div className="text-sm mb-4">
-                {learningResource.author}{' '}
-                <span className="capitalize ml-2 text-xs p-1 rounded-lg bg-indigo-100 text-indigo-700 font-light">
-                    {learningResource.format.toLowerCase()}
-                </span>{' '}
-                {
-                    learningResource.difficulty === "EASY" ?
-                        <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-green-100 text-green-700 font-light">
-                            {learningResource.difficulty.toLowerCase()}
-                        </span> :
-                        <span className="capitalize text-xs p-1 ml-2 rounded-lg bg-yellow-100 text-yellow-700 font-light">
-                            {learningResource.difficulty.toLowerCase()}
-                        </span>
-                }
-            </div>
-            <div className="pb-2">
-                {learningResource.description && <div className="text-sm font-medium">Description <span className="font-light">{learningResource.description}</span></div>}
-                {learningResource.highlight && <div className="text-sm font-medium">Highlight <span className="font-light">{learningResource.highlight}</span></div>}
-            </div>
-            <div>
-                {
-                    !isComplete ?
-                        <div className="rounded p-1 mt-1 flex w-28 text-gray-700 bg-gray-100 hover:bg-gray-200 cursor-pointer" onClick={() => setLearningResourceComplete(learningResource.id, true)}>
-                            <div className="mx-auto flex">
-                                <span className="text-sm">Complete</span>
-                                <Check className="ml-2 text-gray-500" size={20} />
-                            </div>
-                        </div> :
-                        <div className="rounded p-1 mt-1 flex w-28 text-green-700 bg-green-100 hover:bg-green-200 cursor-pointer" onClick={() => setLearningResourceComplete(learningResource.id, false)}>
-                            <div className="mx-auto flex">
-                                <span className="text-sm">Completed</span>
-                                <CheckSquareFill className="ml-2 text-green-500" size={20} />
-                            </div>
-                        </div>
-                }
-            </div>
-        </div>
-    )
-}
+import CourseCompletePanel from './CourseCompletePanel';
 
 const renderAddLearningConcept = (lpId: string, shouldShowCreateModal: boolean, setShouldShowCreateModal: Function) => {
     return (
         <div>
             <div
-                className="w-44 mx-auto mt-6 rounded-md text-center py-3 font-medium text-lg text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                className="w-44 mx-auto my-6 rounded-md text-center py-3 font-medium text-lg text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
                 onClick={() => setShouldShowCreateModal(true)}
             >
                 Add New Unit
@@ -120,15 +72,26 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
             isComplete
         });
     }
+
     return (
         <div>
             <div className="relative bg-white overflow-hidden">
                 <div className="mx-auto p-6 max-w-4xl">
-                    <LearningPathSummary
-                        lp={lp}
-                        isCompact={false}
-                    />
-                    {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
+                    {
+                        lp ?
+                            <div>
+                                <LearningPathSummary
+                                    lp={lp}
+                                    isCompact={false}
+                                />
+                                {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
+                                <CourseCompletePanel
+                                    lp={lp}
+                                />
+                            </div>
+                            :
+                            <div className="mt-10 text-gray-600 text-md text-center">Learning Path not found. It may have been deleted by the creator.</div>
+                    }
                 </div>
             </div>
         </div>

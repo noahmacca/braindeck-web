@@ -1,29 +1,41 @@
+import { UserInputSignupData } from '../hooks/types';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { userTopicOptions } from '../lib/config';
 
 import Button from './Button';
-
-interface SignUpData {
-    name: string;
-    email: string;
-    password: string;
-}
 
 const SignUpForm: React.FC = () => {
     const auth = useAuth();
     const router = useRouter();
-    const { register, errors, handleSubmit } = useForm();
+    const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [shouldShowOtherInput, setShouldShowOtherInput] = useState(false)
 
-    const onSubmit = (data: SignUpData) => {
+    const onSubmit = (data) => {
+        const favoriteTopics = data.favoriteTopics.filter((i: string) => i !== "Other");
+        const userInputSignupData: UserInputSignupData = {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            favoriteTopics: data.favoriteTopicOther ? [...favoriteTopics, data.favoriteTopicOther] : favoriteTopics,
+        }
+
+
         setIsLoading(true);
         setError(null);
-        return auth.signUp(data).then((response) => {
+        return auth.signUp(userInputSignupData).then((response) => {
             setIsLoading(false);
-            response.error ? setError(response.error) : router.push('/create');
+            if (response.error) {
+                setError(response.error)
+            } else {
+                reset();
+                setShouldShowOtherInput(false);
+                router.push('/favorites');
+            }
         });
     };
 
@@ -106,6 +118,36 @@ const SignUpForm: React.FC = () => {
                         </div>
                     )}
                 </div>
+            </div>
+            <div className="mt-6">
+                <label
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                >
+                    Favorite Learning Topics (Optional)
+                </label>
+                {userTopicOptions.map((topicOption: string) => (
+                    <div key={`${topicOption}`} className="mt-1 rounded-md">
+                        <label className="inline-flex items-center">
+                            <input name="favoriteTopics" type="checkbox" className="form-checkbox border-gray-300" value={`${topicOption}`} ref={register()} />
+                            <span className="ml-2 text-gray-700 text-sm">{topicOption}</span>
+                        </label>
+                    </div>
+                ))}
+                <div className="mt-1 rounded-md">
+                    <label className="inline-flex items-center">
+                        <input name="favoriteTopics" value="Other" onClick={() => setShouldShowOtherInput(!shouldShowOtherInput)} type="checkbox" className="form-checkbox border-gray-300" ref={register()} />
+                        <span className="ml-2 text-gray-700 text-sm">Other</span>
+                    </label>
+                </div>
+                {
+                    shouldShowOtherInput && 
+                    <input
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                        type="text"
+                        name="favoriteTopicOther"
+                        ref={register()}
+                    />
+                }
             </div>
             <div className="mt-6">
                 <span className="block w-full rounded-md shadow-sm">

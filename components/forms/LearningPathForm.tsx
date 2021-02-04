@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { UserInputLearningPathData } from '../../hooks/types';
 
 import Button from '../Button';
 
 const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, initialData?: UserInputLearningPathData, lpId?: string }) => {
     const db = useDb();
+    const router = useRouter();
     const { register, errors, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -27,14 +27,24 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
         if (!lpId) {
             return db.createLearningPath(userInputLearningPathData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(null) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    const lpId = response.path.split('/')[1];
+                    dismiss();
+                    reset();
+                    router.push(`/learn/${lpId}`);
+                }
             })
         } else {
             return db.updateLearningPath(lpId, userInputLearningPathData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(null) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         }
 
@@ -82,7 +92,7 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
             </div>
             <div className="rounded-md shadow-sm mb-3">
                 <label className="block text-sm font-medium leading-5 text-gray-700">
-                    Learning Goal
+                    Learning Goal or Outcome
                 </label>
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"

@@ -1,24 +1,17 @@
 import NavBar from "../../components/NavBar";
 import PageHead from "../../components/PageHead";
-import { getUserById } from '../../lib/user';
-import { useRequireAuth } from '../../hooks/useAuth';
 import { useDb } from '../../hooks/useDb';
+import { useRequireAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
 import LearningPathLoader from '../../components/LearningPathLoader'
-
-
-export async function getStaticProps() {
-    const user = getUserById('user1');
-    return {
-        props: {
-            user,
-        }
-    }
-}
+import FormModal from '../../components/forms/FormModal'
+import UserInfoForm from '../../components/forms/UserInfoForm'
 
 export default function ProfileIndex() {
-    const auth = useRequireAuth();
     const db = useDb();
-    
+    useRequireAuth();
+    const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
+
     return (
         <div>
             <PageHead title="BrainDeck Home" />
@@ -38,16 +31,43 @@ export default function ProfileIndex() {
                             </div>
                             <div className="mt-3 text-l font-semibold">Learning Paths</div>
                             <div className="mx-3 mb-3">
-                                <div className='font-light'>Favorited: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))).length}</div>
-                                <div className='font-light'>Completed: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (uLp.userData.progress >= 1.0)))).length}</div>
+                                <div className="font-light">Favorited: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))).length}</div>
+                                <div className="font-light">Completed: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (uLp.userData.progress >= 1.0)))).length}</div>
                             </div>
                             <div className="mt-3 text-l font-semibold">Favorite Topics</div>
-                            <div className="mx-3 mb-3">
-                                <div className='font-light'>Coming soon!</div>
+                            <div className="mx-3 mb-3 font-light">
+                                {
+                                    db.user?.favoriteTopics && db.user?.favoriteTopics.length > 0 ?
+                                        db.user?.favoriteTopics.map((favoriteTopic) => (
+                                            <div key={`${favoriteTopic}`} className="capitalize">
+                                                {favoriteTopic}
+                                            </div>
+                                        ))
+                                        :
+                                        <div className="mx-3 mb-3 font-light">No favorites yet!</div>
+                                }
                             </div>
+                            <div
+                                className="my-2 px-2 py-1 font-normal bg-green-800 hover:bg-green-600 text-white w-24 text-center rounded-md cursor-pointer"
+                                onClick={() => setShouldShowEditModal(true)}
+                            >Edit</div>
                         </div>
                     </div>
                 </div>
+                <FormModal
+                    title="Edit Profile Info"
+                    shouldShowModal={shouldShowEditModal}
+                    dismissModal={() => setShouldShowEditModal(false)}
+                >
+                    <UserInfoForm
+                        dismiss={() => setShouldShowEditModal(false)}
+                        initialData={{
+                            uId: db.user?.uid,
+                            name: db.user?.name,
+                            favoriteTopics: db.user?.favoriteTopics
+                        }}
+                    />
+                </FormModal>
             </LearningPathLoader>
         </div>
     )

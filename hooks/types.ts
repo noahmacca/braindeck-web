@@ -22,6 +22,26 @@ export interface User {
     favoriteTopics: Array<string> // TODO make these entities
 }
 
+export interface InitUserDocData {
+    uid: string;
+    name: string;
+    email: string;
+    favoriteTopics: Array<string>;
+}
+
+export interface UserInputSignupData {
+    name: string;
+    email: string;
+    password: string;
+    favoriteTopics: Array<string>;
+}
+
+export interface UserInfoUpdate {
+    uId: string,
+    name: string;
+    favoriteTopics: Array<string>;
+}
+
 export interface UserInputLearningResourceData {
     title: string,
     author: string,
@@ -100,6 +120,7 @@ export interface LearningPathUser {
         isFavorite: boolean,
         isComplete: boolean,
         isCreator: boolean,
+        rating: number,
         numLearningResourcesTotal: number,
         completedContentIds: Array<string>,
         progress: number,
