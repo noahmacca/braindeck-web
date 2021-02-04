@@ -1,8 +1,11 @@
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
+import { useState } from 'react';
 import StarRating from './StarRating';
 
 const CourseCompletePanel = ({ lp }: { lp: LearningPathUser }) => {
+    const defaultCopyButtonText = "Copy Link "
+    const [copyButtonText, setCopyButtonText] = useState(defaultCopyButtonText);
     const userRating = lp.userData.rating;
 
     const db = useDb();
@@ -11,6 +14,22 @@ const CourseCompletePanel = ({ lp }: { lp: LearningPathUser }) => {
         lpId: lp.id,
         uId: db.user.uid
     });
+
+    const copyUrlToClipboard = () => {
+        const dummy = document.createElement('input');
+        const text = window.location.href;
+
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        setCopyButtonText('Copied 🚀')
+        setTimeout(() => {
+            setCopyButtonText(defaultCopyButtonText)
+        }, 2000);
+    }
+
     return (
         <div>
             {
@@ -36,11 +55,12 @@ const CourseCompletePanel = ({ lp }: { lp: LearningPathUser }) => {
                         <div className="p-3 md:mx-3 bg-white mb-2 rounded-lg">
                             <div className="text-xl mb-2">
                                 Share
-                        </div>
+                            </div>
                             <div
-                                className="w-44 rounded-md text-center font-gray-800 py-2 my-4 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                                className="w-44 rounded-md text-center font-gray-800 py-2 mt-2 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer"
+                                onClick={() => copyUrlToClipboard()}
                             >
-                                Copy Link
+                                {copyButtonText}
                     </div>
                         </div>
                     </div>
