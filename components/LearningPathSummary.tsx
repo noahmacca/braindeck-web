@@ -18,7 +18,7 @@ const renderLpSummaryDetail = ({ lp, progress }:
         <div>
             <div className="px-2 pt-3">
                 <div className="pb-3">
-                    <div className="text-sm font-medium">Learning Goal</div>
+                    <div className="text-sm font-medium">Outcome</div>
                     <div className="text-md font-light">{lp.data.learningGoal}</div>
                 </div>
                 <div className="pb-3">
