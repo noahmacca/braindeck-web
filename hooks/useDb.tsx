@@ -99,6 +99,7 @@ const useDbProvider = () => {
                 isFavorite: false,
                 isComplete: false,
                 isCreator: false,
+                rating: 0,
                 numLearningResourcesTotal: 0,
                 completedContentIds: [],
                 progress: 0.0,
@@ -106,16 +107,25 @@ const useDbProvider = () => {
         }
 
         if (!user?.uid) {
-            // Might not have user object
+            // Might not have user object yet
             return lpu
         }
 
-        lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
-        // TODO: Actually set/remove isComplete. Note that this is separate from progress == 1.0 because the creator can add more
-        // resources in the future, and it's helpful to know that the user previously completed and new things were
-        // added in the future.
-        lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
-        lpu.userData.isCreator = user.uid === lp.data.author.uid;
+        user.learningPaths.forEach((uLp) => {
+            if (uLp.id === lp.id) {
+                lpu.userData.isFavorite = uLp.isFavorited ? uLp.isFavorited : false;
+                // TODO: Actually set/remove isComplete. Note that this is separate from progress == 1.0 because the creator can add more
+                // resources in the future, and it's helpful to know that the user previously completed and new things were
+                // added in the future.
+                lpu.userData.isComplete = uLp.isCompleted ? uLp.isCompleted : false;
+                lpu.userData.isCreator = user.uid === lp.data.author.uid;
+                lpu.userData.rating = uLp.rating ? uLp.rating : 0;
+            }
+        })
+
+        // lpu.userData.isFavorite = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isFavorited));
+        // lpu.userData.isComplete = user.learningPaths.some((uLp) => (uLp.id === lp.id) && (uLp.isCompleted));
+        // lpu.userData.isCreator = user.uid === lp.data.author.uid;
         
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {

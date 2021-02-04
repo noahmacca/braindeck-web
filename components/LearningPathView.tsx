@@ -6,6 +6,7 @@ import { LearningPathUser, LearningConcept, LearningResource, UserInputLearningP
 import FormModal from '../components/forms/FormModal';
 import LearningConceptForm from '../components/forms/LearningConceptForm'
 import LearningConceptView from './LearningConceptView';
+import StarRating from './StarRating';
 
 function renderLearningResource(learningResource: LearningResource, idx: string, setLearningResourceComplete: Function) {
     const db = useDb();
@@ -110,6 +111,29 @@ function renderLearningConcepts(lp: LearningPathUser, setLearningResourceComplet
     )
 }
 
+const renderCourseCompletePanel = (lp: LearningPathUser, userRating: number, setLpRating: Function) => {
+    return (
+        <div className="bg-gray-100 px-4 pt-3 pb-1 rounded-lg md:mx-4 my-2 items-center text-gray-700">
+            <div className="mb-2">
+                <div className="text-2xl pb-1 font-medium text-gray-800">Congratulations!</div>
+                <div className="text-md pb-1 font-light text-gray-600">You have finished this course.</div>
+            </div>
+            <div className="p-3 md:mx-3 bg-white mb-2 rounded-lg">
+                <div className="text-xl mb-2">
+                    Your rating
+                </div>
+                <StarRating
+                    size={32}
+                    numStars={userRating}
+                    isClickable={lp.userData.progress === 1.0}
+                    cb={(numStars: number) => { setLpRating(numStars) }}
+                />
+
+            </div>
+        </div>
+    )
+}
+
 export default function LearningPathView({ lpId }: { lpId: string }) {
     const db = useDb();
     const lp: LearningPathUser = db.userLearningPaths.filter((uLp) => uLp.id === lpId)[0];
@@ -120,6 +144,13 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
             isComplete
         });
     }
+
+    const setLpRating = (rating: number) => db.setLpRating({
+        rating,
+        lpId: lp.id,
+        uId: db.user.uid
+    });
+
     return (
         <div>
             <div className="relative bg-white overflow-hidden">
@@ -129,6 +160,12 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
                         isCompact={false}
                     />
                     {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
+                    {
+                        lp.userData.progress === 1.0 ?
+                            renderCourseCompletePanel(lp, lp.userData.rating, setLpRating)
+                            :
+                            null
+                    }
                 </div>
             </div>
         </div>

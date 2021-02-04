@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { HeartFill, Heart, Star, StarFill, Trash, PencilSquare } from 'react-bootstrap-icons';
+import { HeartFill, Heart, Trash, PencilSquare } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
 import LearningPathForm from './forms/LearningPathForm';
 import FormModal from '../components/forms/FormModal';
 import ConfirmationForm from './forms/ConfirmationForm';
+import StarRating from './StarRating';
 
 const renderLpSummaryDetail = ({ lp, progress }:
     {
@@ -39,25 +40,6 @@ const renderLpSummaryDetail = ({ lp, progress }:
             </div>
         </div>
     )
-}
-
-const renderStarRating = (numStars: number, isClickable: Boolean, cb: any) => {
-    const stars = []
-    for (let i = 1; i <= 5; i++) {
-        stars.push(
-            i <= numStars ?
-                <StarFill key={`${i}-key`} onClick={isClickable ? () => cb(i) : null} className={`text-yellow-300 ${isClickable ? "hover:bg-gray-200" : ""} mt-0.5`} size={18} />
-                :
-                <Star key={`${i}-key`} onClick={isClickable ? () => cb(i) : null} className={`text-yellow-300 ${isClickable ? "hover:bg-gray-200" : ""} mt-0.5`} size={18} />
-        )
-    }
-
-    return (
-        <div className={`flex ${isClickable ? "cursor-pointer" : ""}`}>
-            {stars}
-        </div>
-    )
-
 }
 
 const renderInfoChip = (text: string, color: string) => {
@@ -119,7 +101,7 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
         uId: db.user.uid
     });
 
-    console.log('lp.userData.isComplete', lp.userData.isComplete);
+    console.log(Math.round(lp.data.avgRating))
 
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
@@ -199,10 +181,20 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
                 <span className="flex pr-1 md:pr-3">
                     {
                         db.user ?
-                            renderStarRating(Math.round(lp.data.avgRating), lp.userData.progress === 1.0, (numStars) => { setLpRating(numStars) })
+                            <StarRating
+                                size={18}
+                                numStars={Math.round(lp.data.avgRating)}
+                                isClickable={lp.userData.progress === 1.0}
+                                cb={(numStars: number) => { setLpRating(numStars) }}
+                            />
                             :
                             <Link href="/login">
-                                {renderStarRating(Math.round(lp.data.avgRating), lp.userData.progress === 1.0, () => { })}
+                                <StarRating
+                                    size={18}
+                                    numStars={Math.round(lp.data.avgRating)}
+                                    isClickable={lp.userData.progress === 1.0}
+                                    cb={(numStars: number) => { setLpRating(numStars) }}
+                                />
                             </Link>
                     }
                     <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>

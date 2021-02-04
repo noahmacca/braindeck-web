@@ -100,6 +100,7 @@ export interface LearningPathUser {
         isFavorite: boolean,
         isComplete: boolean,
         isCreator: boolean,
+        rating: number,
         numLearningResourcesTotal: number,
         completedContentIds: Array<string>,
         progress: number,
