@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'next/router';
 import { auth, db } from '../config/firebase';
 import {
-    User
+    User, UserInputSignupData, InitUserDocData
 } from './types';
 const authContext = createContext({ userId: {} });
 const { Provider } = authContext;
@@ -34,21 +34,15 @@ export const useRequireAuth = () => {
     return auth;
 };
 
-interface NewUserInput {
-    uid: string,
-    email: string,
-    name: string
-}
-
-export const initializeUserDoc = (user: NewUserInput): User => {
+export const initializeUserDoc = (user: InitUserDocData): User => {
     return {
         uid: user.uid,
         email: user.email,
         name: user.name,
         created: Date.now(),
+        favoriteTopics: user.favoriteTopics,
         learningPaths: [],
-        learningResources: [],
-        favoriteTopics: []
+        learningResources: []
     }
 }
 
@@ -59,7 +53,7 @@ const useAuthProvider = () => {
     // Three states: null=unknown; ''=not logged in; non-empty string=logged in
     const [userId, setUserId] = useState(null);
 
-    const createUser = (newUser: NewUserInput) => {
+    const createUser = (newUser: InitUserDocData) => {
         const userInit = initializeUserDoc(newUser)
 
         return db
@@ -80,15 +74,16 @@ const useAuthProvider = () => {
         return () => unsub();
     }, []);
 
-    const signUp = ({ name, email, password }) => {
+    const signUp = (signupData: UserInputSignupData) => {
         return auth
-            .createUserWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(signupData.email, signupData.password)
             .then((response) => {
                 auth.currentUser.sendEmailVerification();
                 return createUser({
                     uid: response.user.uid,
-                    email,
-                    name,
+                    email: signupData.email,
+                    name: signupData.name,
+                    favoriteTopics: signupData.favoriteTopics,
                 });
             })
             .catch((error) => {

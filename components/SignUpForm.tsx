@@ -26,14 +26,18 @@ const SignUpForm: React.FC = () => {
 
         console.log(userInputSignupData);
 
-        // setIsLoading(true);
-        // setError(null);
-        // return auth.signUp(data).then((response) => {
-        //     setIsLoading(false);
-        //     reset()
-        //     setShouldShowOtherInput(true)
-        //     response.error ? setError(response.error) : router.push('/create');
-        // });
+        setIsLoading(true);
+        setError(null);
+        return auth.signUp(userInputSignupData).then((response) => {
+            setIsLoading(false);
+            if (response.error) {
+                setError(response.error)
+            } else {
+                reset();
+                setShouldShowOtherInput(false);
+                router.push('/favorites');
+            }
+        });
     };
 
     return (
