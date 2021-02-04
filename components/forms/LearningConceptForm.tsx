@@ -22,14 +22,22 @@ const LearningConceptForm = ({ dismiss, lpId, initialData, lcId }: { dismiss: Fu
         if (!lcId) {
             return db.createLearningConcept(lpId, userInputLearningConceptData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(response.error) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         } else {
             return db.updateLearningConcept(lpId, lcId, userInputLearningConceptData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(response.error) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         }
 

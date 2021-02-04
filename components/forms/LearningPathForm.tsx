@@ -25,14 +25,22 @@ const LearningPathForm = ({ dismiss, initialData, lpId }: { dismiss: Function, i
         if (!lpId) {
             return db.createLearningPath(userInputLearningPathData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(null) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         } else {
             return db.updateLearningPath(lpId, userInputLearningPathData).then((response) => {
                 setIsLoading(false);
-                response.error ? setError(null) : dismiss();
-                reset();
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    dismiss();
+                    reset();
+                }
             })
         }
 
