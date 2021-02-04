@@ -101,8 +101,6 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
         uId: db.user.uid
     });
 
-    console.log(Math.round(lp.data.avgRating))
-
     return (
         <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
             {
