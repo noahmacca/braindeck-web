@@ -44,7 +44,7 @@ const renderLpSummaryDetail = ({ lp, progress }:
 
 const renderInfoChip = (text: string, color: string) => {
     return (
-        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-100 text-gray-600 capitalize`}>
+        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-600 text-gray-50 capitalize`}>
             {text.toLocaleLowerCase()}
         </span>
     )
@@ -84,7 +84,7 @@ const getChipColor = (type: string, val: string) => {
 
 
 
-export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPathUser, isCompact: boolean }) {
+export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
     const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
     const learningPath = lp.data;
@@ -102,126 +102,126 @@ export default function LearningPathSummary({ lp, isCompact }: { lp: LearningPat
     });
 
     return (
-        <div className="bg-gray-100 rounded-xl p-3 md:px-5 md:pt-5 items-center text-gray-700">
-            {
-                db.user ?
-                    lp.userData.isFavorite ?
-                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md border-red-100 bg-red-50 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
-                            Favorited
-                        </div>
-                        :
-                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white" onClick={() => setLpFavorite(true)}>
-                            Favorite
-                        </div>
-                    :
-                    <Link href="/login">
-                        <div className="float-right mr-2 text-center rounded-md border text-gray-700 text-md p-1 w-28 hover:bg-red-50 cursor-pointer bg-white">
-                            Favorite
-                        </div>
-                    </Link>
-            }
-            {
-                lp.userData.isCreator === true ?
-                    <span>
-                        <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowEditModal(true)} />
-                    </span>
-                    : undefined
-            }
-            {
-                isCompact ?
-                    <div>
-                        <Link href={`/learn/${lp.id}`}>
-                            <div className="text-xl pb-1 tracking-tight text-gray-700 cursor-pointer">{lp.data.title}</div>
-                        </Link>
-                    </div>
-                    :
-                    <div>
-                        <div className="text-sm text-gray-500">{lp.data.subject}</div>
-                        <Link href={`/learn/${lp.id}`}>
-                            <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-800 cursor-pointer">{learningPath.title}</div>
-                        </Link>
-                    </div>
-            }
-            <div className="flex flex-wrap md:x-1 text-md text-gray-500">
-                {
-                    db.user ?
-                        lp.userData.isFavorite ?
-                            <span className="flex">
-                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
-                                    <HeartFill className="px-1 text-red-500" size={26} />
-                                    <span>
-                                        {lp.data.countFavorite}
-                                    </span>
-                                </span>
-                            </span>
-                            :
-                            <span className="flex">
-                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
-                                    <Heart className="px-1 text-red-500" size={26} />
-                                    <span>
-                                        {lp.data.countFavorite}
-                                    </span>
-                                </span>
-                            </span>
-                        :
-                        <Link href="/login">
-                            <span className="flex">
-                                <span className="flex px-1 md:pr-3 align-middle cursor-pointer">
-                                    <Heart className="px-1 text-red-500" size={26} />
-                                    <span>
-                                        {lp.data.countFavorite}
-                                    </span>
-                                </span>
-                            </span>
-                        </Link>
-                }
-                <span className="flex pr-1 md:pr-3">
-                    <StarRating
-                        size={18}
-                        numStars={Math.round(lp.data.avgRating)}
-                        isClickable={lp.userData.progress === 1.0}
-                        cb={(numStars: number) => { setLpRating(numStars) }}
-                    />
-                    <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
-                    <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
-                </span>
-                {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
-                {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
+        <div>
+            <hr />
+            <div className="max-w-6xl p-3 md:px-5 mx-auto">
+                <div className="my-2 text-md text-blue-500">{lp.data.subject}</div>
             </div>
-            { renderLpSummaryDetail({ lp, progress: lp.userData.progress })}
-            <FormModal
-                title="Edit Learning Path"
-                shouldShowModal={shouldShowEditModal}
-                dismissModal={() => setShouldShowEditModal(false)}
-            >
-                <LearningPathForm
-                    dismiss={() => setShouldShowEditModal(false)}
-                    initialData={{
-                        title: lp.data.title,
-                        subject: lp.data.subject,
-                        learningGoal: lp.data.learningGoal,
-                        background: lp.data.background,
-                        difficulty: lp.data.difficulty,
-                        duration: lp.data.duration
-                    }}
-                    lpId={lp.id}
-                />
-            </FormModal>
-            <FormModal
-                title="Delete Learning Path?"
-                shouldShowModal={shouldShowConfirmDeleteModal}
-                dismissModal={() => setShouldShowConfirmDeleteModal(false)}
-            >
-                <ConfirmationForm
-                    info={lp.data.title}
-                    dismissAction={() => setShouldShowConfirmDeleteModal(false)}
-                    confirmAction={() => {
-                        db.deleteLearningPath(lp.id);
-                        setShouldShowConfirmDeleteModal(false);
-                    }}
-                />
-            </FormModal>
+            <div className="bg-indigo-700">
+                <div className="max-w-6xl mx-auto py-4">
+                    <div className="p-3 md:px-5 md:py-10 items-center text-gray-100">
+                        {
+                            db.user ?
+                                lp.userData.isFavorite ?
+                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md bg-red-700 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
+                                        Favorited
+                                    </div>
+                                    :
+                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md p-1 w-28 bg-red-500 hover:bg-red-700 cursor-pointer" onClick={() => setLpFavorite(true)}>
+                                        Favorite
+                                    </div>
+                                :
+                                <Link href="/login">
+                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md p-1 w-28 bg-red-500 hover:bg-red-700 cursor-pointer">
+                                        Favorite
+                                    </div>
+                                </Link>
+                        }
+                        {
+                            lp.userData.isCreator === true ?
+                                <span>
+                                    <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                                    <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowEditModal(true)} />
+                                </span>
+                                : undefined
+                        }
+                        <div>
+                            <Link href={`/learn/${lp.id}`}>
+                                <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
+                            </Link>
+                        </div>
+                        <div className="flex flex-wrap md:x-1 text-md text-gray-100">
+                            {
+                                db.user ?
+                                    lp.userData.isFavorite ?
+                                        <span className="flex">
+                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
+                                                <HeartFill className="px-1 text-red-600" size={26} />
+                                                <span>
+                                                    {lp.data.countFavorite}
+                                                </span>
+                                            </span>
+                                        </span>
+                                        :
+                                        <span className="flex">
+                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
+                                                <Heart className="px-1 text-red-600" size={26} />
+                                                <span>
+                                                    {lp.data.countFavorite}
+                                                </span>
+                                            </span>
+                                        </span>
+                                    :
+                                    <Link href="/login">
+                                        <span className="flex">
+                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer">
+                                                <Heart className="px-1 text-red-600" size={26} />
+                                                <span>
+                                                    {lp.data.countFavorite}
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </Link>
+                            }
+                            <span className="flex pr-1 md:pr-3">
+                                <StarRating
+                                    size={18}
+                                    numStars={Math.round(lp.data.avgRating)}
+                                    isClickable={lp.userData.progress === 1.0}
+                                    cb={(numStars: number) => { setLpRating(numStars) }}
+                                />
+                                <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
+                                <span className="pl-1">({lp.data.countReviews} review{lp.data.countReviews === 1 ? '' : 's'})</span>
+                            </span>
+                            {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
+                            {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
+                        </div>
+                        {renderLpSummaryDetail({ lp, progress: lp.userData.progress })}
+                    </div>
+                </div>
+                <FormModal
+                    title="Edit Learning Path"
+                    shouldShowModal={shouldShowEditModal}
+                    dismissModal={() => setShouldShowEditModal(false)}
+                >
+                    <LearningPathForm
+                        dismiss={() => setShouldShowEditModal(false)}
+                        initialData={{
+                            title: lp.data.title,
+                            subject: lp.data.subject,
+                            learningGoal: lp.data.learningGoal,
+                            background: lp.data.background,
+                            difficulty: lp.data.difficulty,
+                            duration: lp.data.duration
+                        }}
+                        lpId={lp.id}
+                    />
+                </FormModal>
+                <FormModal
+                    title="Delete Learning Path?"
+                    shouldShowModal={shouldShowConfirmDeleteModal}
+                    dismissModal={() => setShouldShowConfirmDeleteModal(false)}
+                >
+                    <ConfirmationForm
+                        info={lp.data.title}
+                        dismissAction={() => setShouldShowConfirmDeleteModal(false)}
+                        confirmAction={() => {
+                            db.deleteLearningPath(lp.id);
+                            setShouldShowConfirmDeleteModal(false);
+                        }}
+                    />
+                </FormModal>
+            </div>
         </div>
     )
 }

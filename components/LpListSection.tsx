@@ -9,7 +9,6 @@ export default function LpListSection({ lps }: { lps: Array<LearningPathUser> })
                 <div key={lp.id} className=" mb-2">
                     <LearningPathSummary
                         lp={lp}
-                        isCompact={false}
                     />
                 </div>
             ))}
