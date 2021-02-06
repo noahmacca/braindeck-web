@@ -8,40 +8,6 @@ import FormModal from '../components/forms/FormModal';
 import ConfirmationForm from './forms/ConfirmationForm';
 import StarRating from './StarRating';
 
-const renderLpSummaryDetail = ({ lp, progress }:
-    {
-        lp: LearningPathUser,
-        progress: number
-    }) => {
-
-    return (
-        <div>
-            <div className="px-2 pt-3">
-                <div className="pb-3">
-                    <div className="text-sm font-medium">Outcome</div>
-                    <div className="text-md font-light">{lp.data.learningGoal}</div>
-                </div>
-                <div className="pb-3">
-                    <div className="text-sm font-medium">Background Knowledge</div>
-                    <div className="text-md font-light">{lp.data.background}</div>
-                </div>
-                <hr />
-                <div className="md:flex md:text-center pt-2">
-                    <div className="flex-1 text-sm font-medium">Your Progress{' '}
-                        <span className="font-light">{Math.round(progress * 100)}%</span>
-                    </div>
-                    <div className="flex-1 text-sm font-medium">Created By{' '}
-                        <span className="font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</span>
-                    </div>
-                    <div className="flex-1 text-sm font-medium">Updated{' '}
-                        <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
 const renderInfoChip = (text: string, color: string) => {
     return (
         <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-600 text-gray-50 capitalize`}>
@@ -105,88 +71,117 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
         <div>
             <hr />
             <div className="max-w-6xl p-1 md:px-5 mx-auto">
-                <div className="my-2 text-md text-blue-500">{lp.data.subject}</div>
+                <div className="my-2 text-md text-gray-600">{lp.data.subject}</div>
             </div>
             <div className="bg-indigo-900">
                 <div className="max-w-6xl mx-auto py-4">
                     <div className="p-3 md:px-5 md:py-10 items-center text-gray-100">
-                        {
-                            db.user ?
-                                lp.userData.isFavorite ?
-                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md bg-red-700 p-1 w-28 cursor-pointer" onClick={() => setLpFavorite(false)}>
-                                        Favorited
-                                    </div>
-                                    :
-                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md p-1 w-28 bg-red-500 hover:bg-red-700 cursor-pointer" onClick={() => setLpFavorite(true)}>
-                                        Favorite
-                                    </div>
-                                :
-                                <Link href="/login">
-                                    <div className="float-right mr-2 text-center rounded-md text-gray-50 text-md p-1 w-28 bg-red-500 hover:bg-red-700 cursor-pointer">
-                                        Favorite
-                                    </div>
-                                </Link>
-                        }
-                        {
-                            lp.userData.isCreator === true ?
-                                <span>
-                                    <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
-                                    <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowEditModal(true)} />
-                                </span>
-                                : undefined
-                        }
-                        <div>
-                            <Link href={`/learn/${lp.id}`}>
-                                <div className="text-5xl pb-5 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
-                            </Link>
-                        </div>
-                        <div className="flex flex-wrap md:x-1 text-md text-gray-100">
-                            {
-                                db.user ?
-                                    lp.userData.isFavorite ?
-                                        <span className="flex">
-                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(false)}>
-                                                <HeartFill className="px-1 text-red-600" size={26} />
-                                                <span>
-                                                    {lp.data.countFavorite}
-                                                </span>
-                                            </span>
-                                        </span>
-                                        :
-                                        <span className="flex">
-                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer" onClick={() => setLpFavorite(true)}>
-                                                <Heart className="px-1 text-red-600" size={26} />
-                                                <span>
-                                                    {lp.data.countFavorite}
-                                                </span>
-                                            </span>
-                                        </span>
-                                    :
-                                    <Link href="/login">
-                                        <span className="flex">
-                                            <span className="flex px-1 md:pr-3 align-middle cursor-pointer">
-                                                <Heart className="px-1 text-red-600" size={26} />
-                                                <span>
-                                                    {lp.data.countFavorite}
-                                                </span>
-                                            </span>
-                                        </span>
+                        <div className="grid grid-cols-10 gap-2">
+                            <div className="col-span-6">
+                                <div>
+                                    <Link href={`/learn/${lp.id}`}>
+                                        <div className="text-5xl pb-5 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
                                     </Link>
-                            }
-                            <span className="flex pr-1 md:pr-3">
-                                <StarRating
-                                    size={18}
-                                    numStars={Math.round(lp.data.avgRating)}
-                                    isClickable={lp.userData.progress === 1.0}
-                                    cb={(numStars: number) => { setLpRating(numStars) }}
-                                />
-                                <span className="pl-1">{Math.round(lp.data.avgRating * 10) / 10}</span>
-                                <span className="pl-1">({lp.data.countReviews} rating{lp.data.countReviews === 1 ? '' : 's'})</span>
-                            </span>
-                            {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
-                            {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))}
+                                </div>
+                                <div className="flex flex-wrap md:x-1 text-md text-gray-100">
+                                    <span className="flex pr-1 md:pr-3">
+                                        <StarRating
+                                            size={19}
+                                            numStars={Math.round(lp.data.avgRating)}
+                                            isClickable={lp.userData.progress === 1.0}
+                                            cb={(numStars: number) => { setLpRating(numStars) }}
+                                        />
+                                        <span className="pl-3 text-2xl text-yellow-400">{Math.round(lp.data.avgRating * 10) / 10}</span>
+                                        <span className="pl-3 text-lg my-auto">{lp.data.countReviews} rating{lp.data.countReviews === 1 ? '' : 's'}</span>
+                                    </span>
+                                </div>
+                                <div className="font-light text-lg p-2">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+                                <div className="my-4">
+                                    {
+                                        db.user ?
+                                            lp.userData.isFavorite ?
+                                                <div onClick={() => setLpFavorite(false)}>
+                                                    <div className="text-center mb-6 rounded-md text-indigo-800 text-xl hover:bg-white bg-red-50 p-3 w-36 cursor-pointer">
+                                                        Favorited
+                                            </div>
+                                                    <span className="flex">
+                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
+                                                            <HeartFill className="px-1 text-red-600" size={28} />
+                                                        </span>
+                                                        <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
+                                            </span>
+                                                </div>
+                                                :
+                                                <div onClick={() => setLpFavorite(true)}>
+                                                    <div className="text-center mb-6 rounded-md text-indigo-800 text-xl p-3 w-36 hover:bg-red-50 bg-white cursor-pointer">
+                                                        Favorite
+                                            </div>
+                                                    <span className="flex">
+                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
+                                                            <Heart className="px-1 text-red-600" size={28} />
+                                                        </span>
+                                                        <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
+                                            </span>
+                                                </div>
+                                            :
+                                            <Link href="/login">
+                                                <div>
+                                                    <div className="text-center mb-6 rounded-md text-indigo-800 text-xl p-3 w-36 hover:bg-red-50 bg-white cursor-pointer">
+                                                        Favorite
+                                            </div>
+                                                    <span className="flex">
+                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
+                                                            <Heart className="px-1 text-red-600" size={28} />
+                                                        </span>
+                                                        <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
+                                            </span>
+                                                </div>
+                                            </Link>
+                                    }
+                                </div>
+                            </div>
+                            <div className="col-span-4">
+                                {
+                                    lp.userData.isCreator === true ?
+                                        <div className="pb-4 text-right">
+                                            <PencilSquare className="inline-block mr-5 mt-2 cursor-pointer text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowEditModal(true)} />
+                                            <Trash className="inline-block mr-5 mt-2 cursor-pointer text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                                        </div>
+                                        : undefined
+                                }
+                                <div className="bg-white text-gray-700 p-5 rounded-md">
+                                    <div className="pb-5">
+                                        <div className="text-md pb-2 font-medium">In this learning path, you will</div>
+                                        <div className="text-md font-light">{lp.data.learningGoal}</div>
+                                    </div>
+                                    <div className="pb-3">
+                                        <div className="text-md pb-2 font-medium">Background Knowledge</div>
+                                        <div className="text-md font-light">{lp.data.background}</div>
+                                    </div>
+                                    <hr />
+                                    <div className="grid grid-cols-2 gap-2 pt-4">
+                                        <div>
+                                            <div className="text-sm mb-2 font-medium">Time{' '}
+                                                <span className="font-light">{lp.data.duration}</span>
+                                            </div>
+                                            <div className="text-sm mb-2 font-medium">Difficulty{' '}
+                                                <span className="font-light">{lp.data.difficulty}</span>
+                                            </div>
+                                            {/* {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
+                                            {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))} */}
+                                        </div>
+                                        <div>
+                                            <div className="text-sm mb-2 font-medium">Progress{' '}
+                                                <span className="font-light">{Math.round(lp.userData.progress * 100)}%</span>
+                                            </div>
+                                            <div className="text-sm font-medium">Updated{' '}
+                                                <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        {renderLpSummaryDetail({ lp, progress: lp.userData.progress })}
                     </div>
                 </div>
                 <FormModal
