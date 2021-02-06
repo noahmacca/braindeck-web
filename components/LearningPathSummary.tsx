@@ -53,7 +53,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                         <span className="pl-3 text-lg my-auto">{lp.data.countReviews} rating{lp.data.countReviews === 1 ? '' : 's'}</span>
                                     </span>
                                 </div>
-                                <div className="font-light text-lg p-2">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+                                <div className="font-light text-lg py-4">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
                                 <div className="my-4">
                                     {
                                         db.user ?
@@ -61,10 +61,10 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                 <div onClick={() => setLpFavorite(false)}>
                                                     <div className="text-center mb-6 rounded-md text-indigo-800 text-xl hover:bg-white bg-red-50 p-3 w-36 cursor-pointer">
                                                         Favorited
-                                            </div>
-                                                    <span className="flex">
-                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
-                                                            <HeartFill className="px-1 text-red-600" size={28} />
+                                                    </div>
+                                                    <span className="flex items-center">
+                                                        <span className="pr-2 align-middle cursor-pointer">
+                                                            <HeartFill className="text-red-600" size={22} />
                                                         </span>
                                                         <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
                                             </span>
@@ -74,9 +74,9 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                     <div className="text-center mb-6 rounded-md text-indigo-800 text-xl p-3 w-36 hover:bg-red-50 bg-white cursor-pointer">
                                                         Favorite
                                             </div>
-                                                    <span className="flex">
-                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
-                                                            <Heart className="px-1 text-red-600" size={28} />
+                                                    <span className="flex items-center">
+                                                        <span className="pr-2 align-middle cursor-pointer">
+                                                            <Heart className="text-red-600" size={22} />
                                                         </span>
                                                         <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
                                             </span>
@@ -88,8 +88,8 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                         Favorite
                                             </div>
                                                     <span className="flex">
-                                                        <span className="flex px-1 md:pr-1 align-middle cursor-pointer">
-                                                            <Heart className="px-1 text-red-600" size={28} />
+                                                        <span className="flex md:pr-1 align-middle cursor-pointer">
+                                                            <Heart className="text-red-600" size={22} />
                                                         </span>
                                                         <span className="font-bold pr-1">{lp.data.countFavorite}</span> already favorited
                                             </span>
@@ -97,6 +97,13 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                             </Link>
                                     }
                                 </div>
+                                {
+                                    (lp.userData.isFavorite || lp.userData.progress > 0.0) &&
+                                        <div className="text-lg mb-2 font-medium">{Math.round(lp.userData.progress * 100)}%{' '}
+                                            <span className="font-light">complete</span>
+                                        </div>
+
+                                }
                             </div>
                             <div className="col-span-4">
                                 {
@@ -125,15 +132,24 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                             <div className="text-sm mb-2 font-medium">Difficulty{' '}
                                                 <span className="font-light">{lp.data.difficulty}</span>
                                             </div>
-                                            {/* {renderInfoChip(lp.data.difficulty, getChipColor('DIFFICULTY', lp.data.difficulty))}
-                                            {renderInfoChip(lp.data.duration, getChipColor('EST_DURATION', lp.data.duration))} */}
-                                        </div>
-                                        <div>
-                                            <div className="text-sm mb-2 font-medium">Progress{' '}
-                                                <span className="font-light">{Math.round(lp.userData.progress * 100)}%</span>
-                                            </div>
                                             <div className="text-sm font-medium">Updated{' '}
                                                 <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm mb-2 font-medium">Resources{' '}
+                                                <div className="font-light">
+                                                    {
+                                                        Object.keys(lp.userData.countByResourceFormat).map((format) => {
+                                                            const count = lp.userData.countByResourceFormat[format];
+                                                            return (
+                                                                <div key={`${format}`}>
+                                                                    {count} {format.toLowerCase()}{count !== 1 ? 's' : ''}
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
