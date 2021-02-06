@@ -28,19 +28,21 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
     return (
         <div>
             <hr />
-            <div className="max-w-6xl p-1 md:px-5 mx-auto">
-                <div className="my-2 text-md text-gray-600">{lp.data.subject}</div>
+            <div className="bg-gray-200">
+                <div className="max-w-6xl p-1 md:px-5 mx-auto">
+                    <div className="my-2 text-md text-gray-700">{lp.data.subject}</div>
+                </div>
             </div>
             <div className="bg-indigo-900">
                 <div className="max-w-6xl mx-auto py-4">
                     <div className="p-3 md:px-5 md:py-10 items-center text-gray-100">
-                        <div className="grid grid-cols-10 gap-2">
-                            <div className="col-span-6">
-                                <div>
-                                    <Link href={`/learn/${lp.id}`}>
-                                        <div className="text-5xl pb-5 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
-                                    </Link>
-                                </div>
+                        <div>
+                            <Link href={`/learn/${lp.id}`}>
+                                <div className="text-5xl pb-5 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-10 gap-6">
+                            <div className="col-span-6 pr-8">
                                 <div className="flex flex-wrap md:x-1 text-md text-gray-100">
                                     <span className="flex pr-1 md:pr-3">
                                         <StarRating
@@ -53,7 +55,11 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                         <span className="pl-3 text-lg my-auto">{lp.data.countReviews} rating{lp.data.countReviews === 1 ? '' : 's'}</span>
                                     </span>
                                 </div>
-                                <div className="font-light text-lg py-4">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+                                <div className="text-lg py-4 font-light">{lp.data.author.name} {lp.userData.isCreator === true ? '(You)' : undefined}</div>
+                                <div className="pb-5">
+                                    <div className="text-md pb-1 text-lg font-medium">In this learning path, you will</div>
+                                    <div className="text-md font-light">{lp.data.learningGoal}</div>
+                                </div>
                                 <div className="my-4">
                                     {
                                         db.user ?
@@ -99,9 +105,9 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                 </div>
                                 {
                                     (lp.userData.isFavorite || lp.userData.progress > 0.0) &&
-                                        <div className="text-lg mb-2 font-medium">{Math.round(lp.userData.progress * 100)}%{' '}
-                                            <span className="font-light">complete</span>
-                                        </div>
+                                    <div className="text-lg mb-2 font-medium">{Math.round(lp.userData.progress * 100)}%{' '}
+                                        <span className="font-light">complete</span>
+                                    </div>
                                 }
                                 {
                                     lp.userData.isCreator === true ?
@@ -113,11 +119,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                 }
                             </div>
                             <div className="col-span-4">
-                                <div className="bg-white text-gray-700 p-6 rounded-md">
-                                    <div className="pb-5">
-                                        <div className="text-md pb-1 font-medium">In this learning path, you will</div>
-                                        <div className="text-md font-light">{lp.data.learningGoal}</div>
-                                    </div>
+                                <div className="bg-white text-gray-700 p-6 mt-12 rounded-md">
                                     <div className="pb-5">
                                         <div className="text-md pb-1 font-medium">Background Knowledge</div>
                                         <div className="text-md font-light">{lp.data.background}</div>
