@@ -102,18 +102,17 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                         <div className="text-lg mb-2 font-medium">{Math.round(lp.userData.progress * 100)}%{' '}
                                             <span className="font-light">complete</span>
                                         </div>
-
                                 }
-                            </div>
-                            <div className="col-span-4">
                                 {
                                     lp.userData.isCreator === true ?
-                                        <div className="pb-4 text-right">
+                                        <div className="pt-4 text-left">
                                             <PencilSquare className="inline-block mr-5 mt-2 cursor-pointer text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowEditModal(true)} />
                                             <Trash className="inline-block mr-5 mt-2 cursor-pointer text-gray-200 hover:text-gray-50" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
                                         </div>
                                         : undefined
                                 }
+                            </div>
+                            <div className="col-span-4">
                                 <div className="bg-white text-gray-700 p-5 rounded-md">
                                     <div className="pb-5">
                                         <div className="text-md pb-2 font-medium">In this learning path, you will</div>
