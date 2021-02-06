@@ -113,30 +113,30 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                 }
                             </div>
                             <div className="col-span-4">
-                                <div className="bg-white text-gray-700 p-5 rounded-md">
+                                <div className="bg-white text-gray-700 p-6 rounded-md">
                                     <div className="pb-5">
-                                        <div className="text-md pb-2 font-medium">In this learning path, you will</div>
+                                        <div className="text-md pb-1 font-medium">In this learning path, you will</div>
                                         <div className="text-md font-light">{lp.data.learningGoal}</div>
                                     </div>
-                                    <div className="pb-3">
-                                        <div className="text-md pb-2 font-medium">Background Knowledge</div>
+                                    <div className="pb-5">
+                                        <div className="text-md pb-1 font-medium">Background Knowledge</div>
                                         <div className="text-md font-light">{lp.data.background}</div>
                                     </div>
                                     <hr />
                                     <div className="grid grid-cols-2 gap-2 pt-4">
                                         <div>
-                                            <div className="text-sm mb-2 font-medium">Time{' '}
+                                            <div className="mb-2 font-medium">Time{' '}
                                                 <span className="font-light">{lp.data.duration}</span>
                                             </div>
-                                            <div className="text-sm mb-2 font-medium">Difficulty{' '}
+                                            <div className="mb-2 font-medium">Difficulty{' '}
                                                 <span className="font-light">{lp.data.difficulty}</span>
                                             </div>
-                                            <div className="text-sm font-medium">Updated{' '}
+                                            <div className="font-medium">Updated{' '}
                                                 <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="text-sm mb-2 font-medium">Resources{' '}
+                                            <div className="mb-2 font-medium">Resources{' '}
                                                 <div className="font-light">
                                                     {
                                                         Object.keys(lp.userData.countByResourceFormat).map((format) => {
