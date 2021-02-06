@@ -8,48 +8,6 @@ import FormModal from '../components/forms/FormModal';
 import ConfirmationForm from './forms/ConfirmationForm';
 import StarRating from './StarRating';
 
-const renderInfoChip = (text: string, color: string) => {
-    return (
-        <span className={`text-sm p-1 px-2 ml-1 md:ml-2 rounded-lg bg-${color}-600 text-gray-50 capitalize`}>
-            {text.toLocaleLowerCase()}
-        </span>
-    )
-}
-
-const getChipColor = (type: string, val: string) => {
-    const normType = type.toUpperCase();
-    const normVal = val.toUpperCase();
-    const colorConfig = {
-        'DIFFICULTY': {
-            'EASY': 'green',
-            'MODERATE': 'yellow',
-            'HARD': 'red',
-            'ADVANCED': 'red'
-        },
-        'EST_DURATION': {
-            'FAST (<1 HR)': 'green',
-            'QUICK (<1 HR)': 'green',
-            'FAST (1-2 HR)': 'green',
-            'MEDIUM (2-5 HR)': 'yellow',
-            'LONG (5-10 HR)': 'red',
-            'VERY LONG (10-20 HR)': 'red',
-        }
-    }
-    let res = 'gray';
-    if (normType in colorConfig) {
-        if (normVal in colorConfig[normType]) {
-            res = colorConfig[normType][normVal]
-        } else {
-            console.log('Invalid colorConfig val', normVal);
-        }
-    } else {
-        console.log('Invalid colorConfig type', normType);
-    }
-    return res
-}
-
-
-
 export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
     const [shouldShowEditModal, setShouldShowEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
