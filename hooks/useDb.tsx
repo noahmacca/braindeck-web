@@ -102,6 +102,7 @@ const useDbProvider = () => {
                 isCreator: false,
                 rating: 0,
                 numLearningResourcesTotal: 0,
+                countByResourceFormat: {},
                 completedContentIds: [],
                 progress: 0.0,
             }
@@ -123,17 +124,27 @@ const useDbProvider = () => {
             }
         })
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
-
+        
+        const countByResourceFormat = {};
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
                 lpu.userData.numLearningResourcesTotal += 1
+                const rFormat = resource.format;
+                if (rFormat in countByResourceFormat) {
+                    countByResourceFormat[rFormat] += 1
+                } else {
+                    countByResourceFormat[rFormat] = 1
+                }
+                countByResourceFormat[resource.format]
                 if (user.learningResources.some((uResource) => (uResource.id === resource.id) && (uResource.isCompleted))) {
                     lpu.userData.completedContentIds.push(resource.id);
                 }
             });
         });
-        
-        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
+
+        lpu.userData.countByResourceFormat = countByResourceFormat;
+        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0;
+
         return lpu
     }
     ///////////// USER PROFILE ///////////////

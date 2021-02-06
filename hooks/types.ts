@@ -122,6 +122,7 @@ export interface LearningPathUser {
         isCreator: boolean,
         rating: number,
         numLearningResourcesTotal: number,
+        countByResourceFormat: Object,
         completedContentIds: Array<string>,
         progress: number,
     }
