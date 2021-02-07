@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { HeartFill, Heart, Trash, PencilSquare } from 'react-bootstrap-icons';
+import { HeartFill, Heart, Trash, PencilSquare, StopwatchFill, BarChartFill, CalendarCheckFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import { LearningPathUser } from '../hooks/types';
 import { useDb } from '../hooks/useDb';
@@ -60,6 +60,10 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                     <div className="text-md pb-1 text-lg font-medium">In this learning path, you will</div>
                                     <div className="text-md font-light">{lp.data.learningGoal}</div>
                                 </div>
+                                <div className="pb-5">
+                                    <div className="text-md pb-1 text-lg font-medium">Background Knowledge</div>
+                                    <div className="text-md font-light">{lp.data.background}</div>
+                                </div>
                                 <div className="my-4">
                                     {
                                         db.user ?
@@ -119,22 +123,20 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                 }
                             </div>
                             <div className="col-span-4">
-                                <div className="bg-white text-gray-700 p-6 mt-12 rounded-md">
-                                    <div className="pb-5">
-                                        <div className="text-md pb-1 font-medium">Background Knowledge</div>
-                                        <div className="text-md font-light">{lp.data.background}</div>
-                                    </div>
-                                    <hr />
-                                    <div className="grid grid-cols-2 gap-2 pt-4">
+                                <div className="bg-white text-gray-700 p-8 mt-5 rounded-md">
+                                    <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                            <div className="mb-2 font-medium">Time{' '}
-                                                <span className="font-light">{lp.data.duration}</span>
+                                            <div className="mb-3 flex items-center">
+                                                <StopwatchFill className="mr-2 text-indigo-900" size={18}/>
+                                                <span className="font-light inline-block">{lp.data.duration}</span>
                                             </div>
-                                            <div className="mb-2 font-medium">Difficulty{' '}
-                                                <span className="font-light">{lp.data.difficulty}</span>
+                                            <div className="mb-3 flex items-center">
+                                                <BarChartFill className="mr-2 text-indigo-900" size={18}/>
+                                                <span className="font-light inline-block">{lp.data.difficulty}</span>
                                             </div>
-                                            <div className="font-medium">Updated{' '}
-                                                <span className="font-light">{new Date(lp.data.updated).toLocaleDateString()}</span>
+                                            <div className="flex items-center">
+                                                <CalendarCheckFill className="mr-2 text-indigo-900" size={18}/>
+                                                <span className="font-light inline-block">Updated {new Date(lp.data.updated).toLocaleDateString()}</span>
                                             </div>
                                         </div>
                                         <div>
@@ -145,7 +147,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                             const count = lp.userData.countByResourceFormat[format];
                                                             return (
                                                                 <div key={`${format}`}>
-                                                                    {count} {format.toLowerCase()}{count !== 1 ? 's' : ''}
+                                                                    <span className="text-bold ml-2">{count}</span> {format.toLowerCase()}{count !== 1 ? 's' : ''}
                                                                 </div>
                                                             )
                                                         })
