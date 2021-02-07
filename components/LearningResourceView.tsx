@@ -29,14 +29,15 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     const parseOgImage = (ogImage) => {
         let imgUrl: string = '';
         if (Array.isArray(ogImage)) {
-            // loop through and take any with width above 300px, else the first
-            imgUrl = ogImage[0].url
-            ogImage.forEach((img) => {
-                const w = parseInt(img.width, 10);
+            // loop through and take the first with width above 300px, else the first
+            imgUrl = ogImage[0].url;
+            for (let i = 0; i < ogImage.length; i++) {
+                const w = parseInt(ogImage[i].width, 10);
                 if (w > 300) {
-                    imgUrl = img.url
+                    imgUrl = ogImage[i].url
+                    break;
                 }
-            });
+            }
         } else {
             // else there's only one item, which is string
             imgUrl = ogImage.url;
@@ -64,7 +65,6 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     }
 
     useEffect(() => {
-        // console.log('lrResourceView load', lr.url);
         fetch(`/api/getOgData/?url=${lr.url}`)
             .then(response => response.json())
             .then(data => {
@@ -85,93 +85,119 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     }, []);
 
     return (
-        <div className="p-3 md:mx-3 bg-white mb-2 rounded-lg">
-            {
-                lp.userData.isCreator === true ?
-                    <span>
-                        <Trash className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowConfirmDeleteModal(true)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowLrEditModal(true)} />
+        <div className="md:mx-3 mb-2 border border-gray-600">
+            <div className=" w-full lg:max-w-full lg:flex">
+                <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{backgroundImage: `url(${ogImgUrl})`}} title="Mountain">
+                </div>
+                <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                    <div className="mb-8">
+                        <div className="text-gray-900 font-bold text-xl mb-2">
+                            <a href={`${lr.url}`} target="_blank">{`${ogTitle}`}</a>
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <div className="font-medium">Description</div>
+                            <div className="font-light">{ogDescription}</div>
+                        </div>
+                        <div className="text-gray-700 mb-2">
+                            <div className="font-medium">Highlight</div>
+                            <div className="font-light">{lr.highlight}</div>
+                        </div>
+                    </div>
+                    <div className="flex items-center">
+                        <img className="w-10 h-10 rounded-full mr-4" src="/ben.png" alt="Avatar of Writer" />
+                        <div className="text-sm">
+                            <p className="text-gray-900 leading-none">John Smith</p>
+                            <p className="text-gray-600">Aug 18</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="inline-block">
+                <img className="object-cover h-48 w-48" src={ogImgUrl} />
+            </div>
+            <div className="p-3 bg-white inline-block">
+                <div className="text-xl mb-2">
+                    <a href={`${lr.url}`} target="_blank">{`${ogTitle}`}</a>
+                </div>
+                <div className="text-sm mb-4">
+                    {ogSiteName}{' '}
+                    <span className="capitalize ml-2 bg-gray-100 text-gray-600 rounded-md px-2 py-1">
+                        {lr.format.toLowerCase()}
+                    </span>{' '}
+                    <span className="capitalize bg-gray-100 text-gray-600 rounded-md px-2 py-1 ml-2">
+                        {lr.difficulty.toLowerCase()}
                     </span>
-                    : undefined
-            }
-            <img src={ogImgUrl} />
-            <div>{ogTitle}</div>
-            <div>{ogType}</div>
-            <div>{ogDescription}</div>
-            <div>{ogSiteName}</div>
-            <div className="text-xl mb-2">
-                <a href={`${lr.url}`} target="_blank">{`${ogTitle}`}</a>
-            </div>
-            <div className="text-sm mb-4">
-                {ogSiteName}{' '}
-                <span className="capitalize ml-2 bg-gray-100 text-gray-600 rounded-md px-2 py-1">
-                    {lr.format.toLowerCase()}
-                </span>{' '}
-                <span className="capitalize bg-gray-100 text-gray-600 rounded-md px-2 py-1 ml-2">
-                    {lr.difficulty.toLowerCase()}
-                </span>
-            </div>
-            <div className="pb-2">
-                {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{ogDescription}</span></div>}
-                {lr.highlight && <div className="text-sm mt-1 font-medium">Highlight <span className="font-light">{lr.highlight}</span></div>}
-            </div>
-            <div>
-                {
-                    db.user ?
-                        !isComplete ?
-                            <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-sm">Complete</span>
+                </div>
+                <div className="pb-2">
+                    {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{ogDescription}</span></div>}
+                    {lr.highlight && <div className="text-sm mt-1 font-medium">Highlight <span className="font-light">{lr.highlight}</span></div>}
+                </div>
+                <div>
+                    {
+                        db.user ?
+                            !isComplete ?
+                                <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                                    <div className="mx-auto flex">
+                                        <span className="text-sm">Complete</span>
+                                    </div>
+                                </div> :
+                                <div className="rounded-md border border-green-100 p-1 mt-1 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                                    <div className="mx-auto flex">
+                                        <span className="text-sm">Completed</span>
+                                        <CheckSquareFill className="ml-2 text-green-500" size={20} />
+                                    </div>
                                 </div>
-                            </div> :
-                            <div className="rounded-md border border-green-100 p-1 mt-1 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-sm">Completed</span>
-                                    <CheckSquareFill className="ml-2 text-green-500" size={20} />
+                            :
+                            <Link href="/login">
+                                <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer">
+                                    <div className="mx-auto flex">
+                                        <span className="text-sm">Complete</span>
+                                    </div>
                                 </div>
-                            </div>
-                        :
-                        <Link href="/login">
-                            <div className="rounded-md border p-1 mt-1 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer">
-                                <div className="mx-auto flex">
-                                    <span className="text-sm">Complete</span>
-                                </div>
-                            </div>
-                        </Link>
-                }
+                            </Link>
+                    }
+                    {
+                        lp.userData.isCreator === true ?
+                            <span>
+                                <Trash className="mr-5 mt-2 cursor-pointer text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                                <PencilSquare className="mr-5 mt-2 cursor-pointer text-gray-400 hover:text-gray-600" size={16} onClick={() => setShouldShowLrEditModal(true)} />
+                            </span>
+                            : undefined
+                    }
+                </div>
+                <FormModal
+                    title="Edit Resource"
+                    shouldShowModal={shouldShowLrEditModal}
+                    dismissModal={() => setShouldShowLrEditModal(false)}
+                >
+                    <LearningResourceForm
+                        dismiss={() => setShouldShowLrEditModal(false)}
+                        lpId={lp.id}
+                        lcId={lc.id}
+                        lrId={lr.id}
+                        initialData={{
+                            title: lr.title,
+                            author: lr.author,
+                            url: lr.url,
+                            format: lr.format,
+                            difficulty: lr.difficulty,
+                            description: lr.description,
+                            highlight: lr.highlight,
+                        }}
+                    />
+                </FormModal>
+                <FormModal
+                    title="Delete Resource?"
+                    shouldShowModal={shouldShowConfirmDeleteModal}
+                    dismissModal={() => setShouldShowConfirmDeleteModal(false)}
+                >
+                    <ConfirmationForm
+                        info={lr.title}
+                        dismissAction={() => setShouldShowConfirmDeleteModal(false)}
+                        confirmAction={() => db.deleteLearningResource(lp.id, lc.id, lr.id)}
+                    />
+                </FormModal>
             </div>
-            <FormModal
-                title="Edit Resource"
-                shouldShowModal={shouldShowLrEditModal}
-                dismissModal={() => setShouldShowLrEditModal(false)}
-            >
-                <LearningResourceForm
-                    dismiss={() => setShouldShowLrEditModal(false)}
-                    lpId={lp.id}
-                    lcId={lc.id}
-                    lrId={lr.id}
-                    initialData={{
-                        title: lr.title,
-                        author: lr.author,
-                        url: lr.url,
-                        format: lr.format,
-                        difficulty: lr.difficulty,
-                        description: lr.description,
-                        highlight: lr.highlight,
-                    }}
-                />
-            </FormModal>
-            <FormModal
-                title="Delete Resource?"
-                shouldShowModal={shouldShowConfirmDeleteModal}
-                dismissModal={() => setShouldShowConfirmDeleteModal(false)}
-            >
-                <ConfirmationForm
-                    info={lr.title}
-                    dismissAction={() => setShouldShowConfirmDeleteModal(false)}
-                    confirmAction={() => db.deleteLearningResource(lp.id, lc.id, lr.id)}
-                />
-            </FormModal>
         </div>
     )
 }
