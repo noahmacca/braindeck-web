@@ -2,9 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 var ogs = require('open-graph-scraper');
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  if(req.query['url']){
-    
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.query['url']) {
+
     var siteUrl = req.query['url'];
     var options = {
       'url': siteUrl,
@@ -13,14 +13,14 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       },
       'timeout': 4000
     };
-    
-    ogs(options, (err, results, response) => {
-      if(results.err){
+
+    await ogs(options, (err, results, response) => {
+      if (results.err) {
         res.json(results.err);
       } else {
         res.json(results);
-        res.end();
       }
+      res.end();
     });
   } else {
     res.json({
