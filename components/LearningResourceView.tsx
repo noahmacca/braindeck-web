@@ -11,7 +11,11 @@ import Link from 'next/link'
 export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathUser, lc: LearningConcept, lr: LearningResource }) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
-    const [imgUrl, setImgUrl] = useState(null);
+    const [ogImgUrl, setOgImgUrl] = useState(null);
+    const [ogTitle, setOgTitle] = useState(null);
+    const [ogType, setOgType] = useState(null);
+    const [ogDescription, setOgDescription] = useState(null);
+    const [ogSiteName, setOgSiteName] = useState(null);
     const db = useDb();
     const isComplete = db.user?.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
@@ -39,6 +43,26 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         }
         return imgUrl
     }
+
+    const extractHostName = (url: string) => {
+        let hostname = '';
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("//") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
+
     useEffect(() => {
         // console.log('lrResourceView load', lr.url);
         fetch(`/api/getOgData/?url=${lr.url}`)
@@ -47,8 +71,13 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                 console.log(data);
                 if (data.ogImage) {
                     const imgUrl = parseOgImage(data.ogImage);
-                    setImgUrl(imgUrl)
+                    setOgImgUrl(imgUrl);
                 }
+                setOgTitle(data.ogTitle)
+                setOgType(data.ogType)
+                setOgDescription(data.ogDescription)
+                const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(lr.url);
+                setOgSiteName(siteName);
             })
             .catch((err) => {
                 console.log('err', err);
@@ -65,14 +94,16 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                     </span>
                     : undefined
             }
-            <div className="w-24 h-24">
-                <img src={imgUrl} />
-            </div>
+            <img src={ogImgUrl} />
+            <div>{ogTitle}</div>
+            <div>{ogType}</div>
+            <div>{ogDescription}</div>
+            <div>{ogSiteName}</div>
             <div className="text-xl mb-2">
-                <a href={`${lr.url}`} target="_blank">{`${lr.title}`}</a>
+                <a href={`${lr.url}`} target="_blank">{`${ogTitle}`}</a>
             </div>
             <div className="text-sm mb-4">
-                By {lr.author}{' '}
+                {ogSiteName}{' '}
                 <span className="capitalize ml-2 bg-gray-100 text-gray-600 rounded-md px-2 py-1">
                     {lr.format.toLowerCase()}
                 </span>{' '}
@@ -81,7 +112,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                 </span>
             </div>
             <div className="pb-2">
-                {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{lr.description}</span></div>}
+                {lr.description && <div className="text-sm font-medium">Description <span className="font-light">{ogDescription}</span></div>}
                 {lr.highlight && <div className="text-sm mt-1 font-medium">Highlight <span className="font-light">{lr.highlight}</span></div>}
             </div>
             <div>
