@@ -1,6 +1,6 @@
 import { CheckSquareFill } from 'react-bootstrap-icons';
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
 import LearningResourceForm from './forms/LearningResourceForm';
@@ -20,6 +20,15 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
             isComplete
         });
     }
+
+    useEffect(() => {
+        // console.log('lrResourceView load', lr.url);
+        fetch(`/api/getOgData/?url=${lr.url}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+    }, []);
 
     return (
         <div className="p-3 md:mx-3 bg-white mb-2 rounded-lg">
