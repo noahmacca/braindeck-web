@@ -11,6 +11,7 @@ import Link from 'next/link'
 export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathUser, lc: LearningConcept, lr: LearningResource }) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
+    const [imgUrl, setImgUrl] = useState(null);
     const db = useDb();
     const isComplete = db.user?.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
@@ -21,12 +22,36 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         });
     }
 
+    const parseOgImage = (ogImage) => {
+        let imgUrl: string = '';
+        if (Array.isArray(ogImage)) {
+            // loop through and take any with width above 300px, else the first
+            imgUrl = ogImage[0].url
+            ogImage.forEach((img) => {
+                const w = parseInt(img.width, 10);
+                if (w > 300) {
+                    imgUrl = img.url
+                }
+            });
+        } else {
+            // else there's only one item, which is string
+            imgUrl = ogImage.url;
+        }
+        return imgUrl
+    }
     useEffect(() => {
         // console.log('lrResourceView load', lr.url);
         fetch(`/api/getOgData/?url=${lr.url}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                if (data.ogImage) {
+                    const imgUrl = parseOgImage(data.ogImage);
+                    setImgUrl(imgUrl)
+                }
+            })
+            .catch((err) => {
+                console.log('err', err);
             })
     }, []);
 
@@ -40,6 +65,9 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                     </span>
                     : undefined
             }
+            <div className="w-24 h-24">
+                <img src={imgUrl} />
+            </div>
             <div className="text-xl mb-2">
                 <a href={`${lr.url}`} target="_blank">{`${lr.title}`}</a>
             </div>

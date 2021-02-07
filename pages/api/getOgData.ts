@@ -15,7 +15,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     };
     
     ogs(options, (err, results, response) => {
-      console.log(err, results, response);
       if(results.err){
         res.json(results.err);
       } else {
@@ -23,6 +22,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         res.end();
       }
     });
-
+  } else {
+    res.json({
+      'error': 'no "url" query',
+      'query': req.query
+    });
   }
 }
