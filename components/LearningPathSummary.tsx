@@ -80,7 +80,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                             lp.userData.isFavorite ?
                                                 <div>
                                                     <div
-                                                        className="text-center mb-6 rounded-md text-indigo-800 text-xl hover:bg-white bg-red-50 p-3 w-36 cursor-pointer"
+                                                        className="text-center mb-6 rounded-md text-indigo-800 text-xl bg-white p-3 w-36 cursor-pointer"
                                                         onClick={() => setLpFavorite(false)}
                                                     >
                                                         Favorited
@@ -94,7 +94,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                 :
                                                 <div>
                                                     <div
-                                                        className="text-center mb-6 rounded-md text-indigo-800 text-xl p-3 w-36 hover:bg-red-50 bg-white cursor-pointer"
+                                                        className="text-center mb-6 rounded-md text-indigo-800 text-xl p-3 w-36 bg-white cursor-pointer"
                                                         onClick={() => setLpFavorite(true)}
                                                     >
                                                         Favorite
