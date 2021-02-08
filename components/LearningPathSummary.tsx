@@ -147,14 +147,19 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                     <div className="font-medium my-5">Resources{' '}
                                         <div className="font-light">
                                             {
-                                                Object.keys(lp.userData.countByResourceFormat).map((format) => {
-                                                    const count = lp.userData.countByResourceFormat[format];
-                                                    return (
-                                                        <div className="mt-2" key={`${format}`}>
-                                                            <span className="font-bold">{count}</span> {format.toLowerCase()}{count !== 1 ? 's' : ''}
-                                                        </div>
-                                                    )
-                                                })
+                                                Object.keys(lp.userData.countByResourceFormat).length !== 0 ?
+                                                    Object.keys(lp.userData.countByResourceFormat).map((format) => {
+                                                        const count = lp.userData.countByResourceFormat[format];
+                                                        return (
+                                                            <div className="mt-2 capitalize" key={`${format}`}>
+                                                                <span className="font-bold">{count}</span> {format.toLowerCase()}{count !== 1 ? 's' : ''}
+                                                            </div>
+                                                        )
+                                                    })
+                                                    :
+                                                    <div className="mt-2 capitalize">
+                                                        None
+                                                    </div>
                                             }
                                         </div>
                                     </div>
