@@ -67,9 +67,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         fetch(`/api/getOgData/?url=${lr.url}`)
             .then(response => response.json())
             .then(data => {
-                if (data.ogTitle === 'Getting Up to Speed on Ethereum') {
-                    console.log(data);
-                }
+                // console.log(data);
                 if (data.ogImage) {
                     const imgUrl = parseOgImage(data.ogImage);
                     setOgImgUrl(imgUrl);
@@ -88,7 +86,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     return (
         <div className="md:mx-3 mb-2">
             <div className=" w-full lg:max-w-full lg:flex">
-                <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url(${ogImgUrl})` }} title="PreviewImg">
+                <div className="h-48 lg:h-auto lg:w-48 flex-none border-r border-t border-l border-gray-400 lg:border-r-0 lg:border-b lg:border-gray-400 bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url(${ogImgUrl})` }} title="PreviewImg">
                 </div>
                 <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
                     <div className="mb-2">
