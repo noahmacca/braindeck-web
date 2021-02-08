@@ -124,7 +124,7 @@ const useDbProvider = () => {
             }
         })
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
-        
+
         const countByResourceFormat = {};
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
@@ -160,11 +160,24 @@ const useDbProvider = () => {
         });
     }
 
-    const updateUserInfo = ({ uId, name, favoriteTopics }: UserInfoUpdate) => {
-        return updateDoc('users', uId, {
-            name,
-            favoriteTopics
-        });
+    const updateUserInfo = (userInfoUpdate: UserInfoUpdate) => {
+        const uId = userInfoUpdate.uId;
+        return updateDoc('users', uId, userInfoUpdate).then((response) => {
+            // update lps user information
+            const lpIds = userLearningPaths
+                .filter((uLp: LearningPathUser) => uLp.data.author.uid === uId)
+                .map((uLp: LearningPathUser) => uLp.id);
+
+            return Promise.all(lpIds.map(lpId => updateDoc('learningPaths', lpId, {
+                'author': {
+                    name: userInfoUpdate.name,
+                    bio: userInfoUpdate.bio
+                }
+            })));
+        }).catch((err) => {
+            console.warn(err);
+            return err
+        })
     }
 
     ///////////// LEARNING PATHS ///////////////
@@ -289,7 +302,8 @@ const useDbProvider = () => {
             updated: nowMs,
             author: {
                 uid: user.uid,
-                name: user.name
+                name: user.name,
+                bio: user.bio
             },
             countFavorite: 0,
             countComplete: 0,
@@ -376,7 +390,7 @@ const useDbProvider = () => {
         const lcsNew = []
         lpMatch.data.learningConcepts.forEach((lc) => {
             if (lc.id === lcId) {
-                isMatch=true;
+                isMatch = true;
                 return null
             }
             lcsNew.push(lc)
@@ -462,7 +476,7 @@ const useDbProvider = () => {
             if (lc.id === lcId) {
                 lc.learningResources.forEach((lr) => {
                     if (lr.id === lrId) {
-                        isMatch=true;
+                        isMatch = true;
                     } else {
                         lrsNew.push(lr);
                     }

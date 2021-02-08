@@ -74,6 +74,13 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                     <div className="text-md pb-1 text-lg font-medium">Background Knowledge</div>
                                     <div className="text-md font-light">{lp.data.background}</div>
                                 </div>
+                                {
+                                    lp.data.author.bio &&
+                                        <div className="pb-5">
+                                            <div className="text-md pb-1 text-lg font-medium">About the Author</div>
+                                            <div className="text-md font-light">{lp.data.author.bio}</div>
+                                        </div>
+                                }
                                 <div className="my-4">
                                     {
                                         db.user ?

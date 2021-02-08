@@ -4,6 +4,7 @@ export interface User {
     email: string,
     name: string,
     created: number,
+    bio: string,
     learningPaths: Array<{
         id: string,
         created: number,
@@ -33,12 +34,14 @@ export interface UserInputSignupData {
     name: string;
     email: string;
     password: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
 export interface UserInfoUpdate {
     uId: string,
     name: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
@@ -98,6 +101,7 @@ export interface LearningPathData {
     author: {
         uid: string,
         name: string,
+        bio: string,
     },
     learningGoal: string,
     background: string,
