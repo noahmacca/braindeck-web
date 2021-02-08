@@ -1,15 +1,57 @@
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserInputLearningResourceData } from '../../hooks/types';
 
 import Button from '../Button';
 
 const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dismiss: Function, lpId: string, lcId: string, lrId?: string, initialData?: UserInputLearningResourceData }) => {
     const db = useDb();
-    const { register, errors, handleSubmit, reset } = useForm();
+    const { register, errors, handleSubmit, reset, setValue } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [siteUrl, setSiteUrl] = useState();
+
+    const extractHostName = (url: string) => {
+        let hostname = '';
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("//") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
+
+    const handleUrlChange = (e) => {
+        const url = e.target.value;
+        console.log(url);
+        setSiteUrl(url);
+        setValue('title', 'test');
+        fetch(`/api/getOgData/?url=${url}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setValue('title', data.ogTitle)
+                setValue('description', data.ogDescription)
+                const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(url);
+                setValue('author', siteName);
+                if (url.toLowerCase().includes('youtube')) {
+                    setValue('format', 'VIDEO')
+                }
+            })
+            .catch((err) => {
+                console.log('err', err);
+            })
+    }
 
     const onSubmit = (data) => {
         setIsLoading(true);
@@ -55,8 +97,9 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.url}
-                    type="text" 
+                    type="text"
                     name="url"
+                    onChange={handleUrlChange}
                     ref={register({
                         required: 'Please enter a url',
                         pattern: {
@@ -160,14 +203,16 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             </div>
             <div className="rounded-md shadow-sm mb-3">
                 <label className="block text-sm font-medium leading-5 text-gray-700">
-                    Description (optional)
+                    Description
                 </label>
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.description}
                     type="text"
                     name="description"
-                    ref={register()}
+                    ref={register({
+                        required: 'Please enter a description',
+                    })}
                 />
                 {errors.description && (
                     <div className="mt-2 text-xs text-red-600">
