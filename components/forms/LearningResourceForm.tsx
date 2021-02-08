@@ -51,8 +51,6 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
 
     const handleUrlChange = (e) => {
         const url = e.target.value;
-        console.log(url);
-        setValue('title', 'test');
         fetch(`/api/getOgData/?url=${url}`)
             .then(response => response.json())
             .then(data => {
@@ -152,6 +150,23 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 {errors.title && (
                     <div className="mt-2 text-xs text-red-600">
                         {errors.title.message}
+                    </div>
+                )}
+            </div>
+            <div className="rounded-md shadow-sm mb-3">
+                <label className="block text-sm font-medium leading-5 text-gray-700">
+                    Image URL (optional)
+                </label>
+                <input
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
+                    defaultValue={initialData?.imgUrl}
+                    type="text"
+                    name="imgUrl"
+                    ref={register()}
+                />
+                {errors.imgUrl && (
+                    <div className="mt-2 text-xs text-red-600">
+                        {errors.imgUrl.message}
                     </div>
                 )}
             </div>

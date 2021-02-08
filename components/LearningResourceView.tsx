@@ -32,7 +32,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                             lp.userData.isCreator === true ?
                                 <span>
                                     <Trash className="mr-5 mt-2 float-right cursor-pointer text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowConfirmDeleteModal(true)} />
-                                    <PencilSquare className="mr-5 mt-2 float-right cursor-pointer text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowLrEditModal(true)} />
+                                    <PencilSquare className="mx-5 mt-2 float-right cursor-pointer text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowLrEditModal(true)} />
                                 </span>
                                 : undefined
                         }
