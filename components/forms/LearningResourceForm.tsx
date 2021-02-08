@@ -64,7 +64,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 setValue('title', data.ogTitle)
                 setValue('description', data.ogDescription)
                 const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(url);
-                setValue('author', siteName);
+                setValue('source', siteName);
                 if (url.toLowerCase().includes('youtube')) {
                     setValue('format', 'VIDEO')
                 }
@@ -79,7 +79,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
         setError(null);
         const userInputLearningResourceData: UserInputLearningResourceData = {
             title: data.title,
-            author: data.author,
+            source: data.source,
             url: data.url,
             format: data.format,
             difficulty: data.difficulty,
@@ -156,20 +156,20 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             </div>
             <div className="rounded-md shadow-sm mb-3">
                 <label className="block text-sm font-medium leading-5 text-gray-700">
-                    Author
+                    Source
                 </label>
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
-                    defaultValue={initialData?.author}
+                    defaultValue={initialData?.source}
                     type="text"
-                    name="author"
+                    name="source"
                     ref={register({
-                        required: 'Please enter an author',
+                        required: 'Please enter an source',
                     })}
                 />
-                {errors.author && (
+                {errors.source && (
                     <div className="mt-2 text-xs text-red-600">
-                        {errors.author.message}
+                        {errors.source.message}
                     </div>
                 )}
             </div>

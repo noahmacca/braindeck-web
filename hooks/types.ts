@@ -44,7 +44,7 @@ export interface UserInfoUpdate {
 
 export interface UserInputLearningResourceData {
     title: string,
-    author: string,
+    source: string,
     url: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
@@ -57,7 +57,7 @@ export interface LearningResource {
     created?: number,
     updated?: number,
     title: string,
-    author: string,
+    source: string,
     url: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum

@@ -431,7 +431,7 @@ const useDbProvider = () => {
                         isMatch = true;
                         lr.updated = Date.now();
                         lr.title = lrUserInput.title;
-                        lr.author = lrUserInput.author;
+                        lr.source = lrUserInput.source;
                         lr.url = lrUserInput.url;
                         lr.format = lrUserInput.format;
                         lr.difficulty = lrUserInput.difficulty;

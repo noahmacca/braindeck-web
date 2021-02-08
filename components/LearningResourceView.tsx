@@ -160,7 +160,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                     lrId={lr.id}
                     initialData={{
                         title: lr.title,
-                        author: lr.author,
+                        source: lr.source,
                         url: lr.url,
                         format: lr.format,
                         difficulty: lr.difficulty,
