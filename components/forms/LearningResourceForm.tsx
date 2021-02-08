@@ -10,7 +10,25 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
     const { register, errors, handleSubmit, reset, setValue } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [siteUrl, setSiteUrl] = useState();
+    const [ogImgUrl, setOgImgUrl] = useState(null);
+
+    const parseOgImage = (ogImage) => {
+        let imgUrl: string = '';
+        if (Array.isArray(ogImage)) {
+            // loop through and take the first with width above 300px
+            for (let i = 0; i < ogImage.length; i++) {
+                const w = parseInt(ogImage[i].width, 10);
+                if (w > 300) {
+                    imgUrl = ogImage[i].url
+                    break;
+                }
+            }
+        } else {
+            // else there's only one item, which is string
+            imgUrl = ogImage.url;
+        }
+        return imgUrl
+    }
 
     const extractHostName = (url: string) => {
         let hostname = '';
@@ -34,12 +52,15 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
     const handleUrlChange = (e) => {
         const url = e.target.value;
         console.log(url);
-        setSiteUrl(url);
         setValue('title', 'test');
         fetch(`/api/getOgData/?url=${url}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                if (data.ogImage) {
+                    const imgUrl = parseOgImage(data.ogImage);
+                    setOgImgUrl(imgUrl);
+                }
                 setValue('title', data.ogTitle)
                 setValue('description', data.ogDescription)
                 const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(url);
