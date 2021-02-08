@@ -152,7 +152,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                                         const count = lp.userData.countByResourceFormat[format];
                                                         return (
                                                             <div className="mt-2 capitalize" key={`${format}`}>
-                                                                <span className="font-bold">{count}</span> {format.toLowerCase()}{count !== 1 ? 's' : ''}
+                                                                <span className="font-bold text-indigo-900">{count}</span> {format.toLowerCase()}{count !== 1 ? 's' : ''}
                                                             </div>
                                                         )
                                                     })
