@@ -30,7 +30,7 @@ export default function LearningPathSummaryListItem({ lp }: { lp: LearningPathUs
             <div className="bg-gray-50 rounded-lg">
                 <div className="max-w-6xl mb-6 mx-auto">
                     <div className="md:grid md:grid-cols-3 md:divide-x-2 gap-4">
-                        <div className="col-span-2 p-3 md:p-5 items-center text-gray-600">
+                        <div className="col-span-2 p-3 md:p-7 md:pl-9 items-center text-gray-600">
                             <div>
                                 <Link href={`/learn/${lp.id}`}>
                                     <div className="text-3xl pb-1 font-semibold tracking-tight text-gray-700 cursor-pointer">{learningPath.title}</div>
