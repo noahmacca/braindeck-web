@@ -102,6 +102,7 @@ const useDbProvider = () => {
                 isCreator: false,
                 rating: 0,
                 numLearningResourcesTotal: 0,
+                countByResourceFormat: {},
                 completedContentIds: [],
                 progress: 0.0,
             }
@@ -124,16 +125,26 @@ const useDbProvider = () => {
         })
         lpu.userData.isCreator = user.uid === lp.data.author.uid;
 
+        const countByResourceFormat = {};
         lpu.data.learningConcepts.forEach((concept) => {
             concept.learningResources.forEach((resource) => {
                 lpu.userData.numLearningResourcesTotal += 1
+                const rFormat = resource.format;
+                if (rFormat in countByResourceFormat) {
+                    countByResourceFormat[rFormat] += 1
+                } else {
+                    countByResourceFormat[rFormat] = 1
+                }
+                countByResourceFormat[resource.format]
                 if (user.learningResources.some((uResource) => (uResource.id === resource.id) && (uResource.isCompleted))) {
                     lpu.userData.completedContentIds.push(resource.id);
                 }
             });
         });
-        
-        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0
+
+        lpu.userData.countByResourceFormat = countByResourceFormat;
+        lpu.userData.progress = lpu.userData.numLearningResourcesTotal > 0 ? lpu.userData.completedContentIds.length / lpu.userData.numLearningResourcesTotal : 0;
+
         return lpu
     }
     ///////////// USER PROFILE ///////////////
@@ -149,11 +160,30 @@ const useDbProvider = () => {
         });
     }
 
-    const updateUserInfo = ({ uId, name, favoriteTopics }: UserInfoUpdate) => {
+    const updateUserInfo = (userInfoUpdate: UserInfoUpdate) => {
+        const uId = userInfoUpdate.uId;
         return updateDoc('users', uId, {
-            name,
-            favoriteTopics
-        });
+            uid: userInfoUpdate.uId,
+            name: userInfoUpdate.name,
+            bio: userInfoUpdate.bio,
+            favoriteTopics: userInfoUpdate.favoriteTopics
+        }).then((response) => {
+            // update lps user information
+            const lpIds = userLearningPaths
+                .filter((uLp: LearningPathUser) => uLp.data.author.uid === uId)
+                .map((uLp: LearningPathUser) => uLp.id);
+
+            return Promise.all(lpIds.map(lpId => updateDoc('learningPaths', lpId, {
+                author: {
+                    uid: userInfoUpdate.uId,
+                    name: userInfoUpdate.name,
+                    bio: userInfoUpdate.bio,
+                }
+            })));
+        }).catch((err) => {
+            console.warn(err);
+            return err
+        })
     }
 
     ///////////// LEARNING PATHS ///////////////
@@ -278,7 +308,8 @@ const useDbProvider = () => {
             updated: nowMs,
             author: {
                 uid: user.uid,
-                name: user.name
+                name: user.name,
+                bio: user.bio
             },
             countFavorite: 0,
             countComplete: 0,
@@ -365,7 +396,7 @@ const useDbProvider = () => {
         const lcsNew = []
         lpMatch.data.learningConcepts.forEach((lc) => {
             if (lc.id === lcId) {
-                isMatch=true;
+                isMatch = true;
                 return null
             }
             lcsNew.push(lc)
@@ -420,8 +451,9 @@ const useDbProvider = () => {
                         isMatch = true;
                         lr.updated = Date.now();
                         lr.title = lrUserInput.title;
-                        lr.author = lrUserInput.author;
+                        lr.source = lrUserInput.source;
                         lr.url = lrUserInput.url;
+                        lr.imgUrl = lrUserInput.imgUrl;
                         lr.format = lrUserInput.format;
                         lr.difficulty = lrUserInput.difficulty;
                         lr.description = lrUserInput.description;
@@ -450,7 +482,7 @@ const useDbProvider = () => {
             if (lc.id === lcId) {
                 lc.learningResources.forEach((lr) => {
                     if (lr.id === lrId) {
-                        isMatch=true;
+                        isMatch = true;
                     } else {
                         lrsNew.push(lr);
                     }

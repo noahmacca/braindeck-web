@@ -76,23 +76,22 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
     return (
         <div>
             <div className="relative bg-white overflow-hidden">
-                <div className="mx-auto p-6 max-w-4xl">
-                    {
-                        lp ?
-                            <div>
-                                <LearningPathSummary
-                                    lp={lp}
-                                    isCompact={false}
-                                />
+                {
+                    lp ?
+                        <div>
+                            <LearningPathSummary
+                                lp={lp}
+                            />
+                            <div className="mx-auto p-3 md:p-6 max-w-4xl">
                                 {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
                                 <CourseCompletePanel
                                     lp={lp}
                                 />
                             </div>
-                            :
-                            <div className="mt-10 text-gray-600 text-md text-center">Learning Path not found. It may have been deleted by the creator.</div>
-                    }
-                </div>
+                        </div>
+                        :
+                        <div className="mt-10 text-gray-600 text-md text-center">Learning Path not found. It may have been deleted by the creator.</div>
+                }
             </div>
         </div>
     )

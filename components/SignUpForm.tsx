@@ -21,6 +21,7 @@ const SignUpForm: React.FC = () => {
             name: data.name,
             email: data.email,
             password: data.password,
+            bio: data.bio,
             favoriteTopics: data.favoriteTopicOther ? [...favoriteTopics, data.favoriteTopicOther] : favoriteTopics,
         }
 
@@ -119,6 +120,29 @@ const SignUpForm: React.FC = () => {
                     )}
                 </div>
             </div>
+            <div className="rounded-md shadow-sm mt-6">
+                <label
+                    htmlFor="bio"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                >
+                    Bio
+                </label>
+                <div className="text-xs text-gray-500">Shown on your created learning paths</div>
+                <textarea
+                    id="bio"
+                    className="appearance-none form-textarea block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    rows={5}
+                    name="bio"
+                    ref={register({
+                        required: 'Please enter a short bio',
+                    })}
+                />
+                {errors.bio && (
+                    <div className="mt-2 text-xs text-red-600">
+                        {errors.bio.message}
+                    </div>
+                )}
+            </div>
             <div className="mt-6">
                 <label
                     className="block text-sm font-medium leading-5 text-gray-700"
@@ -140,7 +164,7 @@ const SignUpForm: React.FC = () => {
                     </label>
                 </div>
                 {
-                    shouldShowOtherInput && 
+                    shouldShowOtherInput &&
                     <input
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                         type="text"

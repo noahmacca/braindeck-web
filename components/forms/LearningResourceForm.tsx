@@ -1,23 +1,84 @@
 import { useForm } from 'react-hook-form';
 import { useDb } from '../../hooks/useDb';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserInputLearningResourceData } from '../../hooks/types';
 
 import Button from '../Button';
 
 const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dismiss: Function, lpId: string, lcId: string, lrId?: string, initialData?: UserInputLearningResourceData }) => {
     const db = useDb();
-    const { register, errors, handleSubmit, reset } = useForm();
+    const { register, errors, handleSubmit, reset, setValue } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const parseOgImage = (ogImage) => {
+        let imgUrl: string = '';
+        if (Array.isArray(ogImage)) {
+            // loop through and take the first with width above 300px
+            for (let i = 0; i < ogImage.length; i++) {
+                const w = parseInt(ogImage[i].width, 10);
+                if (w > 300) {
+                    imgUrl = ogImage[i].url
+                    break;
+                }
+            }
+        } else {
+            // else there's only one item, which is string
+            imgUrl = ogImage.url;
+        }
+        return imgUrl
+    }
+
+    const extractHostName = (url: string) => {
+        let hostname = '';
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("//") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
+
+    const handleUrlChange = (e) => {
+        const url = e.target.value;
+        fetch(`/api/getOgData/?url=${url}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.ogImage) {
+                    const imgUrl = parseOgImage(data.ogImage);
+                    setValue('imgUrl', imgUrl);
+                }
+                setValue('title', data.ogTitle)
+                setValue('description', data.ogDescription)
+                const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(url);
+                setValue('source', siteName);
+                if (url.toLowerCase().includes('youtu') || url.toLowerCase().includes('tiktok')) {
+                    setValue('format', 'VIDEO')
+                }
+            })
+            .catch((err) => {
+                console.log('err', err);
+            })
+    }
 
     const onSubmit = (data) => {
         setIsLoading(true);
         setError(null);
         const userInputLearningResourceData: UserInputLearningResourceData = {
             title: data.title,
-            author: data.author,
+            source: data.source,
             url: data.url,
+            imgUrl: data.imgUrl,
             format: data.format,
             difficulty: data.difficulty,
             description: data.description,
@@ -55,8 +116,9 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.url}
-                    type="text" 
+                    type="text"
                     name="url"
+                    onChange={handleUrlChange}
                     ref={register({
                         required: 'Please enter a url',
                         pattern: {
@@ -92,20 +154,20 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             </div>
             <div className="rounded-md shadow-sm mb-3">
                 <label className="block text-sm font-medium leading-5 text-gray-700">
-                    Author
+                    Source
                 </label>
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
-                    defaultValue={initialData?.author}
+                    defaultValue={initialData?.source}
                     type="text"
-                    name="author"
+                    name="source"
                     ref={register({
-                        required: 'Please enter an author',
+                        required: 'Please enter an source',
                     })}
                 />
-                {errors.author && (
+                {errors.source && (
                     <div className="mt-2 text-xs text-red-600">
-                        {errors.author.message}
+                        {errors.source.message}
                     </div>
                 )}
             </div>
@@ -160,14 +222,33 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             </div>
             <div className="rounded-md shadow-sm mb-3">
                 <label className="block text-sm font-medium leading-5 text-gray-700">
-                    Description (optional)
+                    Image URL (optional)
+                </label>
+                <input
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
+                    defaultValue={initialData?.imgUrl}
+                    type="text"
+                    name="imgUrl"
+                    ref={register()}
+                />
+                {errors.imgUrl && (
+                    <div className="mt-2 text-xs text-red-600">
+                        {errors.imgUrl.message}
+                    </div>
+                )}
+            </div>
+            <div className="rounded-md shadow-sm mb-3">
+                <label className="block text-sm font-medium leading-5 text-gray-700">
+                    Description
                 </label>
                 <input
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                     defaultValue={initialData?.description}
                     type="text"
                     name="description"
-                    ref={register()}
+                    ref={register({
+                        required: 'Please enter a description',
+                    })}
                 />
                 {errors.description && (
                     <div className="mt-2 text-xs text-red-600">

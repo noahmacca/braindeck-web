@@ -12,6 +12,7 @@
         "firebase": "^8.2.4",
         "lodash": "^4.17.20",
         "next": "10.0.5",
+        "open-graph-scraper": "^4.7.1",
         "postcss": "^8.2.4",
         "react": "17.0.1",
         "react-bootstrap-icons": "^1.2.3",

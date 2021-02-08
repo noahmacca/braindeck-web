@@ -34,6 +34,8 @@ export default function ProfileIndex() {
                                 <div className="font-light">Favorited: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (userLp.isFavorited === true)))).length}</div>
                                 <div className="font-light">Completed: {(db.userLearningPaths.filter((uLp) => db.user?.learningPaths.some((userLp) => (userLp.id === uLp.id) && (uLp.userData.progress >= 1.0)))).length}</div>
                             </div>
+                            <div className="mt-3 text-l font-semibold">Bio</div>
+                            <div className="mx-3 mb-3 font-light">{db.user?.bio ? db.user.bio : 'No bio yet. Add one!'}</div>
                             <div className="mt-3 text-l font-semibold">Favorite Topics</div>
                             <div className="mx-3 mb-3 font-light">
                                 {
@@ -64,7 +66,8 @@ export default function ProfileIndex() {
                         initialData={{
                             uId: db.user?.uid,
                             name: db.user?.name,
-                            favoriteTopics: db.user?.favoriteTopics
+                            favoriteTopics: db.user?.favoriteTopics,
+                            bio: db.user?.bio
                         }}
                     />
                 </FormModal>

@@ -40,6 +40,7 @@ export const initializeUserDoc = (user: InitUserDocData): User => {
         email: user.email,
         name: user.name,
         created: Date.now(),
+        bio: user.bio,
         favoriteTopics: user.favoriteTopics,
         learningPaths: [],
         learningResources: []
@@ -83,6 +84,7 @@ const useAuthProvider = () => {
                     uid: response.user.uid,
                     email: signupData.email,
                     name: signupData.name,
+                    bio: signupData.bio,
                     favoriteTopics: signupData.favoriteTopics,
                 });
             })

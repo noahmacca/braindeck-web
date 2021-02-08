@@ -4,6 +4,7 @@ export interface User {
     email: string,
     name: string,
     created: number,
+    bio: string,
     learningPaths: Array<{
         id: string,
         created: number,
@@ -26,6 +27,7 @@ export interface InitUserDocData {
     uid: string;
     name: string;
     email: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
@@ -33,19 +35,22 @@ export interface UserInputSignupData {
     name: string;
     email: string;
     password: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
 export interface UserInfoUpdate {
     uId: string,
     name: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
 export interface UserInputLearningResourceData {
     title: string,
-    author: string,
+    source: string,
     url: string,
+    imgUrl: string
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
     description?: string,
@@ -57,8 +62,9 @@ export interface LearningResource {
     created?: number,
     updated?: number,
     title: string,
-    author: string,
+    source: string,
     url: string,
+    imgUrl: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
     description?: string,
@@ -96,6 +102,7 @@ export interface LearningPathData {
     author: {
         uid: string,
         name: string,
+        bio: string,
     },
     learningGoal: string,
     background: string,
@@ -122,6 +129,7 @@ export interface LearningPathUser {
         isCreator: boolean,
         rating: number,
         numLearningResourcesTotal: number,
+        countByResourceFormat: Object,
         completedContentIds: Array<string>,
         progress: number,
     }

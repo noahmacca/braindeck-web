@@ -39,18 +39,20 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
     const db = useDb();
 
     return (
-        <div className="bg-gray-100 px-4 pt-3 pb-1 rounded-lg md:mx-4 my-2 items-center text-gray-700">
-            {
-                lp.userData.isCreator === true ?
-                    <span>
-                        <Trash className="mr-7 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowConfirmDeleteModal(true)} />
-                        <PencilSquare className="mr-5 mt-2 cursor-pointer float-right text-gray-400 hover:text-gray-600" size={18} onClick={() => setShouldShowLcEditModal(true)} />
-                    </span>
-                    : undefined
-            }
-            <div className="mb-2">
-                <div className="text-2xl pb-1 font-medium text-gray-800">{`${conceptIdx + 1}. ${lc.title}`}</div>
-                <div className="text-md pb-1 font-light text-gray-600">{`${lc.description}`}</div>
+        <div className="mt-6 md:mt-20 pb-1 rounded-lg md:mx-4 my-2 text-gray-700">
+            <div className="mb-6 md:mb-12 text-center">
+                <div className="text-4xl pb-1 font-medium text-gray-700 ">{`${conceptIdx + 1}. ${lc.title}`}</div>
+                <div className="text-lg pb-1 font-light text-gray-600">{`${lc.description}`}</div>
+                {
+                    lp.userData.isCreator === true ?
+                        <div className="container text-center mt-1 mb-1">
+                            <div className="mx-auto">
+                                <PencilSquare className="mr-4 inline-block cursor-pointer text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowLcEditModal(true)} />
+                                <Trash className="cursor-pointer inline-block text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                            </div>
+                        </div>
+                        : undefined
+                }
             </div>
             <div>
                 {
