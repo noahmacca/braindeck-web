@@ -103,7 +103,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     confirmAction={() => db.deleteLearningConcept(lp.id, lc.id)}
                 />
             </FormModal>
-            <hr className="mx-24 mt-8"/>
+            <hr className="mx-24 mt-14"/>
         </div>
     )
 }

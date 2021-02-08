@@ -1,4 +1,3 @@
-import { CheckSquareFill } from 'react-bootstrap-icons';
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
 import { useEffect, useState } from 'react';
 import { useDb } from '../hooks/useDb';
@@ -84,7 +83,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     }, []);
 
     return (
-        <div className="md:mx-3 mb-4">
+        <div className="md:mx-3 mb-10">
             <div className=" w-full lg:max-w-full lg:flex">
                 <div className="bg-gray-50 h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url("${ogImgUrl}")` }} title="PreviewImg" />
                 <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
@@ -117,36 +116,38 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                                 <div className="text-sm text-gray-600">{lr.highlight}</div>
                             </div>
                         }
-                        {
-                            db.user ?
-                                !isComplete ?
-                                    <div className="text-center">
-                                        <div className="w-44 flex mx-auto rounded-md text-center text-gray-100 py-2 my-4 text-md font-medium text-md bg-green-600 hover:bg-green-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
-                                            <div className="mx-auto flex">
-                                                <span className="text-lg font-medium">Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    :
-                                    <div className="text-center">
-                                        <div className="w-44 flex mx-auto rounded-md text-center font-gray-800 py-2 my-4 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
-                                            <div className="mx-auto flex">
-                                                <span className="text-lg font-medium">Completed ✅</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                :
-                                <Link href="/login">
-                                    <div className="rounded-md border p-2 mt-4 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer">
-                                        <div className="mx-auto flex">
-                                            <span className="text-sm">Complete</span>
-                                        </div>
-                                    </div>
-                                </Link>
-                        }
                     </div>
                 </div>
             </div>
+            {
+                db.user ?
+                    !isComplete ?
+                        <div className="text-center">
+                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-lg font-medium">Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div className="text-center">
+                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center font-gray-800 py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                                <div className="mx-auto flex">
+                                    <span className="text-lg font-medium">Completed ✅</span>
+                                </div>
+                            </div>
+                        </div>
+                    :
+                    <Link href="/login">
+                        <div className="text-center">
+                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" >
+                                <div className="mx-auto flex">
+                                    <span className="text-lg font-medium">Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+            }
             <FormModal
                 title="Edit Resource"
                 shouldShowModal={shouldShowLrEditModal}
