@@ -70,11 +70,11 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
                 >
                     Bio
                 </label>
-                <input
+                <textarea
                     id="bio"
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    className="appearance-none form-textarea block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                     defaultValue={initialData?.bio}
-                    type="text"
+                    rows={5}
                     name="bio"
                     ref={register({
                         required: 'Please enter a bio',
@@ -134,7 +134,7 @@ const UserInfoForm = ({ dismiss, initialData }: { dismiss: Function, initialData
             </div>
             <div className="mt-6">
                 <span className="block w-full rounded-md shadow-sm">
-                    <Button title="Sign Up" type="submit" isLoading={isLoading} />
+                    <Button title="Save" type="submit" isLoading={isLoading} />
                 </span>
             </div>
             {error && (

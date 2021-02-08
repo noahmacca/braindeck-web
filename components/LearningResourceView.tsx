@@ -1,4 +1,5 @@
 import { LearningPathUser, LearningConcept, LearningResource } from '../hooks/types';
+import { CheckCircleFill, Check } from 'react-bootstrap-icons';
 import { useEffect, useState } from 'react';
 import { useDb } from '../hooks/useDb';
 import { Trash, PencilSquare } from 'react-bootstrap-icons';
@@ -26,8 +27,14 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         <div className="md:mx-3 mb-10">
             <div className=" w-full lg:max-w-full lg:flex">
                 <div className="bg-gray-50 h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url("${lr.imgUrl ? lr.imgUrl : PREVIEW_IMG_FALLBACK}")` }} title="PreviewImg" />
-                <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 md:px-6 flex flex-col justify-between leading-normal">
                     <div>
+                        {
+                            !isComplete ?
+                                <CheckCircleFill className="float-right mt-2 text-gray-300 cursor-pointer" size={24} onClick={() => setLearningResourceComplete(lr.id, true)} />
+                                :
+                                <CheckCircleFill className="float-right mt-2 text-green-600 cursor-pointer" size={24} onClick={() => setLearningResourceComplete(lr.id, false)} />
+                        }
                         {
                             lp.userData.isCreator === true ?
                                 <span>
@@ -59,35 +66,6 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                     </div>
                 </div>
             </div>
-            {
-                db.user ?
-                    !isComplete ?
-                        <div className="text-center">
-                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-lg font-medium">Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        <div className="text-center">
-                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center font-gray-800 py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
-                                <div className="mx-auto flex">
-                                    <span className="text-lg font-medium">Completed ✅</span>
-                                </div>
-                            </div>
-                        </div>
-                    :
-                    <Link href="/login">
-                        <div className="text-center">
-                            <div className="w-full md:w-64 flex mx-auto rounded-md text-center py-1 text-md font-medium text-md text-gray-50 bg-indigo-600 hover:bg-indigo-500 cursor-pointer" >
-                                <div className="mx-auto flex">
-                                    <span className="text-lg font-medium">Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
-            }
             <FormModal
                 title="Edit Resource"
                 shouldShowModal={shouldShowLrEditModal}
