@@ -121,7 +121,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                             db.user ?
                                 !isComplete ?
                                     <div className="text-center">
-                                        <div className="rounded-md border border-gray-300 mx-auto p-2 mt-4 flex w-36 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                                        <div className="w-44 flex mx-auto rounded-md text-center text-gray-100 py-2 my-4 text-md font-medium text-md bg-green-600 hover:bg-green-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
                                             <div className="mx-auto flex">
                                                 <span className="text-lg font-medium">Complete</span>
                                             </div>
@@ -129,9 +129,9 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                                     </div>
                                     :
                                     <div className="text-center">
-                                        <div className="rounded-md border border-gray-300 bg-green-50 mx-auto p-2 mt-4 flex w-36 text-gray-700 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                                        <div className="w-44 flex mx-auto rounded-md text-center font-gray-800 py-2 my-4 text-md font-medium text-md text-gray-50 bg-green-600 hover:bg-green-500 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
                                             <div className="mx-auto flex">
-                                                <span className="text-lg font-medium">Completed</span>
+                                                <span className="text-lg font-medium">Completed ✅</span>
                                             </div>
                                         </div>
                                     </div>
