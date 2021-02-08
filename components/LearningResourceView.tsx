@@ -27,7 +27,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         <div className="md:mx-3 mb-10">
             <div className=" w-full lg:max-w-full lg:flex">
                 <div className="bg-gray-50 h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url("${lr.imgUrl ? lr.imgUrl : PREVIEW_IMG_FALLBACK}")` }} title="PreviewImg" />
-                <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 md:px-6 flex flex-col justify-between leading-normal">
+                <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 md:px-6 flex flex-col justify-between leading-norma w-full">
                     <div>
                         {
                             !isComplete ?
