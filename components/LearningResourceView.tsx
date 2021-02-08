@@ -84,12 +84,12 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
     }, []);
 
     return (
-        <div className="md:mx-3 mb-2">
+        <div className="md:mx-3 mb-4">
             <div className=" w-full lg:max-w-full lg:flex">
                 <div className="h-48 lg:h-auto lg:w-48 flex-none border-r border-t border-l border-gray-400 lg:border-r-0 lg:border-b lg:border-gray-400 bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url(${ogImgUrl})` }} title="PreviewImg">
                 </div>
                 <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                    <div className="mb-2">
+                    <div>
                         {
                             lp.userData.isCreator === true ?
                                 <span>
@@ -106,30 +106,34 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                         </div>
                         {
                             ogDescription &&
-                            <div className="text-gray-700 mb-2">
-                                <div className="font-medium">Description</div>
-                                <div className="font-light">{ogDescription}</div>
+                            <div className="mb-2">
+                                <div className="font-medium text-gray-700">Description</div>
+                                <div className="text-sm text-gray-600">{ogDescription}</div>
                             </div>
                         }
                         {
                             lr.highlight &&
-                            <div className="text-gray-700 mb-2">
-                                <div className="font-medium">Highlight</div>
-                                <div className="font-light">{lr.highlight}</div>
+                            <div className="mb-2">
+                                <div className="font-medium text-gray-700">Highlight</div>
+                                <div className="text-sm text-gray-600">{lr.highlight}</div>
                             </div>
                         }
                         {
                             db.user ?
                                 !isComplete ?
-                                    <div className="rounded-md border p-2 mt-4 flex w-28 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
-                                        <div className="mx-auto flex">
-                                            <span className="text-sm">Complete</span>
+                                    <div className="text-center">
+                                        <div className="rounded-md border border-gray-300 mx-auto p-2 mt-4 flex w-36 text-gray-700 hover:bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, true)}>
+                                            <div className="mx-auto flex">
+                                                <span className="text-lg font-medium">Complete</span>
+                                            </div>
                                         </div>
-                                    </div> :
-                                    <div className="rounded-md border border-green-100 p-2 mt-4 flex w-28 text-gray-700 bg-green-50 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
-                                        <div className="mx-auto flex">
-                                            <span className="text-sm">Completed</span>
-                                            <CheckSquareFill className="ml-2 text-green-500" size={20} />
+                                    </div>
+                                    :
+                                    <div className="text-center">
+                                        <div className="rounded-md border border-gray-300 bg-green-50 mx-auto p-2 mt-4 flex w-36 text-gray-700 cursor-pointer" onClick={() => setLearningResourceComplete(lr.id, false)}>
+                                            <div className="mx-auto flex">
+                                                <span className="text-lg font-medium">Completed</span>
+                                            </div>
                                         </div>
                                     </div>
                                 :
