@@ -27,6 +27,7 @@ export interface InitUserDocData {
     uid: string;
     name: string;
     email: string;
+    bio: string;
     favoriteTopics: Array<string>;
 }
 
