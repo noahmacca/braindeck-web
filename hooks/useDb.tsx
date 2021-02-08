@@ -162,16 +162,22 @@ const useDbProvider = () => {
 
     const updateUserInfo = (userInfoUpdate: UserInfoUpdate) => {
         const uId = userInfoUpdate.uId;
-        return updateDoc('users', uId, userInfoUpdate).then((response) => {
+        return updateDoc('users', uId, {
+            uid: userInfoUpdate.uId,
+            name: userInfoUpdate.name,
+            bio: userInfoUpdate.bio,
+            favoriteTopics: userInfoUpdate.favoriteTopics
+        }).then((response) => {
             // update lps user information
             const lpIds = userLearningPaths
                 .filter((uLp: LearningPathUser) => uLp.data.author.uid === uId)
                 .map((uLp: LearningPathUser) => uLp.id);
 
             return Promise.all(lpIds.map(lpId => updateDoc('learningPaths', lpId, {
-                'author': {
+                author: {
+                    uid: userInfoUpdate.uId,
                     name: userInfoUpdate.name,
-                    bio: userInfoUpdate.bio
+                    bio: userInfoUpdate.bio,
                 }
             })));
         }).catch((err) => {
