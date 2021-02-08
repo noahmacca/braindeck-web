@@ -41,8 +41,8 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                 <div className="text-5xl pb-5 font-semibold tracking-tight text-gray-50 cursor-pointer">{learningPath.title}</div>
                             </Link>
                         </div>
-                        <div className="grid grid-cols-10 gap-6">
-                            <div className="col-span-7 pr-8">
+                        <div className="md:grid md:grid-cols-10 gap-6">
+                            <div className="md:col-span-7 pr-8">
                                 <div className="flex flex-wrap md:x-1 text-md text-gray-100">
                                     <span className="flex pr-1 md:pr-3">
                                         <StarRating
@@ -129,7 +129,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
                                     }
                                 </div>
                             </div>
-                            <div className="col-span-3">
+                            <div className="md:col-span-3">
                                 <div className="bg-white text-gray-700 px-10 py-6 my-5 rounded-md">
                                     <div className="mb-3 flex items-center">
                                         <ClockFill className="mr-2 text-indigo-900" size={18} />

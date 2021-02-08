@@ -39,8 +39,8 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
     const db = useDb();
 
     return (
-        <div className="mt-20 pb-1 rounded-lg md:mx-4 my-2 text-gray-700">
-            <div className="mb-12 text-center">
+        <div className="mt-6 md:mt-20 pb-1 rounded-lg md:mx-4 my-2 text-gray-700">
+            <div className="mb-6 md:mb-12 text-center">
                 <div className="text-4xl pb-1 font-medium text-gray-700 ">{`${conceptIdx + 1}. ${lc.title}`}</div>
                 <div className="text-lg pb-1 font-light text-gray-600">{`${lc.description}`}</div>
                 {

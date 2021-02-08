@@ -82,7 +82,7 @@ export default function LearningPathView({ lpId }: { lpId: string }) {
                             <LearningPathSummary
                                 lp={lp}
                             />
-                            <div className="mx-auto p-6 max-w-4xl">
+                            <div className="mx-auto p-3 md:p-6 max-w-4xl">
                                 {renderLearningConcepts(lp, setLearningResourceComplete, lp.userData.isCreator)}
                                 <CourseCompletePanel
                                     lp={lp}
