@@ -37,7 +37,7 @@ export default function CreateIndex() {
                                 <SectionHeader text="Created Learning Paths" />
                                 {
                                     createdLps.length === 0 ?
-                                        <div className="font-light text-gray-700 p-2 text-lg">No learning units yet. Add one!</div>
+                                        <div className="font-light text-gray-700 p-2 text-lg text-center">No learning paths created yet. Create one!</div>
                                         :
                                         <LpListSection lps={createdLps} />
                                 }
