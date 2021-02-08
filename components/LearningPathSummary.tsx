@@ -30,7 +30,7 @@ export default function LearningPathSummary({ lp }: { lp: LearningPathUser }) {
             <hr />
             <div className="bg-gray-200">
                 <div className="max-w-6xl p-1 md:px-5 mx-auto">
-                    <div className="my-2 text-md text-gray-700">{lp.data.subject}</div>
+                    <div className="my-2 text-md font-semibold text-gray-700">{lp.data.subject}</div>
                 </div>
             </div>
             <div className="bg-indigo-900">
