@@ -12,10 +12,6 @@ const PREVIEW_IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org
 export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathUser, lc: LearningConcept, lr: LearningResource }) {
     const [shouldShowLrEditModal, setShouldShowLrEditModal] = useState(false);
     const [shouldShowConfirmDeleteModal, setShouldShowConfirmDeleteModal] = useState(false);
-    const [ogImgUrl, setOgImgUrl] = useState(PREVIEW_IMG_FALLBACK);
-    const [ogTitle, setOgTitle] = useState(null);
-    const [ogDescription, setOgDescription] = useState(null);
-    const [ogSiteName, setOgSiteName] = useState(null);
     const db = useDb();
     const isComplete = db.user?.learningResources?.some(uLr => (uLr.id === lr.id) && !!uLr.isCompleted);
     const setLearningResourceComplete = (lrId: string, isComplete: boolean) => {
@@ -26,66 +22,10 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
         });
     }
 
-    const parseOgImage = (ogImage) => {
-        let imgUrl: string = '';
-        if (Array.isArray(ogImage)) {
-            // loop through and take the first with width above 300px
-            for (let i = 0; i < ogImage.length; i++) {
-                const w = parseInt(ogImage[i].width, 10);
-                if (w > 300) {
-                    imgUrl = ogImage[i].url
-                    break;
-                }
-            }
-        } else {
-            // else there's only one item, which is string
-            imgUrl = ogImage.url;
-        }
-        return imgUrl
-    }
-
-    const extractHostName = (url: string) => {
-        let hostname = '';
-        //find & remove protocol (http, ftp, etc.) and get hostname
-
-        if (url.indexOf("//") > -1) {
-            hostname = url.split('/')[2];
-        }
-        else {
-            hostname = url.split('/')[0];
-        }
-
-        //find & remove port number
-        hostname = hostname.split(':')[0];
-        //find & remove "?"
-        hostname = hostname.split('?')[0];
-
-        return hostname;
-    }
-
-    useEffect(() => {
-        fetch(`/api/getOgData/?url=${lr.url}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.ogImage) {
-                    const imgUrl = parseOgImage(data.ogImage);
-                    setOgImgUrl(imgUrl);
-                }
-                setOgTitle(data.ogTitle)
-                setOgDescription(data.ogDescription)
-                const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(lr.url);
-                setOgSiteName(siteName);
-            })
-            .catch((err) => {
-                console.log('err', err);
-            })
-    }, []);
-
     return (
         <div className="md:mx-3 mb-10">
             <div className=" w-full lg:max-w-full lg:flex">
-                <div className="bg-gray-50 h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url("${ogImgUrl}")` }} title="PreviewImg" />
+                <div className="bg-gray-50 h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{ backgroundImage: `url("${lr.imgUrl ? lr.imgUrl : PREVIEW_IMG_FALLBACK}")` }} title="PreviewImg" />
                 <div className="bg-gray-50 rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
                     <div>
                         {
@@ -97,16 +37,16 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                                 : undefined
                         }
                         <div className="text-gray-900 font-semibold text-xl mb-1">
-                            <a href={`${lr.url}`} target="_blank">{`${ogTitle}`}</a>
+                            <a href={`${lr.url}`} target="_blank">{`${lr.title}`}</a>
                         </div>
                         <div className="text-sm text-gray-600 mb-2">
-                            {ogSiteName}{' • '}<span className="capitalize">{lr.format.toLowerCase()}</span>{' • '}<span className="capitalize">{lr.difficulty.toLowerCase()}</span>
+                            {lr.source}{' • '}<span className="capitalize">{lr.format.toLowerCase()}</span>{' • '}<span className="capitalize">{lr.difficulty.toLowerCase()}</span>
                         </div>
                         {
-                            ogDescription &&
+                            lr.description &&
                             <div className="mb-2">
                                 <div className="font-medium text-gray-700">Description</div>
-                                <div className="text-sm text-gray-600">{ogDescription}</div>
+                                <div className="text-sm text-gray-600">{lr.description}</div>
                             </div>
                         }
                         {
@@ -162,6 +102,7 @@ export default function LearningResourceView({ lp, lc, lr }: { lp: LearningPathU
                         title: lr.title,
                         source: lr.source,
                         url: lr.url,
+                        imgUrl: lr.imgUrl,
                         format: lr.format,
                         difficulty: lr.difficulty,
                         description: lr.description,

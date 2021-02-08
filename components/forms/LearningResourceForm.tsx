@@ -65,7 +65,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
                 setValue('description', data.ogDescription)
                 const siteName = data.ogSiteName ? data.ogSiteName : extractHostName(url);
                 setValue('source', siteName);
-                if (url.toLowerCase().includes('youtube')) {
+                if (url.toLowerCase().includes('youtu') || url.toLowerCase().includes('tiktok')) {
                     setValue('format', 'VIDEO')
                 }
             })
@@ -81,6 +81,7 @@ const LearningResourceForm = ({ dismiss, lpId, lcId, lrId, initialData }: { dism
             title: data.title,
             source: data.source,
             url: data.url,
+            imgUrl: ogImgUrl,
             format: data.format,
             difficulty: data.difficulty,
             description: data.description,

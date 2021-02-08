@@ -433,6 +433,7 @@ const useDbProvider = () => {
                         lr.title = lrUserInput.title;
                         lr.source = lrUserInput.source;
                         lr.url = lrUserInput.url;
+                        lr.imgUrl = lrUserInput.imgUrl;
                         lr.format = lrUserInput.format;
                         lr.difficulty = lrUserInput.difficulty;
                         lr.description = lrUserInput.description;

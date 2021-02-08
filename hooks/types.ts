@@ -46,6 +46,7 @@ export interface UserInputLearningResourceData {
     title: string,
     source: string,
     url: string,
+    imgUrl: string
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
     description?: string,
@@ -59,6 +60,7 @@ export interface LearningResource {
     title: string,
     source: string,
     url: string,
+    imgUrl: string,
     format: string, // TODO: enum
     difficulty: string, // TODO: enum
     description?: string,
