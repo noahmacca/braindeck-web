@@ -49,7 +49,7 @@ export default function Home() {
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <div className="rounded-md shadow">
-                                        <a href="http://cohort-form.braindeck.io">
+                                        <a href="http://cohort-signup.braindeck.io">
                                             <a className="w-full flex items-center justify-center px-8 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-3 md:text-lg md:px-10 cursor-pointer">
                                                 Join Learning Cohort
                                             </a>
