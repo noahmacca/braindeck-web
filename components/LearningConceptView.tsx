@@ -47,8 +47,8 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     lp.userData.isCreator === true ?
                         <div className="container text-center mt-1 mb-1">
                             <div className="mx-auto">
-                                <PencilSquare className="mr-4 inline-block cursor-pointer text-gray-500 hover:text-gray-400" size={20} onClick={() => setShouldShowLcEditModal(true)} />
-                                <Trash className="cursor-pointer inline-block text-gray-500 hover:text-gray-400" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
+                                <PencilSquare className="mr-4 inline-block cursor-pointer text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowLcEditModal(true)} />
+                                <Trash className="cursor-pointer inline-block text-gray-400 hover:text-gray-600" size={20} onClick={() => setShouldShowConfirmDeleteModal(true)} />
                             </div>
                         </div>
                         : undefined
@@ -103,6 +103,7 @@ export default function LearningConceptView({ lp, lc, conceptIdx }: { lp: Learni
                     confirmAction={() => db.deleteLearningConcept(lp.id, lc.id)}
                 />
             </FormModal>
+            <hr className="mx-24 mt-8"/>
         </div>
     )
 }
