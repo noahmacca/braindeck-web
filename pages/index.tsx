@@ -32,7 +32,7 @@ export default function Home() {
                                 </div>
                                 <div className="block md:ml-10 md:pr-4 space-x-8">
                                     <Link href="/explore">
-                                        <a className="font-medium text-gray-400 hover:text-gray-700 cursor-pointer">Explore</a>
+                                        <a className="font-medium text-gray-600 hover:text-gray-700 cursor-pointer">Explore</a>
                                     </Link>
                                     {!auth.userId && <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-400">Log in</a>}
                                 </div>
@@ -48,10 +48,17 @@ export default function Home() {
                                     Ramp up on any topic with curated learning paths from the world's experts. Join a cohort with other talented people to supercharge your learning.
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                                    <div className="rounded-md">
+                                        <Link href="/explore">
+                                            <a className="w-full underline flex items-center justify-center px-8 py-2 border border-transparent text-base font-medium rounded-md text-gray-500 hover:text-gray-600 md:py-3 md:text-lg md:px-10 cursor-pointer">
+                                                Explore
+                                            </a>
+                                        </Link>
+                                    </div>
                                     <div className="rounded-md shadow">
                                         <a href="http://cohort-signup.braindeck.io">
                                             <a className="w-full flex items-center justify-center px-8 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-3 md:text-lg md:px-10 cursor-pointer">
-                                                Apply
+                                                Apply for Cohort
                                             </a>
                                         </a>
                                     </div>
